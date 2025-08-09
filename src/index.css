@@ -1,0 +1,19 @@
+@import "tailwindcss";
+@import "./styles/reset.css";
+
+@theme {
+  --font-display: "Poppins", sans-serif;
+
+  /* Brand Colors */
+  --color-primary: #6bbf59; /* Fresh Leaf Green - main brand color */
+  --color-secondary: #d0f0c0; /* Soft Mint Green - secondary brand */
+  --color-accent: #ffdd57;
+  --neutralBg-color: #fafaf5;
+  --color-text: #3a3a3a;
+  --color-text-grey: #7d7d7d;
+  --color-deepGreen: #2f855a;
+}
+
+body {
+  font-family: var(--font-display);
+}
