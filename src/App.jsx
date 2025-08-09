@@ -1,8 +1,6 @@
-import Featured from "./components/Featured/Featured";
-
 function App() {
   return (
-    <Featured/>
+    <h1 className="text-3xl font-bold underline bg-primary">Hello world!</h1>
   );
 }
 
