@@ -29,7 +29,11 @@ function AdviceFetch() {
       <h2 className="title">💡 A Tip On The Go!</h2>
       <p className="text">{advice}</p>
       <button className="btn" onClick={getAdvice} disabled={loading}>
-        {loading ? "Loading..." : "Grab an advice!"}
+        {loading
+          ? "Loading..."
+          : count === 0
+          ? "Grab your first Advice!"
+          : "Get Another One"}
       </button>
       <p className="counter">
         You have read <strong> {count}</strong> pieces of advice
