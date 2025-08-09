@@ -20,10 +20,6 @@ function AdviceFetch() {
     }
   }
 
-  // useEffect(function () {
-  //   getAdvice();
-  // }, []);
-
   return (
     <div className="card">
       <h2 className="title">💡 A Tip On The Go!</h2>
