@@ -1,5 +1,9 @@
+import Featured from "./components/Featured/Featured";
+
 function App() {
-  return <h1 className="bg-primary ">Hello world!</h1>;
+  return (
+    <Featured/>
+  );
 }
 
 export default App;
