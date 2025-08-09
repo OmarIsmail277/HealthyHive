@@ -1,5 +1,9 @@
+import AdviceFetch from "./components/FetchAdvice/AdviceFetch";
+
 function App() {
-  return <h1 className="bg-primary ">Hello world!</h1>;
+  return (
+    <h1 className="text-3xl font-bold underline bg-primary">Hello world!</h1>
+  );
 }
 
 export default App;
