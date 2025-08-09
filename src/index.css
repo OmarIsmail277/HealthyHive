@@ -12,9 +12,17 @@
   --color-text: #3a3a3a;
   --color-text-grey: #7d7d7d;
   --color-deepGreen: #2f855a;
+  --color-recommended-black: #000000;
+  --color-recommended-price-gray: #9CA3AF;
+  --color-recommended-green: #1e9204;
+  --color-recommended-rating: #6B7280;
   --color-button:#16A34A;
 }
 
 body {
   font-family: var(--font-display);
+}
+
+.subTitle{
+  @apply text-2xl text-[#000000] font-medium mb-6
 }
