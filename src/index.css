@@ -1,9 +1,8 @@
 @import "tailwindcss";
+@import "./styles/reset.css";
 @plugin "flowbite-react/plugin/tailwindcss";
 @source "../.flowbite-react/class-list.json";
-@import "./styles/reset.css";
-@import 'flowbite/dist/flowbite.css';
-
+@import "flowbite/dist/flowbite.css";
 
 @theme { 
   --font-display: "Poppins", sans-serif;
