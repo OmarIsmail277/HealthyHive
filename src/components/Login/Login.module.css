@@ -1,7 +1,7 @@
 .leafBackground {
   min-height: 100vh;
   width: 100%;
-  background-image: url("/images/hp.png");
+  background-image: url("/images/bg-pattern.png");
   background-repeat: repeat;
   background-size: 400px 400px;
   background-position: 0 0;

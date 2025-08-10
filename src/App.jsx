@@ -1,11 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
-import Login from "./components/Login/Login";
 
 function App() {
-  return (
-    <BrowserRouter>
-    <Login/>
-    </BrowserRouter>
-  );
+  return <BrowserRouter>{/* Put your Components here */}</BrowserRouter>;
 }
 export default App;
