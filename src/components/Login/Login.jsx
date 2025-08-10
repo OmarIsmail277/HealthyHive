@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { FaGoogle, FaFacebook } from "react-icons/fa";
+import styles from "./Login.module.css";
 
 export default function LoginForm() {
   const {
@@ -14,8 +15,8 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[url('/images/login.jpg')] bg-cover bg-center flex items-center justify-center px-4 py-10">
-      <div className="w-full max-w-md sm:max-w-lg md:max-w-md lg:max-w-lg bg-[rgba(245, 222, 179, 0.3)] backdrop-blur-md rounded-lg shadow-lg p-6 sm:p-8 md:p-10">
+    <div className={styles.leafBackground}>
+      <div className="w-full max-w-md sm:max-w-lg md:max-w-md lg:max-w-lg bg-[rgba(255, 255, 255, 0.7)] backdrop-blur-md rounded-lg shadow-lg p-6 sm:p-8 md:p-10">
         <h1 className="text-3xl sm:text-4xl font-bold text-center mb-8">Healthy Hive</h1>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -26,7 +27,9 @@ export default function LoginForm() {
               {...register("email", { required: "Email is required" })}
               className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <p className="text-red-500 mt-2 text-sm min-h-[1.25rem]">{errors.email?.message}</p>
+            <p className="text-red-500 mt-2 text-sm min-h-[1.25rem]">
+              {errors.email?.message}
+            </p>
           </div>
 
           <div>
@@ -42,7 +45,9 @@ export default function LoginForm() {
               })}
               className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <p className="text-red-500 mt-2 text-sm min-h-[1.25rem]">{errors.password?.message}</p>
+            <p className="text-red-500 mt-2 text-sm min-h-[1.25rem]">
+              {errors.password?.message}
+            </p>
           </div>
 
           <button
@@ -78,7 +83,7 @@ export default function LoginForm() {
             Not a user?{" "}
             <a
               href="/register"
-              className=" text-xl hover:underline font-medium"
+              className="text-xl hover:underline font-medium"
             >
               Register here
             </a>
