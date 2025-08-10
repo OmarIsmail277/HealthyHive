@@ -1,9 +1,11 @@
-import RecommendedProducts from "./components/RecommendedProducts/RecommendedProducts";
+import { BrowserRouter } from "react-router-dom";
+import Login from "./components/Login/Login";
 
 function App() {
   return (
-    <h1 className="text-3xl font-bold underline bg-primary">Hello world!</h1>
+    <BrowserRouter>
+    <Login/>
+    </BrowserRouter>
   );
 }
-
 export default App;

@@ -37,7 +37,7 @@ function ProductCategories() {
 
         <div className="product-categories w-4/5 m-auto">
             <h2 className='text-recommended-green text-2xl'>Product Categories</h2>
-            <div className="cards flex flex-wrap justify-center items-center gap-4">
+            <div className="cards flex flex-wrap justify-center lg:justify-start items-center gap-4">
                 {categories.map((item, index) => (
                     <CategoriesCard key={index}
                         category={item.category}

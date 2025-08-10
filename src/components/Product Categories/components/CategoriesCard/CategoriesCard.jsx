@@ -15,7 +15,7 @@ function CategoriesCard({ category, image, path }) {
             <img src={image} alt="Category" className="w-full h-full object-cover rounded-t-lg " />
         </div>
         <h3 className='text-center text-[#008459] text-lg font-bold'>{category}</h3>
-        <button onClick={handleclick} className='bg-[#008459] text-xs p-2 text-white w-fit m-auto rounded hover:bg-[#006f47] transition duration-300'>
+        <button onClick={handleclick} className='bg-[#008459] text-xs p-2 text-white w-fit m-auto rounded  hover:bg-[#006f47] hover:cursor-pointer transition duration-300 '>
             View all
         </button>   
     </div>
