@@ -1,9 +1,10 @@
-import RecommendedProducts from "./components/RecommendedProducts/RecommendedProducts";
+import { BrowserRouter } from "react-router-dom";
+import Register from "./components/Register/Register";
 
 function App() {
   return (
-    <h1 className="text-3xl font-bold underline bg-primary">Hello world!</h1>
+    <BrowserRouter>
+    </BrowserRouter>
   );
 }
-
 export default App;
