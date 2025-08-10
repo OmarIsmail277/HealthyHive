@@ -1,5 +1,8 @@
 @import "tailwindcss";
 @import "./styles/reset.css";
+@plugin "flowbite-react/plugin/tailwindcss";
+@source "../.flowbite-react/class-list.json";
+@import "flowbite/dist/flowbite.css";
 
 @theme {
   --font-display: "Poppins", sans-serif;
@@ -17,6 +20,14 @@
   --color-recommended-green: #1e9204;
   --color-recommended-rating: #6b7280;
   --color-button: #16a34a;
+  --color-recommended-rating: #6b7280;
+  --color-button: #16a34a;
+  --color-detail-price-green: #1e9204;
+  --color-detail-price-gray: #9ca3af;
+  --color-detail-btn-green: #009500da;
+  --color-detail-btn-green-hover: #008a00;
+  --color-detail-info-gray: #9ca3af;
+  --color-detail-info-black: #000000;
 }
 
 body {

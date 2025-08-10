@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { FaGoogle, FaFacebook } from "react-icons/fa";
+import { FaGoogle, FaFacebook, FaLeaf } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import styles from "./Login.module.css";
 
@@ -18,9 +18,10 @@ export default function LoginForm() {
   return (
     <div className={styles.leafBackground}>
       <div className="w-full max-w-md sm:max-w-lg md:max-w-md lg:max-w-lg bg-[rgba(255, 255, 255, 0.7)] backdrop-blur-md rounded-lg shadow-lg p-6 sm:p-8 md:p-10">
-        <h1 className="text-3xl sm:text-4xl font-bold text-center mb-8">
-          Healthy Hive
-        </h1>
+        <div className="flex justify-center items-center mb-4">
+          <FaLeaf className="text-4xl text-primary mr-2 " />
+          <h1 className="text-3xl text-button ">HealthyHive</h1>
+        </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
