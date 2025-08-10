@@ -1,9 +1,7 @@
-import AdviceFetch from "./components/FetchAdvice/AdviceFetch";
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
-  return (
-    <h1 className="text-3xl font-bold underline bg-primary">Hello world!</h1>
-  );
+  return <BrowserRouter>{/* Put your Components here */}</BrowserRouter>;
 }
 
 export default App;
