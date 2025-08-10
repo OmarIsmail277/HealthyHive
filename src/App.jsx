@@ -1,10 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
-import Register from "./components/Register/Register";
 
 function App() {
-  return (
-    <BrowserRouter>
-    </BrowserRouter>
-  );
+  return <BrowserRouter>{/* Put your Components here */}</BrowserRouter>;
 }
 export default App;
