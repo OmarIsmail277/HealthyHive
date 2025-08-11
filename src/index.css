@@ -25,10 +25,15 @@
   --color-detail-btn-green-hover: #008a00;
   --color-detail-info-gray: #9ca3af;
   --color-detail-info-black: #000000;
+  --color-recommended-rating: #6B7280;
+  --color-button:#16A34A;
+  --color-button-hover:#139141;
 }
 
 body {
   font-family: var(--font-display);
+  width: 80%;
+  margin: 0 auto;
 }
 
 .subTitle {
