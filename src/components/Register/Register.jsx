@@ -1,4 +1,3 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import { FaGoogle, FaFacebook, FaLeaf } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -24,7 +23,6 @@ export default function Register() {
         <div className="flex justify-center items-center mb-4">
           <FaLeaf className="text-4xl text-primary mr-2 " />
           <h1 className="text-3xl text-button ">HealthyHive</h1>
-
         </div>
 
         <form

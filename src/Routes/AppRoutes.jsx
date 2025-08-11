@@ -22,8 +22,8 @@ export default function AppRoutes() {
       <Route path="/products" element={<ProductsList />} />
       <Route path="/products/:category" element={<ProductCategory />} />
       <Route path="/product/:id" element={<ProductDetail />} />
-      <Route path="/search/:query" element={<SearchResults/>} />
-      <Route path="/profile" element={<Profile/>} />
+      <Route path="/search/:query" element={<SearchResults />} />
+      <Route path="/profile" element={<Profile />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

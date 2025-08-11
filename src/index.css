@@ -49,3 +49,16 @@ body {
     animation: zoom-out 6s ease-out forwards;
   }
 }
+
+.section-padding {
+  padding-bottom: 4.5rem;
+}
+
+.section-margin {
+  margin-bottom: 3rem;
+}
+
+.healthy__container {
+  width: 80%;
+  margin: 0 auto;
+}

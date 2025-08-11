@@ -21,7 +21,7 @@ function AdviceFetch() {
   }
 
   return (
-    <div className="card">
+    <div className="card healthy__container !mx-auto">
       <h2 className="title">💡 A Tip On The Go!</h2>
       <p className="text">{advice}</p>
       <button className="btn" onClick={getAdvice} disabled={loading}>

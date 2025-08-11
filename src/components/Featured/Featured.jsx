@@ -1,8 +1,8 @@
 export default function FeaturedProducts() {
   return (
-    <>
-      <h2 className="subTitle !mx-20">Featured Products</h2>
-      <div className="flex flex-wrap gap-[1.5625rem] justify-center">
+    <div className="featured-wrapper section-padding healthy__container ">
+      <h2 className="subTitle">Featured Products</h2>
+      <div className="flex flex-wrap gap-[1.5625rem] justify-between">
         <div className="md:w-[30%] lg:w-[30%] sm:w-[80%] h-[16.25rem] bg-white rounded-xl shadow-lg p-5 flex gap-5 hover:shadow-xl transition-shadow duration-300">
           <div className="flex-shrink-0 md:w-[22%] sm:w-[22%] h-full flex items-center justify-center bg-gray-50 rounded-lg overflow-hidden">
             <img
@@ -85,6 +85,6 @@ export default function FeaturedProducts() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
