@@ -4,7 +4,6 @@ import { FaPlus } from "react-icons/fa";
 import { FaMinus } from "react-icons/fa";
 import { FaFaceGrinStars } from "react-icons/fa6";
 import { GiScreenImpact } from "react-icons/gi";
-import { Accordion, AccordionContent, AccordionPanel, AccordionTitle } from "flowbite-react";
 import { FaLeaf } from "react-icons/fa";
 
 
@@ -64,21 +63,6 @@ function DetailCard() {
                             <p className='text-recommended-rating font-semibold sm:mr-2'>SKU: <span className='text-black'>S5T6U7V8</span></p>
                         </div>
                     </div>
-                    <Accordion collapseAll className='max-h-[25%] mb-2'>
-                        <AccordionPanel>
-                            <AccordionTitle className='font-bold sm:text-base text-[14px] bg-[#b8b8b82a] rounded-lg'>Nutritional Information</AccordionTitle>
-                            <AccordionContent>
-                                <div className='flex gap-2 border-b-1 border-gray-400 pb-3 mb-3'>
-                                    <p className='sm:text-base text-[14px] font-semibold  text-detail-info-gray'>Calories :</p>
-                                    <p className=' text-detail-info-black font-bold'>100</p>
-                                </div>
-                                <div className='flex gap-2 mb-3'>
-                                    <p className='sm:text-base text-[14px] font-semibold  text-detail-info-gray'>Protein :</p>
-                                    <p className=' text-detail-info-black font-bold'>6g</p>
-                                </div>
-                            </AccordionContent>
-                        </AccordionPanel>
-                    </Accordion>
                     <div>
                         <div className='flex justify-between items-center'>
                             <div className='flex items-center gap-4'>
