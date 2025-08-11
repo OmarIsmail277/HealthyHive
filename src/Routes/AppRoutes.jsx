@@ -1,5 +1,6 @@
 import { lazy } from "react";
 import { Routes, Route } from "react-router-dom";
+import History from "../pages/History";
 
 const Login = lazy(() => import("../pages/LoginPage"));
 const Register = lazy(() => import("../pages/RegisterPage"));
@@ -24,6 +25,10 @@ export default function AppRoutes() {
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/search/:query" element={<SearchResults />} />
       <Route path="/profile" element={<Profile />} />
+<<<<<<< Updated upstream
+=======
+      <Route path="/history" element={<History />} />
+>>>>>>> Stashed changes
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
