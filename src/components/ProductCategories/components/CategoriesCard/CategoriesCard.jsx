@@ -1,25 +1,36 @@
-import React from 'react'
-import honey from '/images/honey.jpg'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function CategoriesCard({ category, image, path }) {
-    const navigate = useNavigate();
-    const handleclick = () => {
-        // console.log("View all clicked");
-        navigate(path);
-    }
-    
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(path);
+  };
+
   return (
-    <div className="card w-64 h-80 p-4 m-2 bg-[#f8faf4] shadow-lg rounded-lg flex flex-col gap-4 hover:-translate-y-2 hover:scale-[1.02] hover:shadow-xl hover:bg-white duration-300">
-        <div className="img h-2/3">
-            <img src={image} alt="Category" className="w-full h-full object-cover rounded-t-lg " />
+    <div className="flex flex-col items-center group cursor-pointer w-48">
+      <div className="relative w-40 h-40 rounded-full overflow-hidden shadow-lg transition-all duration-300 group-hover:shadow-xl">
+        <img
+          src={image}
+          alt={category}
+          className="w-full h-full object-cover transition-all duration-300 group-hover:blur-sm"
+        />
+
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/30">
+          <button
+            onClick={handleClick}
+            className="bg-[#008459] text-white px-4 py-2 rounded-lg text-sm hover:bg-[#006f47] transition-colors duration-300"
+          >
+            View More
+          </button>
         </div>
-        <h3 className='text-center text-[#008459] text-lg font-bold'>{category}</h3>
-        <button onClick={handleclick} className='bg-[#008459] text-xs p-2 text-white w-fit m-auto rounded  hover:bg-[#006f47] hover:cursor-pointer transition duration-300 '>
-            View all
-        </button>   
+      </div>
+
+      <h3 className="mt-3 text-center text-lg font-semibold text-[#008459]">
+        {category}
+      </h3>
     </div>
-  )
+  );
 }
 
-export default CategoriesCard
+export default CategoriesCard;
