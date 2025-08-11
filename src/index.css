@@ -34,3 +34,18 @@ body {
 .subTitle {
   @apply text-2xl text-[#000000] font-medium mb-6;
 }
+
+@layer utilities {
+  @keyframes zoom-out {
+    from {
+      transform: scale(1.2);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
+  .animate-zoom-out {
+    animation: zoom-out 6s ease-out forwards;
+  }
+}
