@@ -8,7 +8,7 @@ import footerimg from '/images/Footer.jpg';
 
 function Footer() {
     return (
-        <div className="footer  bg-no-repeat bg-cover bg-[center_70%] w-full bg-gray-800 text-white pt-12 lg:p-12 pb-12 text-center"
+        <div className="footer  bg-no-repeat bg-cover bg-[center_70%] w-full bg-gray-800 text-white pt-12 lg:p-12 pb-12 text-center mt-12"
         style={{ backgroundImage: `url(${footerimg})` }}
         >
             <div className="content flex flex-col w-4/5 m-auto gap-6 lg:flex-row">
@@ -33,7 +33,7 @@ function Footer() {
                         <h2 className="text-lg font-bold">Subscribe to our Newsletter</h2>
                         <form className="flex">
                             <input type="email" placeholder="Enter your email" className="w-[80%] p-2 rounded-tl-lg rounded-bl-lg bg-white outline-none " />
-                            <button type="submit" className="bg-blue-500 text-white w-fit p-2 rounded-tr-lg rounded-br-lg hover:bg-blue-600 cursor-pointer">Subscribe</button>
+                            <button type="submit" className="bg-primary text-white w-fit p-2 rounded-tr-lg rounded-br-lg hover:bg-detail-btn-green cursor-pointer">Subscribe</button>
                         </form>
                     </div>
                     <div className="social-links flex flex-col text-left gap-4 w-full items-start  sm:items-start">
