@@ -97,9 +97,8 @@ export default function ServiceForm() {
               onChange={(e) =>
                 setFormData({ ...formData, fullName: e.target.value })
               }
-              className={`${inputBaseClasses} ${
-                errors.fullName ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`${inputBaseClasses} ${errors.fullName ? "border-red-500" : "border-gray-300"
+                }`}
             />
             <p
               className="text-red-600 mt-1 text-sm min-h-[1.25rem]"
@@ -120,9 +119,8 @@ export default function ServiceForm() {
               onChange={(e) =>
                 setFormData({ ...formData, phone: e.target.value })
               }
-              className={`${inputBaseClasses} ${
-                errors.phone ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`${inputBaseClasses} ${errors.phone ? "border-red-500" : "border-gray-300"
+                }`}
             />
             <p
               className="text-red-600 mt-1 text-sm min-h-[1.25rem]"
@@ -140,9 +138,8 @@ export default function ServiceForm() {
               onChange={(e) =>
                 setFormData({ ...formData, email: e.target.value })
               }
-              className={`${inputBaseClasses} ${
-                errors.email ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`${inputBaseClasses} ${errors.email ? "border-red-500" : "border-gray-300"
+                }`}
             />
             <p
               className="text-red-600 mt-1 text-sm min-h-[1.25rem]"
@@ -160,11 +157,10 @@ export default function ServiceForm() {
               {["Consultation", "Follow Up"].map((type) => (
                 <label
                   key={type}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-lg border cursor-pointer transition ${
-                    formData.serviceType === type
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg border cursor-pointer transition ${formData.serviceType === type
                       ? "bg-green-100 border-green-500"
                       : "hover:bg-green-50"
-                  }`}
+                    }`}
                 >
                   <input
                     type="checkbox"
@@ -199,9 +195,8 @@ export default function ServiceForm() {
               onChange={(e) =>
                 setFormData({ ...formData, description: e.target.value })
               }
-              className={`${inputBaseClasses} resize-none ${
-                errors.description ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`${inputBaseClasses} resize-none ${errors.description ? "border-red-500" : "border-gray-300"
+                }`}
             ></textarea>
             <p
               className="text-red-600 mt-1 text-sm min-h-[1.25rem]"
@@ -226,11 +221,10 @@ export default function ServiceForm() {
                       setFormData({ ...formData, preferredContact: option.label })
                     }
                     aria-pressed={formData.preferredContact === option.label}
-                    className={`p-4 rounded-full border transition ${
-                      formData.preferredContact === option.label
+                    className={`p-4 rounded-full border transition ${formData.preferredContact === option.label
                         ? "bg-green-100 border-green-500 scale-110"
                         : "hover:bg-green-50"
-                    }`}
+                      }`}
                   >
                     <Icon
                       size={24}
