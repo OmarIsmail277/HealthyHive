@@ -25,10 +25,7 @@ export default function AppRoutes() {
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/search/:query" element={<SearchResults />} />
       <Route path="/profile" element={<Profile />} />
-<<<<<<< Updated upstream
-=======
       <Route path="/history" element={<History />} />
->>>>>>> Stashed changes
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
