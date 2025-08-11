@@ -1,7 +1,4 @@
-import { BrowserRouter } from "react-router-dom";
-import Consultations from "./components/Consultations/Consultations";
-
 function App() {
-  return <BrowserRouter><Consultations/></BrowserRouter>;
+  return <h1 className="bg-primary ">Hello world!</h1>;
 }
 export default App;
