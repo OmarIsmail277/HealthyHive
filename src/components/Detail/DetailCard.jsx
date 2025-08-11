@@ -13,6 +13,8 @@ function DetailCard() {
 
     const stockNum = 20
 
+    const [isOpen, setIsOpen] = useState(false);
+
     const [counter, setCounter] = useState(1)
 
     const increment = () => {
@@ -63,6 +65,43 @@ function DetailCard() {
                             <p className='text-recommended-rating font-semibold sm:mr-2'>SKU: <span className='text-black'>S5T6U7V8</span></p>
                         </div>
                     </div>
+                    <div className="max-h-[25%] mb-2 border rounded-lg overflow-hidden mt-2">
+                        {/* Accordion Title */}
+                        <button
+                            onClick={() => setIsOpen(!isOpen)}
+                            className="w-full text-left font-bold sm:text-base text-[14px] bg-[#b8b8b82a] px-4 py-2 rounded-lg flex justify-between items-center"
+                        >
+                            Nutritional Information
+                            <span
+                                className={`transition-transform duration-300 ${isOpen ? "rotate-180" : "rotate-0"
+                                    }`}
+                            >
+                                ▼
+                            </span>
+                        </button>
+
+                        {/* Accordion Content */}
+                        <div
+                            className={`transition-all duration-300 overflow-hidden ${isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+                                }`}
+                        >
+                            <div className="px-4 py-3">
+                                <div className="flex gap-2 border-b border-gray-400 pb-3 mb-3">
+                                    <p className="sm:text-base text-[14px] font-semibold text-detail-info-gray">
+                                        Calories :
+                                    </p>
+                                    <p className="text-detail-info-black font-bold">100</p>
+                                </div>
+                                <div className="flex gap-2 mb-3">
+                                    <p className="sm:text-base text-[14px] font-semibold text-detail-info-gray">
+                                        Protein :
+                                    </p>
+                                    <p className="text-detail-info-black font-bold">6g</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div>
                         <div className='flex justify-between items-center'>
                             <div className='flex items-center gap-4'>
