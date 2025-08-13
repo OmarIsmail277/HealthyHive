@@ -12,6 +12,7 @@ const ProductCategory = lazy(() => import("../pages/ProductsCategoryPage"));
 const HomePage = lazy(() => import("../pages/HomePage"));
 const SearchResults = lazy(() => import("../pages/SearchResultsPage"));
 const Profile = lazy(() => import("../pages/Profile"));
+const Faq = lazy(() => import("../pages/Faq"));
 const CalorieCalculator = lazy(() => import("../pages/Calculator"));
 const NotFound = lazy(() => import("../pages/NotFoundPage"));
 const Checkout = lazy(() => import("../pages/CheckoutPage") )
@@ -30,6 +31,7 @@ export default function AppRoutes() {
       <Route path="/search/:query" element={<SearchResults />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/history" element={<History />} />
+      <Route path="/faq" element={<Faq/>} />
       <Route path="/checkout" element={<Checkout />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
