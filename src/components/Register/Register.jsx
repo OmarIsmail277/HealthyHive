@@ -50,40 +50,17 @@ export default function Register() {
   };
 
   const icons = [
-    FaLeaf,
-    FaSeedling,
-    FaSpa,
-    FaAppleAlt,
-    FaLemon,
-    FaCarrot,
-    FaPepperHot,
-    FaBreadSlice,
-    FaPizzaSlice,
-    FaHamburger,
-    FaHotdog,
-    FaDrumstickBite,
-    FaFish,
-    FaEgg,
-    FaCheese,
-    FaCookie,
-    FaCookieBite,
-    FaIceCream,
-    FaMortarPestle,
-    FaUtensilSpoon,
-    FaCoffee,
-    FaMugHot,
-    FaBeer,
-    FaCocktail,
-    FaWineGlassAlt,
-    FaGlassWhiskey,
-    FaBlender,
-    FaSoap,
-    FaShower,
-    FaBath,
+    FaLeaf, FaSeedling, FaSpa, FaAppleAlt, FaLemon, FaCarrot, FaPepperHot,
+    FaBreadSlice, FaPizzaSlice, FaHamburger, FaHotdog, FaDrumstickBite,
+    FaFish, FaEgg, FaCheese, FaCookie, FaCookieBite, FaIceCream,
+    FaMortarPestle, FaUtensilSpoon, FaCoffee, FaMugHot, FaBeer,
+    FaCocktail, FaWineGlassAlt, FaGlassWhiskey, FaBlender, FaSoap,
+    FaShower, FaBath
   ];
 
   return (
     <div className="relative min-h-screen flex items-center justify-center p-3 overflow-hidden bg-green-50">
+      {/* Background Icons */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_#d1fae5_0%,_transparent_70%)] opacity-50" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_#bbf7d0_0%,_transparent_70%)] opacity-50" />
@@ -125,28 +102,30 @@ export default function Register() {
         })}
       </div>
 
-      <div className="relative z-10 w-full max-w-3xl bg-white/20 backdrop-blur-2xl shadow-2xl rounded-2xl p-8 border border-white/30">
-        <div className="flex justify-center items-center mb-6">
-          <FaLeaf className="text-4xl text-green-600 mr-2 drop-shadow-md" />
-          <h1 className="text-3xl font-bold text-green-700 tracking-wide">
+      {/* Glassy Form */}
+      <div className="relative z-10 w-full max-w-3xl bg-white/15 backdrop-blur-lg shadow-2xl rounded-2xl p-8 border border-white/30">
+        {/* Logo */}
+        <div className="flex justify-center items-center mb-4">
+          <FaLeaf className="text-3xl text-green-600 mr-2 drop-shadow-md" />
+          <h1 className="text-2xl font-bold text-green-700 tracking-wide">
             HealthyHive
           </h1>
         </div>
 
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6"
+          className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 text-sm"
         >
           <div>
             <label className="block font-medium text-gray-800">Username</label>
             <input
               type="text"
               {...register("username", { required: "Username is required" })}
-              className={`mt-1 w-full px-4 py-3 border rounded-lg shadow-sm focus:outline-none focus:border-green-500 bg-white/30 backdrop-blur-sm ${
+              className={`mt-1 w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-green-500 bg-white/30 backdrop-blur-sm ${
                 errors.username ? "border-red-500" : "border-gray-300"
               }`}
             />
-            <p className="text-red-600 text-sm min-h-[1.25rem]">
+            <p className="text-red-600 text-xs min-h-[1rem]">
               {errors.username?.message}
             </p>
           </div>
@@ -163,11 +142,11 @@ export default function Register() {
                   message: "Invalid email address",
                 },
               })}
-              className={`mt-1 w-full px-4 py-3 border rounded-lg shadow-sm focus:outline-none focus:border-green-500 bg-white/30 backdrop-blur-sm ${
+              className={`mt-1 w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-green-500 bg-white/30 backdrop-blur-sm ${
                 errors.email ? "border-red-500" : "border-gray-300"
               }`}
             />
-            <p className="text-red-600 text-sm min-h-[1.25rem]">
+            <p className="text-red-600 text-xs min-h-[1rem]">
               {errors.email?.message}
             </p>
           </div>
@@ -183,11 +162,11 @@ export default function Register() {
                   message: "Password must be at least 6 characters",
                 },
               })}
-              className={`mt-1 w-full px-4 py-3 border rounded-lg shadow-sm focus:outline-none focus:border-green-500 bg-white/30 backdrop-blur-sm ${
+              className={`mt-1 w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-green-500 bg-white/30 backdrop-blur-sm ${
                 errors.password ? "border-red-500" : "border-gray-300"
               }`}
             />
-            <p className="text-red-600 text-sm min-h-[1.25rem]">
+            <p className="text-red-600 text-xs min-h-[1rem]">
               {errors.password?.message}
             </p>
           </div>
@@ -203,11 +182,11 @@ export default function Register() {
                 validate: (value) =>
                   value === password || "Passwords do not match",
               })}
-              className={`mt-1 w-full px-4 py-3 border rounded-lg shadow-sm focus:outline-none focus:border-green-500 bg-white/30 backdrop-blur-sm ${
+              className={`mt-1 w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-green-500 bg-white/30 backdrop-blur-sm ${
                 errors.confirmPassword ? "border-red-500" : "border-gray-300"
               }`}
             />
-            <p className="text-red-600 text-sm min-h-[1.25rem]">
+            <p className="text-red-600 text-xs min-h-[1rem]">
               {errors.confirmPassword?.message}
             </p>
           </div>
@@ -215,24 +194,24 @@ export default function Register() {
           <div className="md:col-span-2">
             <button
               type="submit"
-              className="w-full bg-green-600 text-white py-3 rounded-lg shadow-lg hover:bg-green-700 transform hover:scale-105 transition"
+              className="w-full bg-green-600 text-white py-2 rounded-lg shadow-lg hover:bg-green-700 transform hover:scale-[1.02] transition"
             >
               Register
             </button>
           </div>
 
-          <div className="md:col-span-2 flex items-center my-4">
+          <div className="md:col-span-2 flex items-center my-3">
             <div className="flex-grow h-px bg-gray-300"></div>
-            <span className="px-3 text-gray-500 text-sm">or</span>
+            <span className="px-2 text-gray-500 text-xs">or</span>
             <div className="flex-grow h-px bg-gray-300"></div>
           </div>
 
           <div className="md:col-span-2">
             <button
               type="button"
-              className="w-full flex items-center justify-center gap-3 bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 transition"
+              className="w-full flex items-center justify-center gap-2 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition text-sm"
             >
-              <FaGoogle size={20} />
+              <FaGoogle size={18} />
               Sign Up with Google
             </button>
           </div>
@@ -240,14 +219,14 @@ export default function Register() {
           <div className="md:col-span-2">
             <button
               type="button"
-              className="w-full flex items-center justify-center gap-3 bg-blue-700 text-white py-3 rounded-lg hover:bg-blue-800 transition"
+              className="w-full flex items-center justify-center gap-2 bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 transition text-sm"
             >
-              <FaFacebook size={20} />
+              <FaFacebook size={18} />
               Sign Up with Facebook
             </button>
           </div>
 
-          <div className="md:col-span-2 text-center text-base text-gray-700 mt-4">
+          <div className="md:col-span-2 text-center text-sm text-gray-700 mt-3">
             Already have an account?{" "}
             <Link
               to="/login"
@@ -259,6 +238,7 @@ export default function Register() {
         </form>
       </div>
 
+      {/* Animations */}
       <style>
         {`
           @keyframes floatY {

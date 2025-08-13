@@ -133,7 +133,7 @@ export default function LoginForm() {
         })}
       </div>
 
-      <div className="relative z-10 w-full max-w-md bg-white/20 backdrop-blur-2xl shadow-2xl rounded-2xl p-8 border border-white/30">
+      <div className="relative z-10 w-full  max-w-md bg-white/15 backdrop-blur-lg shadow-2xl rounded-2xl p-8 border border-white/30">
         <div className="flex justify-center items-center mb-6">
           <FaLeaf className="text-4xl text-green-600 mr-2 drop-shadow-md" />
           <h1 className="text-3xl font-bold text-green-700 tracking-wide">
