@@ -100,7 +100,6 @@ export default function LoginForm() {
       </div>
 
       <div className="relative z-10 flex flex-col md:flex-row min-h-screen w-full ">
-        {/* Left Half - Brand Showcase */}
         <div className="flex-1 flex items-center justify-center p-6">
           <div className="text-center max-w-md">
             <h1 className="text-5xl md:text-6xl font-bold text-green-700 mb-4 drop-shadow-lg">
