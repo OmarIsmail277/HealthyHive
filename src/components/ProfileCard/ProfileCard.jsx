@@ -5,7 +5,7 @@ import { IoPersonOutline } from 'react-icons/io5'
 import { MdHelpCenter, MdPayment } from 'react-icons/md'
 import { RiArrowRightSLine } from 'react-icons/ri'
 import { TbHistory } from 'react-icons/tb'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function ProfileCard() {
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ function ProfileCard() {
         <div className="options flex flex-col lg:flex-row gap-12">
           {/* account section  */}
           <div className="account flex flex-col w-ful lg:w-1/2 gap-5">
-            <h2 className='text-3xl font-black mb-8'>Account</h2>
+            <h2 className='text-3xl text-center font-black mb-8'>Account</h2>
             {/* History  */}
             <div onClick={handlegotohistory} className="history flex justify-between items-center w-full lg:w-4/5 m-auto p-4 bg-[#f0f4ef] rounded-lg  hover:bg-white transition-colors duration-300  cursor-pointer ">
               <div className='flex items-center gap-4'><div className='text-2xl text-primary bg-[#e7f0ec] p-2 rounded-lg'><TbHistory /></div><p>Order History</p></div>
@@ -51,19 +51,21 @@ function ProfileCard() {
           </div>
           {/* sittings section  */}
           <div className="sittings flex flex-col w-full lg:w-1/2 gap-5">
-            <h2 className='text-3xl font-black mb-8'>Sittings</h2>
+            <h2 className='text-3xl text-center font-black mb-8'>Settings</h2>
             {/* notifications  */}
             <div className="history flex justify-between items-center w-full lg:w-4/5 m-auto p-4 bg-[#f0f4ef] rounded-lg hover:bg-white transition-colors duration-300  cursor-pointer">
               <div className='flex items-center gap-4'><div className='text-2xl text-primary bg-[#e7f0ec] p-2 rounded-lg'><IoIosNotifications /></div><p>Notifications</p></div>
               <div className="div"> <RiArrowRightSLine className='text-2xl text-primary' /></div>
             </div>
             {/* Help Center  */}
+            <Link to="/faq">
             <div className="history flex justify-between items-center w-full lg:w-4/5 m-auto p-4 bg-[#f0f4ef] rounded-lg hover:bg-white transition-colors duration-300  cursor-pointer">
               <div className='flex items-center gap-4'><div className='text-2xl text-primary bg-[#e7f0ec] p-2 rounded-lg'><MdHelpCenter /></div><p>Help Center</p></div>
               <div className="div"> <RiArrowRightSLine className='text-2xl text-primary' /></div>
             </div>
-            <hr className='text-text-grey' />
-            <button className=' flex  items-center justify-center gap-2 p-4 text-red-600 rounded-lg   m-auto hover:text-red-700 transition-colors duration-300  outline-none'>
+            </Link>
+            <hr className='mt-3 text-text-grey' />
+            <button className=' flex items-center justify-center gap-2 p-4 text-red-600 rounded-lg   m-auto hover:text-red-700 transition-colors duration-300  outline-none'>
               <IoIosLogOut /> Log Out
             </button>
 

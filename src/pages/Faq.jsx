@@ -91,7 +91,7 @@ function AccordionItem({ question, answer, isOpen, onToggle, searchQuery }) {
         id={`faq-answer-${question}`}
         role="region"
         aria-labelledby={`faq-question-${question}`}
-        className={`px-5 pt-2 text-green-900 text-base border-t border-green-200 leading-relaxed transition-[max-height,opacity,padding] duration-300 ease-in-out overflow-hidden ${
+        className={`px-5 text-green-900 text-base border-t border-green-200 leading-relaxed transition-[max-height,opacity,padding] duration-300 ease-in-out overflow-hidden ${
           isOpen
             ? "max-h-[500px] opacity-100 py-4"
             : "max-h-0 opacity-0 py-0"
@@ -110,7 +110,6 @@ export default function FAQPage() {
   const imageRef = useRef(null);
   const [containerHeight, setContainerHeight] = useState(600); // fallback height
 
-  // Update container height to match image height on image load and window resize
   const updateHeight = () => {
     if (imageRef.current) {
       setContainerHeight(imageRef.current.clientHeight);
@@ -123,7 +122,6 @@ export default function FAQPage() {
     return () => window.removeEventListener("resize", updateHeight);
   }, []);
 
-  // Filter FAQs by search query (question or answer)
   const filteredFaqs = useMemo(() => {
     if (!searchQuery.trim()) return faqs;
     const q = searchQuery.trim().toLowerCase();
@@ -161,7 +159,6 @@ export default function FAQPage() {
         className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center gap-4 mb-12"
         style={{ maxWidth: "960px" }}
       >
-        {/* Search wrapper with flex-grow */}
         <div className="relative flex-grow min-w-0">
           <input
             type="search"
@@ -169,13 +166,12 @@ export default function FAQPage() {
             aria-label="Search FAQs"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full border border-green-300 rounded-lg px-5 py-4 pl-12 text-green-900 placeholder-green-400 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400 transition text-lg"
+            className="w-full border border-button rounded-lg px-5 py-4 pl-12 text-button placeholder-button focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-green-400 transition text-lg"
             style={{ minWidth: 0 }}
           />
           <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-green-400" />
         </div>
 
-        {/* Buttons container with fixed width, no shrinking */}
         <div className="flex gap-3 flex-shrink-0">
           <button
             onClick={expandAll}
@@ -195,7 +191,7 @@ export default function FAQPage() {
       </div>
 
       {/* Main content */}
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start gap-16">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-stretch gap-16">
         {/* FAQ Accordion Section */}
         <section
           className="flex-1 space-y-6 bg-green-50 rounded-xl p-8 shadow-inner border border-green-200 overflow-y-auto"
@@ -226,7 +222,7 @@ export default function FAQPage() {
         </section>
 
         <aside
-          className="flex-1 flex justify-center items-center select-none"
+          className="flex-1 flex justify-center items-center select-none mx-auto md:mx-0"
           style={{ maxWidth: 480 }}
         >
           <img
