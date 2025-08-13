@@ -34,7 +34,7 @@ export default function FeaturedCards() {
             <img
               src={card.image}
               alt={card.title}
-              className="w-full h-48 "
+              className="w-full h-48 object-contain "
               />
               </figure>
             <div className="flex flex-col justify-between flex-1 p-4">
