@@ -8,7 +8,3 @@ function Services() {
 }
 
 export default Services
-
-
-
-// search ``

@@ -2,6 +2,7 @@ import { lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import History from "../pages/History";
 
+
 const Login = lazy(() => import("../pages/LoginPage"));
 const Register = lazy(() => import("../pages/RegisterPage"));
 const Services = lazy(() => import("../pages/ServicesPage"));
@@ -12,7 +13,9 @@ const HomePage = lazy(() => import("../pages/HomePage"));
 const SearchResults = lazy(() => import("../pages/SearchResultsPage"));
 const Profile = lazy(() => import("../pages/Profile"));
 const Faq = lazy(() => import("../pages/Faq"));
+const CalorieCalculator = lazy(() => import("../pages/Calculator"));
 const NotFound = lazy(() => import("../pages/NotFoundPage"));
+const Checkout = lazy(() => import("../pages/CheckoutPage") )
 
 export default function AppRoutes() {
   return (
@@ -23,11 +26,13 @@ export default function AppRoutes() {
       <Route path="/services" element={<Services />} />
       <Route path="/products" element={<ProductsList />} />
       <Route path="/products/:category" element={<ProductCategory />} />
+      <Route path="/calorie-calculator" element={<CalorieCalculator />} />
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/search/:query" element={<SearchResults />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/history" element={<History />} />
       <Route path="/faq" element={<Faq/>} />
+      <Route path="/checkout" element={<Checkout />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
