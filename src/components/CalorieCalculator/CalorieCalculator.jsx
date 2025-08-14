@@ -41,6 +41,15 @@ export default function CalorieCalculator() {
     return Object.keys(newErrors).length === 0;
   };
 
+  // Convert cm to inches
+  const cmToIn = (cm) => cm / 2.54;
+
+  // Devine IBW in kg
+  const devineMaleKg = (heightCm) =>
+    50 + 2.3 * (cmToIn(heightCm) - 60);
+  const devineFemaleKg = (heightCm) =>
+    45.5 + 2.3 * (cmToIn(heightCm) - 60);
+
   const calculateResults = () => {
     const weight = parseFloat(formData.weight);
     const heightCm = parseFloat(formData.height);
@@ -53,6 +62,7 @@ export default function CalorieCalculator() {
       return;
     }
 
+    // BMI & status
     const bmi = weight / (heightM * heightM);
 
     let weightStatus = "";
@@ -63,21 +73,21 @@ export default function CalorieCalculator() {
     if (bmi < 18.5) {
       weightStatus = "Underweight";
       bmiExplanation =
-        "You are below the ideal weight range. Consider a nutritious calorie surplus.";
+        "You are below the healthy BMI range. Consider a nutritious calorie surplus.";
       workoutSuggestion =
         "Suggested workout: Focus on strength training about 2 hours per week.";
     } else if (bmi < 25) {
-      weightStatus = "Ideal weight";
+      weightStatus = "Healthy BMI";
       bmiExplanation =
-        "Your weight is within the ideal range. Maintain your healthy lifestyle.";
+        "Your BMI is within the healthy range. Maintain your healthy lifestyle.";
       workoutSuggestion =
         workoutHoursInput > 0
           ? `Suggested workout: Maintain your current activity level of ${workoutHoursInput} hours per week.`
           : "Suggested workout: Aim for at least 3 hours of moderate exercise per week.";
     } else {
-      weightStatus = "Overweight";
+      weightStatus = "Overweight (by BMI)";
       bmiExplanation =
-        "You are above the ideal weight range. Consider regular exercise and balanced diet.";
+        "Your BMI is above the healthy range. Consider regular exercise and a balanced diet.";
       if (workoutHoursInput > 0) {
         workoutSuggestion = `Suggested workout: Maintain your current activity level of ${workoutHoursInput} hours per week.`;
       } else {
@@ -87,15 +97,22 @@ export default function CalorieCalculator() {
       }
     }
 
-    const minIdealWeight = (18.5 * heightM * heightM).toFixed(1);
-    const maxIdealWeight = (24.9 * heightM * heightM).toFixed(1);
+    // Healthy BMI range weights (NOT 'ideal weight')
+    const minBMIRangeWeight = (18.5 * heightM * heightM).toFixed(1);
+    const maxBMIRangeWeight = (24.9 * heightM * heightM).toFixed(1);
 
+    // Activity factor (simple)
     let activityFactor = 1.2;
     if (suggestedWorkoutHours >= 8) activityFactor = 1.55;
     else if (suggestedWorkoutHours >= 4) activityFactor = 1.375;
 
+    // BMR (Mifflin-St Jeor — assumes male; adjust to -161 if you later add a female toggle)
     const bmr = 10 * weight + 6.25 * heightCm - 5 * age + 5;
     const calories = Math.round(bmr * activityFactor);
+
+    // Ideal Body Weight using Devine (kg)
+    const ibwMale = devineMaleKg(heightCm).toFixed(1);
+    const ibwFemale = devineFemaleKg(heightCm).toFixed(1);
 
     setResults({
       bmi: bmi.toFixed(1),
@@ -103,8 +120,12 @@ export default function CalorieCalculator() {
       bmiExplanation,
       calories,
       workoutSuggestion,
-      minIdealWeight,
-      maxIdealWeight,
+      // Healthy BMI range (labeled correctly)
+      minBMIRangeWeight,
+      maxBMIRangeWeight,
+      // IBW (Devine)
+      ibwMale,
+      ibwFemale,
       workoutHours: suggestedWorkoutHours,
     });
   };
@@ -139,9 +160,12 @@ export default function CalorieCalculator() {
               noValidate
             >
               <div>
-                <h2 className="text-3xl font-bold text-green-700 text-center mb-6">
-                  Calorie Calculator
-                </h2>
+              <h2 className="text-3xl font-bold text-green-700 text-center mb-6 drop-shadow-lg">
+  <span className="relative inline-block">
+    <span className="relative z-10">Calorie Calculator</span>
+    <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300 opacity-70 rounded-full transform rotate-1"></span>
+  </span>
+</h2>
 
                 <div>
                   <label className="flex items-center gap-2 font-medium text-gray-700">
@@ -269,9 +293,12 @@ export default function CalorieCalculator() {
           {results && (
             <div className="flex flex-col h-full justify-between">
               <div>
-                <h2 className="text-2xl font-bold text-green-700 text-center mb-4">
-                  Your Results
-                </h2>
+                <h2 className="text-2xl font-bold text-green-700 text-center mb-4 drop-shadow-lg">
+  <span className="relative inline-block">
+    <span className="relative z-10">Your Results</span>
+    <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300 opacity-70 rounded-full transform rotate-1"></span>
+  </span>
+</h2>
 
                 <div className="bg-green-50 p-4 rounded-lg space-y-3 border border-green-200 shadow-md text-sm">
                   <p className="text-green-800 font-bold">
@@ -290,9 +317,15 @@ export default function CalorieCalculator() {
                   <p className="text-green-800 font-bold">Workout Suggestion:</p>
                   <p className="text-green-900 font-normal">{results.workoutSuggestion}</p>
 
-                  <p className="text-green-800 font-bold">Ideal Weight Range for your height:</p>
+                
+
+                  {/* Add Ideal Body Weight (Devine) */}
+                  <p className="text-green-800 font-bold">Ideal Body Weight (Devine):</p>
                   <p className="text-green-900 font-normal">
-                    {results.minIdealWeight} kg - {results.maxIdealWeight} kg
+                    Male: {results.ibwMale} kg &nbsp;•&nbsp; Female: {results.ibwFemale} kg
+                  </p>
+                  <p className="text-xs text-green-700">
+                    Tip: Frame size and musculature can shift IBW by ~±10%.
                   </p>
 
                   <p className="text-green-800 font-bold">Workout Hours per Week:</p>
@@ -310,7 +343,7 @@ export default function CalorieCalculator() {
           )}
         </div>
 
-        <div className="w-full md:w-1/2 bg-green-50 flex items-center justify-center p-8">
+        <div className="w-full md:w-1/2 bg-green-50 hidden md:flex items-center justify-center p-8">
           <img
             src="/images/Consultations/workout.svg"
             alt="Fitness Illustration"
