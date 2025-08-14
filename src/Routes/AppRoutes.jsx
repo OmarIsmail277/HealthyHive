@@ -15,6 +15,7 @@ const Faq = lazy(() => import("../pages/Faq"));
 const CalorieCalculator = lazy(() => import("../pages/Calculator"));
 const NotFound = lazy(() => import("../pages/NotFoundPage"));
 const Checkout = lazy(() => import("../pages/CheckoutPage"));
+const Consultations = lazy(() => import("../pages/ConsultationsPage"));
 
 export default function AppRoutes() {
   return (
@@ -25,7 +26,8 @@ export default function AppRoutes() {
       <Route path="/services" element={<Services />} />
       <Route path="/products" element={<ProductsList />} />
       <Route path="/products/:category" element={<ProductCategory />} />
-      <Route path="/calorie-calculator" element={<CalorieCalculator />} />
+      <Route path="/services/calorie-calculator" element={<CalorieCalculator />} />
+      <Route path="/services/consultations" element={<Consultations />} />
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/search/:query" element={<SearchResults />} />
       <Route path="/profile" element={<Profile />} />
