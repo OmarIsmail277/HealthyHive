@@ -81,9 +81,12 @@ export default function ServiceForm() {
           className="w-full md:w-1/2 p-5 space-y-2"
           noValidate
         >
-          <h2 className="text-3xl pb-2 font-bold text-green-700 text-center">
-            Book Your Appointment
-          </h2>
+        <h2 className="text-3xl pb-2 font-bold text-green-700 text-center drop-shadow-lg">
+  <span className="relative inline-block">
+    <span className="relative z-10">Book Your Appointment</span>
+    <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300 opacity-70 rounded-full transform rotate-1"></span>
+  </span>
+</h2>
 
           {/* Full Name */}
           <div>
