@@ -55,6 +55,14 @@ function Navbar() {
         { label: "Meal Plans", path: "/order-meals/meal-plans" },
       ],
     },
+        {
+      label: "Our Services",
+      path: "/services",
+      subLinks: [
+        { label: "Calorie Calculator", path: "/services/calorie-calculator" },
+        { label: "Medical Consultations", path: "/services/consultations" },
+      ],
+    }
   ];
 
   return (
