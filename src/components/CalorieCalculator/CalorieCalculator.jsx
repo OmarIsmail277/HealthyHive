@@ -6,6 +6,8 @@ import {
   FaRunning,
   FaInfoCircle,
 } from "react-icons/fa";
+import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
 
 export default function CalorieCalculator() {
   const [formData, setFormData] = useState({
@@ -147,8 +149,11 @@ export default function CalorieCalculator() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-gray-50">
-      <div className="bg-white shadow-2xl rounded-2xl w-full max-w-4xl flex flex-col md:flex-row overflow-hidden">
+    <>
+    <Navbar/>
+   
+    <div className="min-h-screen flex justify-center py-12  bg-gray-50">
+      <div className="bg-white shadow-2xl rounded-2xl w-full max-w-4xl flex flex-col md:flex-row overflow-hidden ">
         <div
           className="w-full md:w-1/2 p-8 flex flex-col"
           style={{ height: "600px" }}
@@ -291,11 +296,11 @@ export default function CalorieCalculator() {
           )}
 
           {results && (
-            <div className="flex flex-col h-full justify-between">
+            <div className="flex flex-col  h-full justify-between">
               <div>
-                <h2 className="text-2xl font-bold text-green-700 text-center mb-4 drop-shadow-lg">
+                <h2 className="text-2xl pb-6 font-bold text-green-700 text-center mb-4 drop-shadow-lg">
   <span className="relative inline-block">
-    <span className="relative z-10">Your Results</span>
+    <span className="relative  z-10">Your Results</span>
     <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300 opacity-70 rounded-full transform rotate-1"></span>
   </span>
 </h2>
@@ -325,7 +330,7 @@ export default function CalorieCalculator() {
                     Male: {results.ibwMale} kg &nbsp;•&nbsp; Female: {results.ibwFemale} kg
                   </p>
                   <p className="text-xs text-green-700">
-                    Tip: Frame size and musculature can shift IBW by ~±10%.
+                    Tip: Your ideal body weight can vary by about ±10% depending on your frame size and muscle mass.
                   </p>
 
                   <p className="text-green-800 font-bold">Workout Hours per Week:</p>
@@ -352,5 +357,7 @@ export default function CalorieCalculator() {
         </div>
       </div>
     </div>
+     <Footer/>
+    </>
   );
 }

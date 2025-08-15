@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { FaWhatsapp, FaEnvelope, FaPhone } from "react-icons/fa";
+import Navbar from "../Navbar/Navbar";
+import Footer from "../Footer/Footer";
 
 export default function ServiceForm() {
   const [formData, setFormData] = useState({
@@ -63,7 +65,9 @@ export default function ServiceForm() {
     "mt-0.5 w-full px-2 py-1.5 border rounded-md shadow-sm focus:outline-none focus:border-green-500 transition text-sm";
 
   return (
-    <div className="flex justify-center pt-12">
+    <>
+    <Navbar/>
+    <div className="flex justify-center py-12">
       <div className="bg-white shadow-lg rounded-xl w-full max-w-4xl flex flex-col md:flex-row items-stretch overflow-hidden">
         
         {/* Image Section - hidden on mobile, fills full height */}
@@ -72,7 +76,7 @@ export default function ServiceForm() {
             src="/images/Consultations/doctors.svg"
             alt="Doctor Illustration"
             className="w-2/3 md:w-full max-w-xs transition-transform duration-500 hover:scale-105"
-          />
+            />
         </div>
 
         {/* Form Section */}
@@ -80,7 +84,7 @@ export default function ServiceForm() {
           onSubmit={handleSubmit}
           className="w-full md:w-1/2 p-5 space-y-2"
           noValidate
-        >
+          >
         <h2 className="text-3xl pb-2 font-bold text-green-700 text-center drop-shadow-lg">
   <span className="relative inline-block">
     <span className="relative z-10">Book Your Appointment</span>
@@ -255,5 +259,7 @@ export default function ServiceForm() {
         </form>
       </div>
     </div>
+          <Footer/>
+          </>
   );
 }
