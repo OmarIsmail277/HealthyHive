@@ -1,6 +1,6 @@
 import { FiX } from "react-icons/fi";
 import { IoAdd, IoRemove } from "react-icons/io5";
-import image from "../../assets/test_img.jpg";
+import image from "../../../../assets/test_img.jpg";
 import { useState } from "react";
 
 function MiniCart({ onClose }) {
@@ -76,7 +76,7 @@ function MiniCart({ onClose }) {
           <span>Total</span>
           <span>${total.toFixed(2)}</span>
         </div>
-        <button className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg transition">
+        <button className="w-full bg-button hover:bg-green-500 text-white py-2 rounded-lg transition">
           Review and checkout
         </button>
       </div>

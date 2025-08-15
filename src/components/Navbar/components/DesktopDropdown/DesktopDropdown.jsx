@@ -5,7 +5,7 @@ function DesktopDropdown({ hoverIndex, navLinks, setHoverIndex }) {
 
   return (
     <div
-      className={`absolute left-0 w-full bg-white shadow-md border-t border-gray-200 z-20
+      className={`absolute left-0 w-full bg-white shadow-md border-t border-gray-200
         transform transition-all duration-300 ease-in-out
         ${
           isOpen
