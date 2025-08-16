@@ -100,7 +100,7 @@ export default function ServiceAds() {
       </div>
 
       {/* Custom animations */}
-      <style jsx>{`
+      <style>{`
         @keyframes pulse-slow {
           0%,
           100% {

@@ -5,8 +5,8 @@
   --font-display: "Poppins", sans-serif;
 
   /* Brand Colors */
-  --color-primary: #16a34a; /* Fresh Leaf Green - main brand color */
-  --color-secondary: #d0f0c0; /* Soft Mint Green - secondary brand */
+  --color-primary: #059669; /* Fresh Leaf Green - main brand color */
+  --color-secondary: #10b981; /* Soft Mint Green - secondary brand */
   --color-accent: #ffdd57;
   --neutralBg-color: #fafaf5;
   --color-text: #3a3a3a;
@@ -28,6 +28,7 @@
   --color-recommended-rating: #6b7280;
   --color-button: #16a34a;
   --color-button-hover: #139141;
+
 }
 
 body {

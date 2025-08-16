@@ -19,7 +19,6 @@ function HomePage() {
     <>
       <Navbar />
       <Carousel />
-      <WhyUs />
       <ServiceAds />
       <ProductCategories />
       <Featured />
@@ -27,6 +26,7 @@ function HomePage() {
       <HealthyLivingSection />
       <AdviceFetch />
       <BrandsWeOffer />
+      <WhyUs />
       <Footer />
     </>
   );
