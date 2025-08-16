@@ -26,7 +26,10 @@ export default function AppRoutes() {
       <Route path="/services" element={<Services />} />
       <Route path="/products" element={<ProductsList />} />
       <Route path="/products/:category" element={<ProductCategory />} />
-      <Route path="/services/calorie-calculator" element={<CalorieCalculator />} />
+      <Route
+        path="/services/calorie-calculator"
+        element={<CalorieCalculator />}
+      />
       <Route path="/services/consultations" element={<Consultations />} />
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/search/:query" element={<SearchResults />} />
