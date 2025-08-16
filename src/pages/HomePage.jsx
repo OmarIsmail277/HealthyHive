@@ -9,6 +9,7 @@ import ProductCategories from "../components/ProductCategories/ProductCategories
 import ServicesAds from "../components/ServiceCards/ServiceCards";
 import Footer from "../components/Footer/Footer";
 import ServiceAds from "../components/ServiceCards/ServiceCards";
+import RecipesSlider from "../components/Recipes/components/RecipesSlider/RecipesSlider";
 
 function HomePage() {
   return (
@@ -19,6 +20,7 @@ function HomePage() {
       <ProductCategories />
       <Featured />
       <RecommendedProducts />
+      <RecipesSlider/>
       <FetchAdvice />
       <BrandsWeOffer />
       <Footer />
