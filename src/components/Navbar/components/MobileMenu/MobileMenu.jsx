@@ -25,9 +25,9 @@ function MobileMenu({
         </div>
 
         {/* Subscribe */}
-        <button className="block w-full bg-green-100 text-green-700 px-4 py-2 rounded-md hover:bg-green-200 text-sm sm:text-base text-center mb-4 cursor-pointer">
+        {/* <button className="block w-full bg-green-100 text-green-700 px-4 py-2 rounded-md hover:bg-green-200 text-sm sm:text-base text-center mb-4 cursor-pointer">
           Subscribe
-        </button>
+        </button> */}
 
         {/* Category links mobile */}
         <div className="border-t border-gray-200 pt-2">

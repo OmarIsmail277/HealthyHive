@@ -6,17 +6,22 @@ import RecommendedProducts from "../components/RecommendedProducts/RecommendedPr
 import FetchAdvice from "../components/FetchAdvice/AdviceFetch";
 import BrandsWeOffer from "../components/BrandsWeOffer/BrandsWeOffer";
 import ProductCategories from "../components/ProductCategories/ProductCategories";
+import ServicesAds from "../components/ServiceCards/ServiceCards";
 import Footer from "../components/Footer/Footer";
+import ServiceAds from "../components/ServiceCards/ServiceCards";
+import RecipesSlider from "../components/Recipes/components/RecipesSlider/RecipesSlider";
+import HealthyLivingSection from "../components/HealthyLivingSection";
 
 function HomePage() {
   return (
     <>
       <Navbar />
       <Carousel />
+      <ServiceAds/>
       <ProductCategories />
       <Featured />
       <RecommendedProducts />
-      <FetchAdvice />
+      <HealthyLivingSection/>
       <BrandsWeOffer />
       <Footer />
     </>

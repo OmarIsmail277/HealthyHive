@@ -5,7 +5,7 @@
   --font-display: "Poppins", sans-serif;
 
   /* Brand Colors */
-  --color-primary: #6bbf59; /* Fresh Leaf Green - main brand color */
+  --color-primary: #16a34a; /* Fresh Leaf Green - main brand color */
   --color-secondary: #d0f0c0; /* Soft Mint Green - secondary brand */
   --color-accent: #ffdd57;
   --neutralBg-color: #fafaf5;
@@ -64,4 +64,10 @@ body {
 .healthy__container {
   width: 80%;
   margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .healthy__container {
+    width: 90%;
+  }
 }

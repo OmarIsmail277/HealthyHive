@@ -3,6 +3,7 @@ import NavTopRow from "./components/NavTopRow/NavTopRow";
 import DesktopNav from "./components/DesktopNav/DesktopNav";
 import DesktopDropdown from "./components/DesktopDropdown/DesktopDropdown";
 import MobileMenu from "./components/MobileMenu/MobileMenu";
+import FlashyBanner from "../Banner/Banner";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -55,39 +56,42 @@ function Navbar() {
         { label: "Meal Plans", path: "/order-meals/meal-plans" },
       ],
     },
-        {
+    {
       label: "Our Services",
       path: "/services",
       subLinks: [
         { label: "Calorie Calculator", path: "/services/calorie-calculator" },
         { label: "Medical Consultations", path: "/services/consultations" },
       ],
-    }
+    },
   ];
 
   return (
-    <nav className="sticky top-0 z-50 bg-white shadow-md">
-      <NavTopRow isOpen={isOpen} setIsOpen={setIsOpen} />
-
-      <DesktopNav
-        navLinks={navLinks}
-        hoverIndex={hoverIndex}
-        setHoverIndex={setHoverIndex}
-      />
-
-      <DesktopDropdown
-        hoverIndex={hoverIndex}
-        navLinks={navLinks}
-        setHoverIndex={setHoverIndex}
-      />
-
-      <MobileMenu
-        isOpen={isOpen}
-        navLinks={navLinks}
-        mobileDropdownIndex={mobileDropdownIndex}
-        setMobileDropdownIndex={setMobileDropdownIndex}
-      />
-    </nav>
+  <div className="fixed top-0 left-0 right-0 z-50">
+      {/* Fixed banner at very top */}
+      <FlashyBanner />
+      
+      {/* Sticky navbar that appears below banner */}
+      <nav className="bg-white shadow-md">
+        <NavTopRow isOpen={isOpen} setIsOpen={setIsOpen} />
+        <DesktopNav
+          navLinks={navLinks}
+          hoverIndex={hoverIndex}
+          setHoverIndex={setHoverIndex}
+        />
+        <DesktopDropdown
+          hoverIndex={hoverIndex}
+          navLinks={navLinks}
+          setHoverIndex={setHoverIndex}
+        />
+        <MobileMenu
+          isOpen={isOpen}
+          navLinks={navLinks}
+          mobileDropdownIndex={mobileDropdownIndex}
+          setMobileDropdownIndex={setMobileDropdownIndex}
+        />
+      </nav>
+    </div>
   );
 }
 

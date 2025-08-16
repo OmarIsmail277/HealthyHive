@@ -32,6 +32,8 @@ import {
   FaSpa,
   FaUtensilSpoon
 } from "react-icons/fa";
+import Footer from "../components/Footer/Footer";
+import Navbar from "../components/Navbar/Navbar";
 
 function ServicesHome() {
   const navigate = useNavigate();
@@ -59,6 +61,8 @@ function ServicesHome() {
   ];
 
   return (
+      <>
+      <Navbar/>
     <div className="relative min-h-screen w-full overflow-hidden py-12 px-4 flex flex-col items-center">
 
       {/* Title */}
@@ -140,22 +144,24 @@ function ServicesHome() {
           @keyframes fadeInUp {
             0% { opacity: 0; transform: translateY(20px); }
             100% { opacity: 1; transform: translateY(0); }
-          }
-
-          .animate-fadeInUp {
-            animation: fadeInUp 0.8s ease forwards;
-          }
-
-          .delay-200 {
-            animation-delay: 0.2s;
-          }
-
-          .delay-400 {
+            }
+            
+            .animate-fadeInUp {
+              animation: fadeInUp 0.8s ease forwards;
+              }
+              
+              .delay-200 {
+                animation-delay: 0.2s;
+                }
+                
+                .delay-400 {
             animation-delay: 0.4s;
           }
         `}
       </style>
     </div>
+    <Footer/>
+                  </>
   );
 }
 

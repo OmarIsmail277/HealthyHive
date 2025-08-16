@@ -1,11 +1,8 @@
 import { NavLink } from "react-router-dom";
 
-function NavActionButton({ title, subTitle, icon }) {
+function NavActionButton({ title, subTitle, icon, to }) {
   return (
-    <NavLink
-      to="/account"
-      className="flex items-center hover:opacity-80 sm:gap-3"
-    >
+    <NavLink to={to} className="flex items-center sm:gap-3">
       <div className="flex items-center justify-center w-12 h-12 rounded-full border-0 lg:border lg:border-green-300">
         {icon}
       </div>
