@@ -37,7 +37,7 @@ const FlashyBanner = () => {
     {
       id: 3,
       content: (
-        <div className="flex items-center space-x-2 bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-1 rounded-full shadow-md">
+        <div className="flex items-center space-x-2 bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-2 rounded-full shadow-md">
           <FaTruck className="text-white text-sm animate-bounce" />
           <span className="text-xs sm:text-sm font-medium">
             FREE SHIPPING on your FIRST 3 orders! - Use code:
@@ -53,12 +53,12 @@ const FlashyBanner = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setIndex((prev) => (prev + 1) % slides.length);
-    }, 10000);
+    }, 3000);
     return () => clearInterval(timer);
   }, [slides.length]);
 
   return (
-    <div className="w-full overflow-hidden relative bg-gradient-to-r from-green-100 via-emerald-200 to-green-100 border-b border-green-300 shadow-md h-16 sm:h-20 flex justify-center items-center">
+    <div className="w-full overflow-hidden relative bg-gradient-to-r from-green-100 via-emerald-200 to-green-100 border-b border-green-300 shadow-md py-3 flex justify-center items-center">
       <div className="transition-all duration-700 ease-in-out">
         {slides[index].content}
       </div>
