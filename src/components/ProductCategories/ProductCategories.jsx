@@ -1,4 +1,3 @@
-// ProductCategories.jsx
 import CategoriesCard from "./components/CategoriesCard/CategoriesCard";
 
 function ProductCategories() {
@@ -11,22 +10,18 @@ function ProductCategories() {
   ];
 
   return (
-    <div className="product-categories healthy__container py-12">
-      <h2 className="subTitle">
-        Product Categories
-      </h2>
+<div className="healthy__container py-12 grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] 
+                gap-4 sm:gap-6 lg:gap-8 justify-items-center">
+  {categories.map((item, index) => (
+    <CategoriesCard
+      key={index}
+      category={item.category}
+      image={item.image}
+      path={item.path}
+    />
+  ))}
+</div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8 justify-items-center">
-        {categories.map((item, index) => (
-          <CategoriesCard
-            key={index}
-            category={item.category}
-            image={item.image}
-            path={item.path}
-          />
-        ))}
-      </div>
-    </div>
   );
 }
 

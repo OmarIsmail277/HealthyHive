@@ -80,8 +80,8 @@ export default function FeaturedCards() {
               <FaHeart
                 className={`transition-colors duration-300 ${
                   favorites.includes(card.id)
-                    ? "text-red-500 hover:text-red-600"
-                    : "text-gray-400 hover:text-red-400"
+                    ? "text-primary hover:text-secondary"
+                    : "text-gray-400 hover:text-emerald-300"
                 }`}
               />
             </button>
@@ -91,7 +91,7 @@ export default function FeaturedCards() {
               <img
                 src={card.image}
                 alt={card.title}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
 
               {/* Badges */}

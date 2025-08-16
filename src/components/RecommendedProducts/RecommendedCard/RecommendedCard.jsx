@@ -37,7 +37,8 @@ function RecommendedCard() {
       >
         <FaHeart
           className={`transition-colors duration-300 ${
-            wishlist ? "text-red-500 hover:text-red-600" : "text-gray-400 hover:text-red-400"
+            wishlist  ? "text-primary hover:text-secondary"
+                    : "text-gray-400 hover:text-emerald-300"
           }`}
         />
       </button>

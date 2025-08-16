@@ -38,7 +38,7 @@ const FlashyBanner = () => {
       id: 3,
       content: (
         <div className="flex items-center space-x-2 bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-2 rounded-full shadow-md">
-          <FaTruck className="text-white text-sm animate-bounce" />
+          <FaTruck className="text-white text-xs animate-bounce" />
           <span className="text-xs sm:text-sm font-medium">
             FREE SHIPPING on your FIRST 3 orders! - Use code:
           </span>
@@ -58,13 +58,13 @@ const FlashyBanner = () => {
   }, [slides.length]);
 
   return (
-    <div className="w-full overflow-hidden relative bg-gradient-to-r from-green-100 via-emerald-200 to-green-100 border-b border-green-300 shadow-md py-3 flex justify-center items-center">
+    <div className="w-full overflow-hidden relative bg-gradient-to-r from-green-100 via-emerald-200 to-green-100 border-b border-green-300 shadow-md py-1 flex justify-center items-center">
       <div className="transition-all duration-700 ease-in-out">
         {slides[index].content}
       </div>
 
       {/* Animations */}
-      <style jsx>{`
+      <style>{`
         @keyframes bounce {
           0%,
           100% {
