@@ -24,7 +24,7 @@ function RecommendedCard() {
   };
 
   return (
-    <div className="relative border border-[#64a30d78] 2xl:w-[24%] md:w-[48%] p-5 rounded-xl shadow-lg bg-white">
+    <div className="relative border border-[#64a30d78] w-[370px]  p-5 rounded-xl shadow-md bg-white">
       {/* Price Tag */}
       <div className="bg-primary absolute top-4 left-4 rounded-xl px-3 py-1 text-white font-semibold z-10">
         19 LE
@@ -77,7 +77,7 @@ function RecommendedCard() {
       </div>
 
       {/* Add to Cart */}
-      <button className="w-full py-3 mt-4 rounded-full border border-green-600 text-green-600 font-medium transition-all duration-200 hover:bg-green-600 hover:text-white">
+      <button className="w-full py-3 mt-4 rounded-full border border-green-600 text-green-600 font-medium transition-all duration-200 hover:bg-primary hover:text-white">
         Add To Cart
       </button>
     </div>
