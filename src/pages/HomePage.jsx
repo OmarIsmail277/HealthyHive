@@ -11,17 +11,19 @@ import Footer from "../components/Footer/Footer";
 import ServiceAds from "../components/ServiceCards/ServiceCards";
 import RecipesSlider from "../components/Recipes/components/RecipesSlider/RecipesSlider";
 import HealthyLivingSection from "../components/HealthyLivingSection";
+import AdviceFetch from "../components/FetchAdvice/AdviceFetch";
 
 function HomePage() {
   return (
     <>
       <Navbar />
       <Carousel />
-      <ServiceAds/>
+      <ServiceAds />
       <ProductCategories />
       <Featured />
       <RecommendedProducts />
-      <HealthyLivingSection/>
+      <HealthyLivingSection />
+      <AdviceFetch />
       <BrandsWeOffer />
       <Footer />
     </>
