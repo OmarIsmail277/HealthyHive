@@ -11,6 +11,7 @@ import Footer from "../components/Footer/Footer";
 import ServiceAds from "../components/ServiceCards/ServiceCards";
 import RecipesSlider from "../components/Recipes/components/RecipesSlider/RecipesSlider";
 import HealthyLivingSection from "../components/HealthyLivingSection";
+import AdviceFetch from "../components/FetchAdvice/AdviceFetch";
 import WhyUs from "../components/WhyUs/WhyUs";
 
 function HomePage() {
@@ -24,6 +25,7 @@ function HomePage() {
       <Featured />
       <RecommendedProducts />
       <HealthyLivingSection />
+      <AdviceFetch />
       <BrandsWeOffer />
       <Footer />
     </>
