@@ -17,6 +17,7 @@ const CalorieCalculator = lazy(() => import("../pages/Calculator"));
 const NotFound = lazy(() => import("../pages/NotFoundPage"));
 const Checkout = lazy(() => import("../pages/CheckoutPage"));
 const Consultations = lazy(() => import("../pages/ConsultationsPage"));
+const Recipes = lazy(() => import("../components/Recipes/Recipes"))
 
 export default function AppRoutes() {
   return (
@@ -39,6 +40,7 @@ export default function AppRoutes() {
       <Route path="/faq" element={<Faq />} />
       <Route path="/wishlistPage" element={<WishlistPage />} />
       <Route path="/checkout" element={<Checkout />} />
+      <Route path="/recipes" element={<Recipes />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
