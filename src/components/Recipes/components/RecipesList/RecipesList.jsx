@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import RecipeCard from '../RecipeCard/RecipeCard';
 
 function RecipesList() {
   const [recipes, setRecipes] = useState({});
   const [query, setQuery] = useState('');
-  const [selectedRecipe, setSelectedRecipe] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  // Default keywords to simulate "all recipes"
   const Keywords = [
+    "chicken",
     "garlic",
     "lentil",
     "carrot",
@@ -18,12 +19,11 @@ function RecipesList() {
     "mango",
     "strawberry",
     "broccoli",
-
   ];
 
-  // On first load: fetch recipes for all default keywords
   useEffect(() => {
     async function loadAllRecipes() {
+      setLoading(true);
       let groupedResults = {};
 
       for (const keyword of Keywords) {
@@ -39,11 +39,11 @@ function RecipesList() {
       }
 
       setRecipes(groupedResults);
+      setLoading(false);
     }
     loadAllRecipes();
   }, []);
 
-  // Search recipes and display under "Search results"
   const searchRecipes = async () => {
     if (!query) return;
     const res = await fetch(
@@ -54,87 +54,54 @@ function RecipesList() {
     setSelectedRecipe(null);
   };
 
-  // Get recipe details
-  const getRecipeDetails = async (id) => {
-    const res = await fetch(
-      `https://forkify-api.herokuapp.com/api/v2/recipes/${id}`
-    );
-    const data = await res.json();
-    setSelectedRecipe(data?.data?.recipe);
-  };
 
   return (
-    <div>
-      <div className="healthy__container p-6 mx-auto">
-        <h1 className="text-3xl font-bold text-button mb-4">🍽 Recipe Finder</h1>
+    <div className="bg-gradient-to-br from-green-50 via-white to-green-100 min-h-screen">
+      <div className="healthy__container p-6 mx-auto max-w-7xl">
+        <h1 className="text-4xl font-extrabold text-green-700 mb-6 text-center">
+          🍽 Recipe Finder
+        </h1>
 
-        <div className="flex gap-2 mb-6">
+        <div className="flex gap-2 mb-10 max-w-xl mx-auto">
           <input
             type="text"
             placeholder="Search recipes..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="border p-2 flex-grow rounded"
+            className="border border-gray-300 p-3 flex-grow rounded-lg focus:ring-2 focus:ring-green-400 outline-none"
           />
           <button
             onClick={searchRecipes}
-            className="bg-button text-white px-4 py-2 rounded hover:bg-button-hover"
+            className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
           >
             Search
           </button>
         </div>
 
-        {Object.entries(recipes).map(([keyword, recipesList]) => (
-          <div key={keyword} className="mb-8">
-            <h2 className="text-xl font-semibold mb-4 capitalize border-b border-gray-200">{keyword}</h2>
-            <div className="flex flex-wrap gap-4">
+        {loading && (
+          <div className="flex justify-center items-center py-10">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+          </div>
+        )}
+
+        {!loading && Object.entries(recipes).map(([keyword, recipesList]) => (
+          <div key={keyword} className="mb-14">
+            <h2 className="text-2xl font-bold mb-6 capitalize border-b-2 border-green-400 inline-block pb-1 text-gray-800">
+              {keyword}
+            </h2>
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {recipesList.map((recipe) => (
-                <div className="w-[284.7px]" key={recipe.id}>
-                  <RecipeCard
-                    recipe={recipe}
-                    onClick={() => getRecipeDetails(recipe?.id)}
-                  />
-                </div>
+                <Link key={recipe.id} to={`/recipeDetail/${recipe.id}`}>
+                  <RecipeCard recipe={recipe} />
+                </Link>
               ))}
             </div>
           </div>
         ))}
-
-        {/* Selected recipe details */}
-        {selectedRecipe && (
-          <div>
-            <button
-              onClick={() => setSelectedRecipe(null)}
-              className="mb-4 bg-gray-200 px-3 py-1 rounded"
-            >
-              ← Back
-            </button>
-
-            <h2 className="text-2xl font-bold mb-2">{selectedRecipe.title}</h2>
-            <img
-              src={selectedRecipe.image_url}
-              alt={selectedRecipe.title}
-              className="w-full max-h-96 object-cover rounded mb-4"
-            />
-            <p className="text-gray-600 mb-4">
-              By {selectedRecipe.publisher}
-            </p>
-            <p><strong>Servings:</strong> {selectedRecipe.servings}</p>
-            <p><strong>Cooking Time:</strong> {selectedRecipe.cooking_time} mins</p>
-
-            <h3 className="mt-4 font-semibold">Ingredients:</h3>
-            <ul className="list-disc list-inside">
-              {selectedRecipe.ingredients?.map((ing, i) => (
-                <li key={i}>
-                  {ing.quantity || ''} {ing.unit || ''} {ing.description}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
       </div>
     </div>
   );
 }
 
 export default RecipesList;
+

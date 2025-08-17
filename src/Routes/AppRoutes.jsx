@@ -2,8 +2,6 @@ import { lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import History from "../pages/History";
 import WishlistPage from "../pages/WishlistPage";
-import TestProducts from "../pages/TestProducts";
-
 const Login = lazy(() => import("../pages/LoginPage"));
 const Register = lazy(() => import("../pages/RegisterPage"));
 const Services = lazy(() => import("../pages/ServicesPage"));
@@ -21,6 +19,8 @@ const Consultations = lazy(() => import("../pages/ConsultationsPage"));
 const Recipes = lazy(() =>
   import("../components/Recipes/components/RecipesList/RecipesList")
 );
+const Recipes = lazy(() => import("../pages/RecipesPage"))
+const RecipeDetail = lazy(() => import("../pages/RecipeDetailPage"))
 
 export default function AppRoutes() {
   return (
@@ -44,7 +44,7 @@ export default function AppRoutes() {
       <Route path="/wishlistPage" element={<WishlistPage />} />
       <Route path="/checkout" element={<Checkout />} />
       <Route path="/recipes" element={<Recipes />} />
-      <Route path="/testproducts" element={<TestProducts />} />
+      <Route path="/recipeDetail/:id" element={<RecipeDetail />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
