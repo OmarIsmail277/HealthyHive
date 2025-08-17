@@ -19,8 +19,8 @@ const Consultations = lazy(() => import("../pages/ConsultationsPage"));
 const Recipes = lazy(() =>
   import("../components/Recipes/components/RecipesList/RecipesList")
 );
-const Recipes = lazy(() => import("../pages/RecipesPage"))
-const RecipeDetail = lazy(() => import("../pages/RecipeDetailPage"))
+// const Recipes = lazy(() => import("../pages/RecipesPage"))
+const RecipeDetail = lazy(() => import("../pages/RecipeDetailPage"));
 
 export default function AppRoutes() {
   return (
