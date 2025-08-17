@@ -2,7 +2,6 @@ import { lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import History from "../pages/History";
 import WishlistPage from "../pages/WishlistPage";
-
 const Login = lazy(() => import("../pages/LoginPage"));
 const Register = lazy(() => import("../pages/RegisterPage"));
 const Services = lazy(() => import("../pages/ServicesPage"));
@@ -17,6 +16,9 @@ const CalorieCalculator = lazy(() => import("../pages/Calculator"));
 const NotFound = lazy(() => import("../pages/NotFoundPage"));
 const Checkout = lazy(() => import("../pages/CheckoutPage"));
 const Consultations = lazy(() => import("../pages/ConsultationsPage"));
+const Recipes = lazy(() =>
+  import("../components/Recipes/components/RecipesList/RecipesList")
+);
 const Recipes = lazy(() => import("../pages/RecipesPage"))
 const RecipeDetail = lazy(() => import("../pages/RecipeDetailPage"))
 
