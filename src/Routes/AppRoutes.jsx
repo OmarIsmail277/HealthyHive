@@ -22,6 +22,7 @@ const Recipes = lazy(() =>
 );
 const RecipeDetail = lazy(() => import("../pages/RecipeDetailPage"));
 const AdminDashboard = lazy(() => import("../pages/AdminDashboard"));
+const Subscription = lazy(() => import("../pages/Subscription"));
 
 export default function AppRoutes() {
   return (
@@ -38,6 +39,7 @@ export default function AppRoutes() {
         element={<CalorieCalculator />}
       />
       <Route path="/services/consultations" element={<Consultations />} />
+      <Route path="/subscription" element={<Subscription />} />
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/search/:query" element={<SearchResults />} />
       <Route path="/profile" element={<Profile />} />

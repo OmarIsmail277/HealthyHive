@@ -622,7 +622,7 @@ const [users, setUsers] = useState(
                           setSubscriptions(data.subscriptions);
                         addToast("Data imported successfully", "success");
                       } catch (err) {
-                        addToast("Failed to import file", "error");
+                        addToast("Failed to import file", err);
                       }
                     }}
                   />
