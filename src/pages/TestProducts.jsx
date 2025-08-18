@@ -13,7 +13,7 @@ function TestProducts() {
   // ReactQuery will do that work, instead of doing it manually
 
   const { isLoading, data: products } = useQuery({
-    queryKey: ["product"],
+    queryKey: ["products"],
     queryFn: getProducts,
   });
 
