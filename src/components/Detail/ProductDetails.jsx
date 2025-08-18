@@ -27,12 +27,12 @@ export default function ProductDetails() {
         return stars;
     };
     return (
-        <div className="flex items-center justify-center p-6">
+        <div className="flex items-center justify-center p-2 ">
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease: "easeOut" }}
-                className="max-w-4/5 w-full bg-white rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2"
+                className="w-full md:w-4/5 bg-white rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2"
             >
                 {/*product img*/}
                 <div className="relative">
@@ -62,7 +62,7 @@ export default function ProductDetails() {
                             <div>{renderStars(4)}</div>
                             <p className='text-recommended-rating font-semibold'>4.4</p>
                         </div>
-                        <p className="text-gray-600 text-lg leading-relaxed">
+                        <p className="text-gray-600 text-md leading-relaxed">
                             rorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                         </p>
                         <p className='text-recommended-rating font-semibold sm:mr-2'>SKU: <span className='text-black'>S5T6U7V8</span></p>
