@@ -84,21 +84,10 @@ const HealthInsights = () => {
   ];
 
   const funFacts = [
-    "Drinking water before meals can help reduce calorie intake by 13% on average.",
-    "Dark chocolate contains antioxidants that can improve blood flow and lower blood pressure.",
-    "Chewing food thoroughly can increase nutrient absorption and aid digestion.",
-    "Eating spicy foods may boost metabolism and help with weight management.",
-    "Cooking tomatoes increases lycopene absorption by up to 400%, enhancing cancer-fighting benefits.",
-    "Bananas are technically berries, while strawberries are not botanically classified as berries.",
     "Almonds are actually seeds, not true nuts.",
-    "Honey never spoils - archaeologists have found edible honey in ancient Egyptian tombs.",
-    "The smell of apples can help reduce anxiety and promote relaxation.",
     "Broccoli contains more protein per calorie than steak.",
-    "Pineapples contain bromelain, an enzyme that can help with digestion.",
     "Carrots were originally purple, not orange.",
-    "Avocados are fruits and contain more potassium than bananas.",
     "Garlic can help boost the immune system and fight colds.",
-    "Eating oatmeal regularly can help lower bad cholesterol levels."
   ];
 
   // Rotate tips every 7 seconds
