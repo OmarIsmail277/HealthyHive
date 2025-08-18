@@ -14,7 +14,7 @@ function MutliStepsCheckout() {
   };
 
   return (
-    <div className='w-[80%] mx-auto my-0 pt-30'>
+    <div className='w-[80%] mx-auto my-0 py-12'>
       <div className='w-[45%] bg-[#f8faf4] mx-auto my-0 shadow-lg rounded-xl py-4 px-8'>
         <NavCheckout currentStep={step} onStepChange={setStep}/>
 
