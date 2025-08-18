@@ -57,32 +57,32 @@ function SearchResultsPage() {
           </button>
         </div>
 
-        <div className="flex flex-col md:flex-row px-4 md:px-0">
+        <div className="healthy__container flex flex-col md:flex-row py-4 md:py-6 px-4 md:px-0">
           {/* Filter - always visible on desktop, toggleable on mobile */}
-          <div className={`${showFilter ? 'block' : 'hidden'} md:block shrink-0 md:ml-4`}>
-            <Filter />
+          <div className={`${showFilter ? 'block' : 'hidden'} md:block w-full md:w-72 shrink-0`}>
+            <div className="">
+              <Filter />
+            </div>
           </div>
 
           {/* Main content */}
           <div className="flex-1">
-            <div className="healthy__container py-4 md:py-6">
-              <div className="mb-6">
-                <h1 className="text-xl font-semibold text-gray-800">
-                  Results found: {resultsCount}
-                </h1>
-                {searchQuery && (
-                  <p className="text-gray-600">
-                    Searching for: <span className="font-medium text-emerald-600">"{searchQuery}"</span>
-                  </p>
-                )}
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-                {products.map((product) => (
-                  <div key={product.id} className="flex justify-center">
-                    <RecommendedCard product={product} />
-                  </div>
-                ))}
-              </div>
+            <div className="mb-6">
+              <h1 className="text-xl font-semibold text-gray-800">
+                Results found: {resultsCount}
+              </h1>
+              {searchQuery && (
+                <p className="text-gray-600">
+                  Searching for: <span className="font-medium text-emerald-600">"{searchQuery}"</span>
+                </p>
+              )}
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+              {products.map((product) => (
+                <div key={product.id} className="flex justify-center">
+                  <RecommendedCard product={product} />
+                </div>
+              ))}
             </div>
           </div>
         </div>
