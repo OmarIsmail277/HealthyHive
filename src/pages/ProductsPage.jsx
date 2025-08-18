@@ -58,25 +58,25 @@ function SearchResultsPage() {
           </button>
         </div>
 
-        <div className="flex flex-col md:flex-row">
+        <div className="healthy__container flex flex-col md:flex-row py-4 md:py-6">
           {/* Filter - always visible on desktop, toggleable on mobile */}
-          <div className={`${showFilter ? "block" : "hidden"} md:block shrink-0 md:ml-4`}>
-            <Filter />
+          <div className={`${showFilter ? "block" : "hidden"} md:block w-full md:w-72 shrink-0`}>
+            <div className="">
+              <Filter />
+            </div>
           </div>
 
           {/* Main content */}
           <div className="flex-1">
-            <div className="healthy__container py-4 md:py-6">
-              <h1 className="text-xl font-semibold text-gray-800 mb-6">
-                Results found: {results.length}
-              </h1>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-                {results.map((result) => (
-                  <div key={result.id} className="flex justify-center">
-                    <RecommendedCard product={result} />
-                  </div>
-                ))}
-              </div>
+            <h1 className="text-xl font-semibold text-gray-800 my-6">
+              All Products
+            </h1>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+              {results.map((result) => (
+                <div key={result.id} className="flex justify-center">
+                  <RecommendedCard product={result} />
+                </div>
+              ))}
             </div>
           </div>
         </div>
