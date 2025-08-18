@@ -21,8 +21,7 @@ const Recipes = lazy(() =>
   import("../components/Recipes/components/RecipesList/RecipesList")
 );
 const RecipeDetail = lazy(() => import("../pages/RecipeDetailPage"));
-const RecipeDetail = lazy(() => import("../pages/RecipeDetailPage"));
-const AdminDashboard =  lazy(() => import("../pages/AdminDashboard"));
+const AdminDashboard = lazy(() => import("../pages/AdminDashboard"));
 
 export default function AppRoutes() {
   return (
