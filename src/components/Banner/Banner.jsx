@@ -9,7 +9,7 @@ const FlashyBanner = () => {
       content: (
         <div className="flex items-center space-x-3 h-full">
           <img
-            src="/public/images/palestine-flag.png"
+            src="/images/palestine-flag.png"
             alt="Palestine"
             className="w-10 h-8 sm:w-12 sm:h-10 animate-wave flag-glow"
           />
@@ -26,7 +26,7 @@ const FlashyBanner = () => {
         <div className="flex items-center gap-3 h-full">
           <span className="text-gray-900 font-semibold text-sm sm:text-base flex items-center gap-3 leading-tight">
             <img
-              src="/public/images/egypt-flag.png"
+              src="/images/egypt-flag.png"
               className="w-10 h-8 sm:w-12 sm:h-10 animate-wave flag-glow"
             />
             <span>We only offer 100% Egyptian & local products</span>

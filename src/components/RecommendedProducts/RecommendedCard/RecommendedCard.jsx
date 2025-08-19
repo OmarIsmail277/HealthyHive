@@ -49,7 +49,7 @@ function RecommendedCard({ product }) {
 
       {/* Wishlist Icon */}
 
-          <button
+      <button
         onClick={() => dispatch(toggleWishlistItem(product))}
         className="absolute top-4 right-4 text-3xl cursor-pointer z-20"
       >
@@ -62,12 +62,10 @@ function RecommendedCard({ product }) {
         />
       </button>
 
-
       {/* Image with Flip Animation */}
       <figure className="text-center perspective">
         <div className="relative w-full h-48 transition-transform duration-700 transform-style-preserve-3d hover:[transform:rotateY(180deg)]">
           <img
-
             className="absolute inset-0 w-full h-full object-contain backface-hidden"
             src={product.imageURL}
             alt="Front"
@@ -83,7 +81,6 @@ function RecommendedCard({ product }) {
         <div className="flex">{renderStars(product.rating)}</div>
         <p className="text-gray-600 text-sm font-medium">{product.rating}</p>
         <div className="flex">{renderStars(4)}</div>
-        <p className="text-gray-600 text-sm font-medium">{rating}</p>
       </div>
 
       {/* Title */}
@@ -97,7 +94,6 @@ function RecommendedCard({ product }) {
         <p className="text-gray-400 font-semibold text-lg line-through">
           {product.discount + product.price} LE
         </p>
-        <p className="text-green-600 font-bold text-xl">{price}</p>
       </div>
 
       {/* Add to Cart */}
