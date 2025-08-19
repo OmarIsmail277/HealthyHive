@@ -7,7 +7,7 @@ import { BiMinus, BiPlus } from "react-icons/bi";
 
 
 export default function ProductDetails() {
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
     const [quantity, setQuantity] = useState(1);
 
     const increase = () => setQuantity(quantity + 1);
@@ -27,19 +27,19 @@ export default function ProductDetails() {
         return stars;
     };
     return (
-        <div className="flex items-center justify-center p-2 ">
+        <div className="flex items-center justify-center p-2 my-3">
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease: "easeOut" }}
-                className="w-full md:w-4/5 bg-white rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2"
+                className="w-full md:w-4/5 bg-white rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 min-[1175px]:grid-cols-2"
             >
                 {/*product img*/}
-                <div className="relative">
+                <div className="relative flex  p-6">
                     <img
                         src={test}
                         alt="Product"
-                        className="w-full h-full object-cover max-h-[750px] rounded-tl-3xl rounded-bl-3xl"
+                        className="w-full  object-cover max-h-[650px] rounded-tl-3xl rounded-bl-3xl"
                     />
                     {/* <span className="absolute top-6 left-6 bg-primary text-white px-4 py-1 rounded-full text-sm tracking-wide">
                         19 LE
@@ -68,7 +68,7 @@ export default function ProductDetails() {
                         <p className='text-recommended-rating font-semibold sm:mr-2'>SKU: <span className='text-black'>S5T6U7V8</span></p>
 
                         {/* price */}
-                        <p className="text-3xl font-bold flex flex-col ">  34.19 LE <span className='text-recommended-price-gray text-lg line-through'>34.19 LE</span> </p>
+                        <p className="text-3xl font-bold flex items-center gap-2">  34.19 LE <span className='text-recommended-price-gray text-lg line-through'>34.19 LE</span> </p>
                         {/* Accordion Nutrition Info */}
                         <div className="border border-secondary rounded-xl">
                             <button
@@ -124,9 +124,9 @@ export default function ProductDetails() {
                     </div>
 
                     {/* Quantity Selector */}
-                    <div className="flex flex-col  items-center gap-4 mt-4">
+                    <div className="flex flex-col min-[485px]:flex-row items-center gap-4 mt-4">
 
-                        <span className="font-medium">Quantity:</span>
+                        <span className="font-bold">Quantity:</span>
                         <div className="flex items-center border border-secondary rounded-xl overflow-hidden">
                             <button
                                 onClick={decrease}
@@ -142,11 +142,11 @@ export default function ProductDetails() {
                                 <BiPlus size={18} />
                             </button>
                         </div>
-                        <p className='sm:text-[18px] text-xs text-black font-medium'>Only <span className='font-semibold text-primary'>10 items</span> Left!</p>
+                        <p>Only <span className='font-semibold text-primary'>10 items</span> Left!</p>
                     </div>
 
                     {/* buttons*/}
-                    <div className="mt-10 flex flex-col gap-4">
+                    <div className="mt-10 flex flex-col sm:flex-row gap-4">
                         <button
                             className="flex-1 bg-secondary text-white py-4 rounded-2xl font-semibold shadow-md hover:bg-primary transition"
                         >
