@@ -1,5 +1,5 @@
 import NavActionButton from "../NavActionButton/NavActionButton";
-import { FaRegUser, FaHeart } from "react-icons/fa";
+import { FaRegHeart, FaRegUser } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
 import { FiMenu, FiX } from "react-icons/fi";
 
@@ -10,11 +10,11 @@ function MobileNav({
   setMobileWishlistOpen,
 }) {
   return (
-    <div className="flex align-baseline lg:hidden items-center gap-3">
+    <div className="flex align-baseline pt-2 lg:hidden items-center gap-3">
       <NavActionButton
         title={null}
         subTitle={null}
-        icon={<FaRegUser className="text-button text-2xl pb-1" />}
+        icon={<FaRegUser className="text-primary text-2xl pb-1" />}
       />
       {/* Mobile Wishlist */}
       <div className="relative">
@@ -22,7 +22,7 @@ function MobileNav({
           onClick={() => setMobileWishlistOpen((prev) => !prev)}
           className="relative"
         >
-          <FaHeart className="text-button text-2xl mr-2" />
+          <FaRegHeart className="text-primary text-2xl mr-2" />
           <span className="absolute bottom-[80%] left-[60%] bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
             5
           </span>
@@ -35,7 +35,7 @@ function MobileNav({
           onClick={() => setMobileCartOpen((prev) => !prev)}
           className="relative"
         >
-          <IoCartOutline className="text-button text-2xl mr-2" />
+          <IoCartOutline className="text-primary text-2xl mr-2" />
           <span className="absolute bottom-[80%] left-[60%] bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
             2
           </span>

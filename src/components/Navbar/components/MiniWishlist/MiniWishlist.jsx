@@ -15,7 +15,7 @@ function MiniWishlist({ onClose }) {
   };
 
   return (
-    <div className="h-full flex flex-col border rounded-lg shadow-lg bg-white">
+    <div className="h-full flex flex-col rounded-lg shadow-sm shadow-green-100 bg-white">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-300">
         <h2 className="text-lg font-bold">Your Wishlist</h2>

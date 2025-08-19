@@ -1,5 +1,5 @@
 import NavActionButton from "../NavActionButton/NavActionButton";
-import { FaRegUser, FaHeart } from "react-icons/fa";
+import { FaRegUser, FaRegHeart } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
 import MiniCart from "../MiniCart/MiniCart";
 import MiniWishlist from "../MiniWishlist/MiniWishlist";
@@ -41,9 +41,9 @@ function DesktopNav({
           to="/wishlist"
           icon={
             <div className="relative">
-              <FaHeart className="text-button text-lg lg:text-2xl" />
+              <FaRegHeart className="text-primary text-lg lg:text-2xl" />
               {totalItemsInWishlist > 0 && (
-                <span className="absolute -top-4 -right-3 bg-red-500 text-white rounded-full px-1.5 py-[.5px] text-xs">
+                <span className="absolute -top-4 -right-3 bg-red-500 text-white w-4 h-4 flex items-center justify-center rounded-full text-[10px] leading-none">
                   {totalItemsInWishlist}
                 </span>
               )}
@@ -76,7 +76,7 @@ function DesktopNav({
       >
         <NavActionButton
           title={
-            <span className="text-sm lg:text-base">
+            <span className="text-sm lg:text-base min-w-[90px] text-left block">
               LE {totalPrice.toFixed(2)}
             </span>
           }
@@ -84,9 +84,9 @@ function DesktopNav({
           to="/cart"
           icon={
             <div className="relative">
-              <IoCartOutline className="text-button text-xl lg:text-3xl" />
+              <IoCartOutline className="text-primary text-xl lg:text-3xl" />
               {totalCartItems > 0 && (
-                <span className="absolute -top-3.5 -right-2  bg-red-500 text-white rounded-full px-1.5 py-[.7px] text-xs">
+                <span className="absolute -top-3.5 -right-2 bg-red-500 text-white w-4 h-4 flex items-center justify-center rounded-full text-[10px] leading-none">
                   {totalCartItems}
                 </span>
               )}
@@ -108,7 +108,7 @@ function DesktopNav({
         title={<span className="text-sm lg:text-base">Sign In</span>}
         subTitle={<span className="text-xs lg:text-sm">Account</span>}
         to="/login"
-        icon={<FaRegUser className="text-button text-lg lg:text-2xl" />}
+        icon={<FaRegUser className="text-primary text-lg lg:text-2xl" />}
       />
     </div>
   );

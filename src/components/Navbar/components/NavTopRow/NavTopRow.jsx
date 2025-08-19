@@ -17,7 +17,7 @@ function NavTopRow({ isOpen, setIsOpen }) {
       <div className="container mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-1 sm:gap-2">
-          <FaLeaf className="text-lg sm:text-xl lg:text-2xl text-button" />
+          <FaLeaf className="text-lg sm:text-xl lg:text-2xl text-primary" />
           <span className="font-bold text-base sm:text-lg lg:text-3xl">
             HealthyHive
           </span>
@@ -28,9 +28,9 @@ function NavTopRow({ isOpen, setIsOpen }) {
           <input
             type="text"
             placeholder="Search healthy products..."
-            className="w-[65%] border border-gray-300 rounded-l-md px-2 py-1 md:px-3 lg:px-4 focus:outline-none focus:ring-1 focus:ring-green-500 text-sm md:text-base"
+            className="w-[65%] border border-gray-300 rounded-l-md px-2 py-1 md:px-3 lg:px-4 focus:outline-none focus:ring-[.5px] focus:ring-emerald-400 text-sm md:text-base"
           />
-          <button className="bg-button text-white px-2 md:px-3 lg:px-4 rounded-r-md hover:bg-green-700 text-sm md:text-base cursor-pointer">
+          <button className="bg-primary text-white px-2 md:px-3 lg:px-4 rounded-r-md hover:bg-secondary text-sm md:text-base cursor-pointer">
             Search
           </button>
         </div>

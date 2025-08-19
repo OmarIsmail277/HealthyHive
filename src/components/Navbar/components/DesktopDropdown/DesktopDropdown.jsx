@@ -24,7 +24,7 @@ function DesktopDropdown({ hoverIndex, navLinks, setHoverIndex }) {
                 key={`desktop-sub-${sub.path}`}
                 to={sub.path}
                 className="px-1 sm:px-2 md:px-3 py-0.5 md:py-1 text-gray-700 rounded-md text-xs sm:text-sm md:text-base
-                  hover:bg-green-100 transition-colors duration-300 ease-in-out"
+                  hover:bg-emerald-200 transition-colors duration-300 ease-in-out"
               >
                 {sub.label}
               </NavLink>
