@@ -5,13 +5,11 @@ import { toggleWishlistItem } from "../../../store/wishlistSlice";
 import { toggleCartItem } from "../../../store/cartSlice";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-
 import { deleteProduct } from "../../../services/apiProducts";
 
 function RecommendedCard({ product }) {
   const dispatch = useDispatch();
   const wishlist = useSelector((state) => state.wishlist.items);
-
   const isInWishlist = wishlist.some((item) => item.id === product.id);
 
   const renderStars = (rating) => {
@@ -30,7 +28,6 @@ function RecommendedCard({ product }) {
     return stars;
   };
 
-  const { Name, imageURL, rating, description, price } = product;
   const queryClient = useQueryClient();
 
   const { isLoading: isDeleting, mutate } = useMutation({
@@ -51,7 +48,8 @@ function RecommendedCard({ product }) {
       </div>
 
       {/* Wishlist Icon */}
-      <button
+
+          <button
         onClick={() => dispatch(toggleWishlistItem(product))}
         className="absolute top-4 right-4 text-3xl cursor-pointer z-20"
       >
@@ -64,10 +62,12 @@ function RecommendedCard({ product }) {
         />
       </button>
 
+
       {/* Image with Flip Animation */}
       <figure className="text-center perspective">
         <div className="relative w-full h-48 transition-transform duration-700 transform-style-preserve-3d hover:[transform:rotateY(180deg)]">
           <img
+
             className="absolute inset-0 w-full h-full object-contain backface-hidden"
             src={product.imageURL}
             alt="Front"
@@ -89,7 +89,6 @@ function RecommendedCard({ product }) {
       {/* Title */}
       <p className="text-gray-900 text-base font-semibold mt-2 leading-snug line-clamp-2">
         {product.Name}
-        {Name}
       </p>
 
       {/* Price */}

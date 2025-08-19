@@ -147,6 +147,7 @@ function SearchResultsPage() {
                   </div>
                 ))}
               </div>
+
             </div>
           </div>
         </div>

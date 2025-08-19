@@ -25,6 +25,7 @@ const AdminDashboard = lazy(() => import("../pages/AdminDashboard"));
 const Wishlist = lazy(() => import("../pages/WishlistPage"));
 const Subscription = lazy(() => import("../pages/Subscription"));
 
+
 export default function AppRoutes() {
   return (
     <Routes>

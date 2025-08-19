@@ -8,6 +8,7 @@ import {
   FaTruck,
   FaTag,
 } from "react-icons/fa";
+import { FaBell, FaTimes, FaArrowRight, FaClinicMedical, FaTruck, FaTag } from "react-icons/fa";
 import "./FloatingSubscription.css";
 
 function FloatingSubscription() {
@@ -38,6 +39,7 @@ function FloatingSubscription() {
   useEffect(() => {
     const pulseInterval = setInterval(() => {
       setIsPulsing((prev) => !prev);
+      setIsPulsing(prev => !prev);
     }, 2000);
 
     return () => clearInterval(pulseInterval);
@@ -59,7 +61,7 @@ function FloatingSubscription() {
       <motion.div
         className="floating-subscription-button"
         initial={{ opacity: 0, x: -50 }}
-        animate={{
+        animate={{ 
           opacity: isVisible ? 1 : 0.7,
           x: isVisible ? 0 : -20,
         }}
@@ -81,12 +83,19 @@ function FloatingSubscription() {
               repeat: isPulsing ? Infinity : 0,
               repeatType: "reverse",
             },
+          transition={{ 
+            rotate: { duration: 0.3 },
+            scale: { 
+              duration: 1.5,
+              repeat: isPulsing ? Infinity : 0,
+              repeatType: "reverse"
+            }
           }}
         >
           <FaBell className="bell-icon" />
         </motion.div>
-
-        <motion.span
+        
+        <motion.span 
           className="notification-dot"
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
@@ -108,7 +117,7 @@ function FloatingSubscription() {
               <div className="title-container">
                 <h3>Premium Services</h3>
               </div>
-              <motion.button
+              <motion.button 
                 className="close-btn"
                 onClick={() => setShowDetails(false)}
                 whileHover={{ rotate: 90 }}
@@ -117,9 +126,10 @@ function FloatingSubscription() {
                 <FaTimes />
               </motion.button>
             </div>
-
+          
+            
             <div className="panel-content">
-              <motion.div
+              <motion.div 
                 className="benefit-item"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -134,7 +144,7 @@ function FloatingSubscription() {
                 </div>
               </motion.div>
 
-              <motion.div
+              <motion.div 
                 className="benefit-item"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -151,6 +161,7 @@ function FloatingSubscription() {
             </div>
 
             <motion.button
+
               className="subscribe-btn"
               onClick={handleSubscribeClick}
               whileHover={{ scale: 1.02 }}
