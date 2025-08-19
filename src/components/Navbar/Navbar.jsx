@@ -67,9 +67,9 @@ function Navbar() {
   ];
 
   return (
-  <div className="sticky top-0 left-0 right-0 z-50">
+    <div className="sticky top-0 left-0 right-0 z-50">
       <FlashyBanner />
-      
+
       <nav className="bg-white shadow-md">
         <NavTopRow isOpen={isOpen} setIsOpen={setIsOpen} />
         <DesktopNav

@@ -1,33 +1,25 @@
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { FiTrash2, FiCheck } from "react-icons/fi";
-import image from "../assets/test_img.jpg";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
+import { addToCart } from "../store/cartSlice";
+import { removeFromWishlist } from "../store/wishlistSlice";
 
-function WishlistPageOld() {
-  const [cartItems, setCartItems] = useState([]);
+function WishlistPage() {
+  const dispatch = useDispatch();
+  const wishlistItems = useSelector((state) => state.wishlist.items);
+  const cartItems = useSelector((state) => state.cart.items);
 
-  const wishlistItems = [
-    {
-      id: 1,
-      name: "Fresh Apples",
-      description: "Crisp, juicy, and naturally sweet.",
-      price: 3.5,
-      image,
-    },
-    {
-      id: 2,
-      name: "Organic Bread",
-      description: "Whole grain, freshly baked.",
-      price: 2.2,
-      image,
-    },
-  ];
-
-  const handleAddToCart = (id) => {
-    if (!cartItems.includes(id)) {
-      setCartItems((prev) => [...prev, id]);
+  const handleAddToCart = (item) => {
+    // if item is not in cart, add it
+    const exists = cartItems.some((cartItem) => cartItem.id === item.id);
+    if (!exists) {
+      dispatch(addToCart(item));
     }
+  };
+
+  const handleRemove = (id) => {
+    dispatch(removeFromWishlist(id));
   };
 
   return (
@@ -41,7 +33,9 @@ function WishlistPageOld() {
         ) : (
           <div className="space-y-4">
             {wishlistItems.map((item) => {
-              const isAdded = cartItems.includes(item.id);
+              const isAdded = cartItems.some(
+                (cartItem) => cartItem.id === item.id
+              );
               return (
                 <div
                   key={item.id}
@@ -65,7 +59,7 @@ function WishlistPageOld() {
                     {/* Mobile: Add + Delete (Full Width) */}
                     <div className="flex gap-3 mt-3 sm:hidden">
                       <button
-                        onClick={() => handleAddToCart(item.id)}
+                        onClick={() => handleAddToCart(item)}
                         disabled={isAdded}
                         className={`flex-1 px-4 py-2 rounded transition flex items-center justify-center gap-2 text-sm font-medium ${
                           isAdded
@@ -82,6 +76,7 @@ function WishlistPageOld() {
                         )}
                       </button>
                       <button
+                        onClick={() => handleRemove(item.id)}
                         className="px-4 py-2 rounded bg-red-100 text-red-500 hover:bg-red-200 transition flex items-center justify-center"
                         title="Remove from wishlist"
                       >
@@ -92,7 +87,7 @@ function WishlistPageOld() {
                     {/* Desktop: Add to Cart button */}
                     <div className="hidden sm:block mt-3">
                       <button
-                        onClick={() => handleAddToCart(item.id)}
+                        onClick={() => handleAddToCart(item)}
                         disabled={isAdded}
                         className={`px-4 py-2 rounded transition flex items-center justify-center gap-2 text-sm font-medium ${
                           isAdded
@@ -113,6 +108,7 @@ function WishlistPageOld() {
 
                   {/* Desktop: Delete on far right */}
                   <button
+                    onClick={() => handleRemove(item.id)}
                     className="hidden sm:flex text-red-500 hover:text-red-700 transition self-start"
                     title="Remove from wishlist"
                   >
@@ -129,4 +125,4 @@ function WishlistPageOld() {
   );
 }
 
-export default WishlistPageOld;
+export default WishlistPage;

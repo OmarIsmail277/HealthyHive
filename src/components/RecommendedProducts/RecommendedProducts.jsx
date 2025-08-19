@@ -1,10 +1,14 @@
-import { useEffect, useRef } from 'react';
-import './RecommendedProducts.css'
+import { useEffect, useRef } from "react";
+import "./RecommendedProducts.css";
 import RecommendedCard from "./RecommendedCard/RecommendedCard";
-import { FaAngleLeft, FaAngleRight } from "react-icons/fa"
+import { useQuery } from "@tanstack/react-query";
+import { getProducts } from "../../services/apiProducts";
 
 function RecommendedProducts() {
-
+  const { isLoading, data: products } = useQuery({
+    queryKey: ["products"],
+    queryFn: getProducts,
+  });
   const scrollRef = useRef(null);
   const intervalRef = useRef(null);
 
@@ -38,7 +42,10 @@ function RecommendedProducts() {
     });
 
     const { scrollLeft, scrollWidth, clientWidth } = container;
-    if (direction === "right" && scrollLeft + clientWidth >= scrollWidth - 386) {
+    if (
+      direction === "right" &&
+      scrollLeft + clientWidth >= scrollWidth - 386
+    ) {
       container.scrollTo({ left: 0, behavior: "smooth" });
     }
   };
@@ -46,27 +53,12 @@ function RecommendedProducts() {
   return (
     <div className="recommended-wrapper healthy__container section-padding relative">
       <h2 className="subTitle">Recommended</h2>
-      <div className="overflow-x-auto hide-scrollbar p-2" ref={scrollRef} onMouseEnter={stopAutoScroll} onMouseLeave={startAutoScroll}>
-        <button onClick={() => handleScroll("left")}
-          className="hidden md:block absolute  top-1/2 -translate-y-1/2 -translate-x-12 bg-white/80 hover:bg-white text-black p-2 rounded-full shadow z-10">
-          <FaAngleLeft size={20} />
-        </button>
-        <div className="flex justify-between shrink gap-4 w-max" >
-          <RecommendedCard />
-          <RecommendedCard />
-          <RecommendedCard />
-          <RecommendedCard />
-          <RecommendedCard />
-          <RecommendedCard />
-          <RecommendedCard />
-          <RecommendedCard />
-          <RecommendedCard />
+      <div className="overflow-x-auto hide-scrollbar p-2" ref={scrollRef}>
+        <div className="flex justify-between shrink gap-4 w-max">
+          {products?.map((product) => (
+            <RecommendedCard product={product} key={product.id} />
+          ))}
         </div>
-        <button onClick={() => handleScroll("right")}
-          className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 bg-white/80 hover:bg-white text-black p-2 rounded-full shadow">
-          <FaAngleRight size={20} />
-        </button>
-
       </div>
     </div>
   );
