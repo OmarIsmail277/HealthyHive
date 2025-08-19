@@ -7,7 +7,7 @@ export default function ServiceAds() {
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-12">
-          <span className="inline-block bg-primary/10 text-primary font-semibold px-4 py-1 rounded-full text-sm mb-3 animate-pulse">
+          <span className="inline-block  bg-primary/10 text-primary font-semibold px-4 py-1 rounded-full text-lg mb-3 animate-pulse">
             Premium Wellness Services
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800">

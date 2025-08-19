@@ -13,6 +13,7 @@ import RecipesSlider from "../components/Recipes/components/RecipesSlider/Recipe
 import HealthyLivingSection from "../components/HealthyLivingSection";
 import AdviceFetch from "../components/FetchAdvice/AdviceFetch";
 import WhyUs from "../components/WhyUs/WhyUs";
+import FloatingSubscription from "../components/SubIcon/SubIcon";
 
 function HomePage() {
   return (
@@ -28,6 +29,8 @@ function HomePage() {
       <BrandsWeOffer />
       <WhyUs />
       <Footer />
+<FloatingSubscription/>
+
     </>
   );
 }

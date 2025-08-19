@@ -106,7 +106,7 @@ const HealthInsights = () => {
   useEffect(() => {
     const factTimer = setInterval(() => {
       setCurrentFact(Math.floor(Math.random() * funFacts.length));
-    }, 5000);
+    }, 4000);
     return () => clearInterval(factTimer);
   }, []);
 
