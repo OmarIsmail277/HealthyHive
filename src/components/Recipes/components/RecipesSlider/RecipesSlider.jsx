@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { FaLeaf, FaHeart, FaRegHeart } from 'react-icons/fa';
 
@@ -7,17 +7,18 @@ const RecipeSlider = () => {
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [likedRecipes, setLikedRecipes] = useState({});
+  const intervalRef = useRef(null);
 
   useEffect(() => {
     const fetchRecipes = async () => {
       try {
         const keywords = ["avocado", "kale", "quinoa", "chia", "spinach"];
         const results = await Promise.all(
-          keywords.map(keyword => 
+          keywords.map(keyword =>
             fetch(`https://forkify-api.herokuapp.com/api/v2/recipes?search=${keyword}`)
               .then(res => res.json())
               .then(data => data.data?.recipes?.[0])
-        ));
+          ));
         setRecipes(results.filter(Boolean));
       } catch (error) {
         console.error("Failed to fetch recipes:", error);
@@ -29,11 +30,23 @@ const RecipeSlider = () => {
   }, []);
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    startAutoScroll();
+    return () => stopAutoScroll();
+  }, [recipes.length]);
+
+  const startAutoScroll = () => {
+    stopAutoScroll(); // clear before starting
+    intervalRef.current = setInterval(() => {
       handleNext();
     }, 5000);
-    return () => clearInterval(timer);
-  }, [recipes.length]);
+  };
+
+  const stopAutoScroll = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  };
 
   const handleNext = () => {
     setCurrentIndex(prev => (prev + 1) % recipes.length);
@@ -82,19 +95,19 @@ const RecipeSlider = () => {
           else transform = 'translateX(0) scale(0.8)';
 
           return (
-            <div 
-              key={recipe.id}
+            <div key={recipe.id}
               className={`absolute top-0 left-1/2 transform -translate-x-1/2 transition-all duration-500 ease-in-out ${distance > 1 ? 'opacity-0' : 'opacity-100'}`}
               style={{ transform, zIndex: isCurrent ? 30 : 20 - distance }}
-            >
-              <div 
+              onMouseEnter={stopAutoScroll}
+              onMouseLeave={startAutoScroll}>
+
+              <div
                 className={`bg-white rounded-2xl shadow-md overflow-hidden w-72 ${isCurrent ? 'ring-2 ring-emerald-400' : ''} ${isCurrent ? 'cursor-default' : 'cursor-pointer'}`}
-                onClick={!isCurrent ? () => setCurrentIndex(index) : null}
-              >
+                onClick={!isCurrent ? () => setCurrentIndex(index) : null}>
                 <div className="relative h-48 bg-emerald-50 overflow-hidden">
                   {recipe.image_url ? (
-                    <img 
-                      src={recipe.image_url} 
+                    <img
+                      src={recipe.image_url}
                       alt={recipe.title}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
@@ -103,7 +116,7 @@ const RecipeSlider = () => {
                       <FaLeaf className="text-emerald-300 text-4xl" />
                     </div>
                   )}
-                  <button 
+                  <button
                     className="absolute top-3 right-3 bg-white/90 rounded-full p-2 shadow-sm hover:scale-110 transition-transform"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -122,10 +135,10 @@ const RecipeSlider = () => {
                     {recipe.title}
                   </h3>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm font-medium text-emerald-600 bg-emerald-100 px-3 py-1 rounded-full">
+                    <span className="text-xs font-medium text-emerald-600 bg-emerald-100 px-3 py-1 rounded-full">
                       {recipe.publisher}
                     </span>
-                    <button 
+                    <button
                       className="text-sm font-medium text-white bg-emerald-500 hover:bg-emerald-600 px-4 py-2 rounded-lg transition-colors"
                       onClick={() => console.log("View recipe:", recipe.id)}
                     >
@@ -140,7 +153,7 @@ const RecipeSlider = () => {
       </div>
 
       <div className="flex justify-center mt-8 space-x-6">
-        <button 
+        <button
           onClick={handlePrev}
           className="p-3 rounded-full bg-emerald-50 text-emerald-600 shadow-sm hover:bg-emerald-100 transition-all hover:shadow-md"
         >
@@ -155,7 +168,7 @@ const RecipeSlider = () => {
             />
           ))}
         </div>
-        <button 
+        <button
           onClick={handleNext}
           className="p-3 rounded-full bg-emerald-50 text-emerald-600 shadow-sm hover:bg-emerald-100 transition-all hover:shadow-md"
         >
