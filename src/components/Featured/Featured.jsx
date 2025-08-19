@@ -56,17 +56,19 @@ export default function FeaturedCards() {
 
   return (
     <section className="healthy__container py-12">
-      <div className="text-center mb-12">
-        <h2 className="text-4xl font-bold text-emerald-800 mb-3">
-          Featured Healthy Products
+      <div className="text-center">
+        <h2 className="text-3xl md:text-4xl text-center font-bold text-gray-800">
+          Featured <span className="text-primary">Healthy Products</span>
         </h2>
-        <div className="w-24 h-1.5 bg-gradient-to-r from-emerald-400 to-teal-500 mx-auto rounded-full"></div>
+        <div className="flex justify-center mt-4">
+          <div className="w-16 h-1 bg-primary rounded-full"></div>
+        </div>
         <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
           Discover our premium selection of nutritious and delicious options
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-6">
         {cards.map((card) => (
           <div
             key={card.id}

@@ -52,8 +52,15 @@ function RecommendedProducts() {
 
   return (
     <div className="recommended-wrapper healthy__container section-padding relative">
-      <h2 className="subTitle">Recommended</h2>
-      <div className="overflow-x-auto hide-scrollbar p-2" ref={scrollRef}>
+      <div className="text-center">
+        <h2 className="text-3xl md:text-4xl text-center font-bold text-gray-800">
+          Recommended <span className="text-primary">Proudcts</span>
+        </h2>
+        <div className="flex justify-center mt-4">
+          <div className="w-16 h-1 bg-primary rounded-full"></div>
+        </div>
+      </div>
+      <div className="overflow-x-auto hide-scrollbar py-12" ref={scrollRef}>
         <div className="flex justify-between shrink gap-4 w-max">
           {products?.map((product) => (
             <RecommendedCard product={product} key={product.id} />

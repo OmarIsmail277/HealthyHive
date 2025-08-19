@@ -1,0 +1,219 @@
+/* FloatingSubscription.css */
+.floating-subscription-button {
+  position: fixed;
+  bottom: 30px;
+  left: 30px;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #38a169, #2f855a);
+  box-shadow: 0 4px 15px rgba(56, 161, 105, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  border: 2px solid white;
+}
+
+.floating-subscription-button:hover {
+  box-shadow: 0 6px 20px rgba(56, 161, 105, 0.6);
+  background: linear-gradient(135deg, #2f855a, #38a169);
+}
+
+.icon-container {
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  position: relative;
+}
+
+.bell-icon {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+.notification-dot {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 10px;
+  height: 10px;
+  background: #e53e3e;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 8px rgba(229, 62, 62, 0.8);
+}
+
+.subscription-panel {
+  position: fixed;
+  bottom: 95px;
+  left: 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  width: 260px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+}
+
+.panel-header {
+  background: linear-gradient(135deg, #38a169, #2f855a);
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.panel-header::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 20px;
+  width: 16px;
+  height: 16px;
+  background: white;
+  transform: rotate(45deg);
+  z-index: 1;
+}
+
+.title-container h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.close-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.panel-content {
+  padding: 15px;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #f7fafc;
+  transition: all 0.3s ease;
+}
+
+.benefit-item:hover {
+  background: #edf2f7;
+  transform: translateX(3px);
+}
+
+.benefit-item:last-child {
+  margin-bottom: 0;
+}
+
+.benefit-icon-container {
+  width: 35px;
+  height: 35px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #38a169, #2f855a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.benefit-icon {
+  color: white;
+  font-size: 14px;
+}
+
+.benefit-text h4 {
+  margin: 0 0 3px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.benefit-text p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #718096;
+}
+
+.subscribe-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #38a169, #2f855a);
+  color: white;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(56, 161, 105, 0.3);
+}
+
+.subscribe-btn:hover {
+  background: linear-gradient(135deg, #2f855a, #38a169);
+  box-shadow: 0 5px 15px rgba(56, 161, 105, 0.4);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .floating-subscription-button {
+    bottom: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .subscription-panel {
+    bottom: 80px;
+    left: 20px;
+    width: 240px;
+  }
+  
+  .panel-header {
+    padding: 12px;
+  }
+  
+  .title-container h3 {
+    font-size: 1rem;
+  }
+  
+  .benefit-item {
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .benefit-icon-container {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+  }
+}
