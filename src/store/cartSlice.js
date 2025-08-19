@@ -1,15 +1,35 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// get sessionId or create one for guest
+const getSessionId = () => {
+  let sessionId = sessionStorage.getItem("sessionId");
+  if (!sessionId) {
+    sessionId = crypto.randomUUID();
+    sessionStorage.setItem("sessionId", sessionId);
+  }
+  return sessionId;
+};
+
+const sessionId = getSessionId();
+
+// Load cart from sessionStorage
+const loadCart = () => {
+  const savedCart = sessionStorage.getItem(`cart_${sessionId}`);
+  return savedCart
+    ? JSON.parse(savedCart)
+    : { items: [], totalQuantity: 0, totalPrice: 0, totalCartItems: 0 };
+};
+
+// Save cart to sessionStorage
+const saveCart = (state) => {
+  sessionStorage.setItem(`cart_${sessionId}`, JSON.stringify(state));
+};
+
 const roundToTwo = (num) => parseFloat(num.toFixed(2));
 
 const cartSlice = createSlice({
   name: "cart",
-  initialState: {
-    items: [],
-    totalQuantity: 0,
-    totalPrice: 0,
-    totalCartItems: 0,
-  },
+  initialState: loadCart(),
   reducers: {
     addToCart: (state, action) => {
       const item = action.payload;
@@ -24,6 +44,8 @@ const cartSlice = createSlice({
 
       state.totalQuantity += 1;
       state.totalPrice = roundToTwo(state.totalPrice + item.price);
+
+      saveCart(state);
     },
 
     removeFromCart: (state, action) => {
@@ -37,6 +59,7 @@ const cartSlice = createSlice({
         );
         state.items = state.items.filter((i) => i.id !== itemId);
         state.totalCartItems -= 1;
+        saveCart(state);
       }
     },
 
@@ -46,6 +69,7 @@ const cartSlice = createSlice({
         item.quantity += 1;
         state.totalQuantity += 1;
         state.totalPrice = roundToTwo(state.totalPrice + item.price);
+        saveCart(state);
       }
     },
 
@@ -61,6 +85,7 @@ const cartSlice = createSlice({
         state.totalPrice = roundToTwo(state.totalPrice - item.price);
         state.totalCartItems -= 1;
       }
+      saveCart(state);
     },
 
     updateQuantity: (state, action) => {
@@ -73,6 +98,7 @@ const cartSlice = createSlice({
           state.totalPrice + (quantity - item.quantity) * item.price
         );
         item.quantity = quantity;
+        saveCart(state);
       }
     },
 
@@ -95,6 +121,7 @@ const cartSlice = createSlice({
         state.totalPrice = roundToTwo(state.totalPrice + item.price);
         state.totalCartItems += 1;
       }
+      saveCart(state);
     },
 
     clearCart: (state) => {
@@ -102,6 +129,7 @@ const cartSlice = createSlice({
       state.totalQuantity = 0;
       state.totalPrice = 0;
       state.totalCartItems = 0;
+      saveCart(state);
     },
   },
 });

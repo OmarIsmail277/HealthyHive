@@ -19,7 +19,7 @@ function MobileMenu({
             placeholder="Search for healthy products..."
             className="w-full border border-gray-300 rounded-l-md px-2 py-1 sm:px-3 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
           />
-          <button className="bg-button text-white px-2 sm:px-3 rounded-r-md hover:bg-primary text-sm sm:text-base">
+          <button className="bg-primary text-white px-2 sm:px-3 rounded-r-md hover:bg-secondary text-sm sm:text-base">
             Search
           </button>
         </div>
