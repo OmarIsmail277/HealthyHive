@@ -21,3 +21,14 @@ export async function deleteProduct(id) {
 
   return data;
 }
+
+export async function getProductById(id) {
+  const { data, error } = await supabase.from("products").select("*").eq("id", id).single();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Cabin could not be deleted");
+  }
+  
+  return data;
+} 
