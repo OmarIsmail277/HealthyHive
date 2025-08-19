@@ -21,7 +21,7 @@ import {
   FaUpload,
   FaArrowUp,
   FaArrowDown,
-  FaInfoCircle
+  FaInfoCircle,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -46,7 +46,7 @@ const uuid = () =>
     crypto &&
     typeof crypto.randomUUID === "function" &&
     crypto.randomUUID()) ||
-  "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
+  "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
     const r = (Math.random() * 16) | 0;
     const v = c === "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
@@ -71,9 +71,9 @@ function ToastProvider({ children }) {
 
   const addToast = (message, type = "info") => {
     const id = uuid();
-    setToasts(prev => [...prev, { id, message, type }]);
+    setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => {
-      setToasts(prev => prev.filter(t => t.id !== id));
+      setToasts((prev) => prev.filter((t) => t.id !== id));
     }, 5000);
   };
 
@@ -81,7 +81,7 @@ function ToastProvider({ children }) {
     <ToastContext.Provider value={{ addToast }}>
       {children}
       <div className="fixed bottom-4 right-4 space-y-2 z-50">
-        {toasts.map(toast => (
+        {toasts.map((toast) => (
           <div
             key={toast.id}
             className={`px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 ${
@@ -150,66 +150,66 @@ function AdminDashboard() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Data states
-const [users, setUsers] = useState(
-  getLS("admin_users", [
-    {
-      id: "u1",
-      name: "Alex Green",
-      email: "alex@example.com",
-      joinDate: "2023-05-15",
-      lastActive: "2023-10-20"
-    },
-    {
-      id: "u2",
-      name: "Sam Wilson",
-      email: "sam@example.com",
-      joinDate: "2023-06-20",
-      lastActive: "2023-09-15"
-    },
-    {
-      id: "u3",
-      name: "Taylor Swift",
-      email: "taylor@example.com",
-      joinDate: "2023-07-10",
-      lastActive: "2023-10-01"
-    },
-    {
-      id: "u4",
-      name: "Jordan Smith",
-      email: "jordan@example.com",
-      joinDate: "2023-08-05",
-      lastActive: "2023-10-15"
-    },
-    {
-      id: "u5",
-      name: "Casey Johnson",
-      email: "casey@example.com",
-      joinDate: "2023-08-12",
-      lastActive: "2023-10-18"
-    },
-    {
-      id: "u6",
-      name: "Riley Williams",
-      email: "riley@example.com",
-      joinDate: "2023-09-01",
-      lastActive: "2023-10-10"
-    },
-    {
-      id: "u7",
-      name: "Morgan Brown",
-      email: "morgan@example.com",
-      joinDate: "2023-09-15",
-      lastActive: "2023-10-05"
-    },
-    {
-      id: "u8",
-      name: "Jamie Davis",
-      email: "jamie@example.com",
-      joinDate: "2023-09-20",
-      lastActive: "2023-10-19"
-    }
-  ])
-);
+  const [users, setUsers] = useState(
+    getLS("admin_users", [
+      {
+        id: "u1",
+        name: "Alex Green",
+        email: "alex@example.com",
+        joinDate: "2023-05-15",
+        lastActive: "2023-10-20",
+      },
+      {
+        id: "u2",
+        name: "Sam Wilson",
+        email: "sam@example.com",
+        joinDate: "2023-06-20",
+        lastActive: "2023-09-15",
+      },
+      {
+        id: "u3",
+        name: "Taylor Swift",
+        email: "taylor@example.com",
+        joinDate: "2023-07-10",
+        lastActive: "2023-10-01",
+      },
+      {
+        id: "u4",
+        name: "Jordan Smith",
+        email: "jordan@example.com",
+        joinDate: "2023-08-05",
+        lastActive: "2023-10-15",
+      },
+      {
+        id: "u5",
+        name: "Casey Johnson",
+        email: "casey@example.com",
+        joinDate: "2023-08-12",
+        lastActive: "2023-10-18",
+      },
+      {
+        id: "u6",
+        name: "Riley Williams",
+        email: "riley@example.com",
+        joinDate: "2023-09-01",
+        lastActive: "2023-10-10",
+      },
+      {
+        id: "u7",
+        name: "Morgan Brown",
+        email: "morgan@example.com",
+        joinDate: "2023-09-15",
+        lastActive: "2023-10-05",
+      },
+      {
+        id: "u8",
+        name: "Jamie Davis",
+        email: "jamie@example.com",
+        joinDate: "2023-09-20",
+        lastActive: "2023-10-19",
+      },
+    ])
+  );
 
   const [products, setProducts] = useState(
     getLS("admin_products", [
@@ -222,7 +222,7 @@ const [users, setUsers] = useState(
         inStock: true,
         image: "https://via.placeholder.com/150",
         category: "supplements",
-        createdAt: "2023-07-01"
+        createdAt: "2023-07-01",
       },
       {
         id: "p2",
@@ -233,7 +233,7 @@ const [users, setUsers] = useState(
         inStock: false,
         image: "https://via.placeholder.com/150",
         category: "equipment",
-        createdAt: "2023-07-02"
+        createdAt: "2023-07-02",
       },
       {
         id: "p3",
@@ -244,8 +244,8 @@ const [users, setUsers] = useState(
         inStock: true,
         image: "https://via.placeholder.com/150",
         category: "equipment",
-        createdAt: "2023-07-05"
-      }
+        createdAt: "2023-07-05",
+      },
     ])
   );
 
@@ -258,7 +258,7 @@ const [users, setUsers] = useState(
         status: "active",
         expires: "2023-12-31",
         paymentMethod: "credit_card",
-        monthlyPrice: 19.99
+        monthlyPrice: 19.99,
       },
       {
         id: "s2",
@@ -267,7 +267,7 @@ const [users, setUsers] = useState(
         status: "expired",
         expires: "2023-09-30",
         paymentMethod: "paypal",
-        monthlyPrice: 9.99
+        monthlyPrice: 9.99,
       },
       {
         id: "s3",
@@ -276,8 +276,8 @@ const [users, setUsers] = useState(
         status: "active",
         expires: "2024-01-15",
         paymentMethod: "credit_card",
-        monthlyPrice: 19.99
-      }
+        monthlyPrice: 19.99,
+      },
     ])
   );
 
@@ -288,7 +288,7 @@ const [users, setUsers] = useState(
     stock: "",
     category: "supplements",
     image: "",
-    inStock: true
+    inStock: true,
   });
 
   const [imagePreview, setImagePreview] = useState(null);
@@ -303,25 +303,26 @@ const [users, setUsers] = useState(
   const stats = useMemo(() => {
     const totalProducts = products.length;
     // Only count products with stock > 0 and stock < 5 as low stock
-    const low = products.filter(p => p.stock > 0 && p.stock < 5).length;
+    const low = products.filter((p) => p.stock > 0 && p.stock < 5).length;
     const safePct =
       totalProducts === 0 ? 0 : Math.round((low / totalProducts) * 100);
 
     const monthlyRevenue = subscriptions
-      .filter(s => s.status === "active")
+      .filter((s) => s.status === "active")
       .reduce((sum, sub) => sum + Number(sub.monthlyPrice || 0), 0);
 
     return {
       totalUsers: users.length,
-      activeUsers: users.filter(u =>
-        subscriptions.some(s => s.userId === u.id && s.status === "active")
+      activeUsers: users.filter((u) =>
+        subscriptions.some((s) => s.userId === u.id && s.status === "active")
       ).length,
       totalProducts,
-      inStockProducts: products.filter(p => p.inStock).length,
-      activeSubscriptions: subscriptions.filter(s => s.status === "active").length,
+      inStockProducts: products.filter((p) => p.inStock).length,
+      activeSubscriptions: subscriptions.filter((s) => s.status === "active")
+        .length,
       monthlyRevenue,
       lowStockProducts: low,
-      lowPct: safePct
+      lowPct: safePct,
     };
   }, [users, products, subscriptions]);
 
@@ -334,7 +335,7 @@ const [users, setUsers] = useState(
     const reader = new FileReader();
     reader.onloadend = () => {
       setImagePreview(reader.result);
-      setNewProduct(prev => ({ ...prev, image: reader.result }));
+      setNewProduct((prev) => ({ ...prev, image: reader.result }));
     };
     reader.readAsDataURL(file);
   };
@@ -356,10 +357,10 @@ const [users, setUsers] = useState(
       category: newProduct.category,
       image: newProduct.image || "https://via.placeholder.com/150",
       inStock: (newProduct.inStock && stockNum > 0) || stockNum > 0,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
     };
 
-    setProducts(prev => [...prev, product]);
+    setProducts((prev) => [...prev, product]);
     setNewProduct({
       name: "",
       description: "",
@@ -367,18 +368,18 @@ const [users, setUsers] = useState(
       stock: "",
       category: "supplements",
       image: "",
-      inStock: true
+      inStock: true,
     });
     setImagePreview(null);
     addToast("Product added successfully", "success");
   };
 
   const deleteUser = (userId) => {
-    const u = users.find(x => x.id === userId);
+    const u = users.find((x) => x.id === userId);
     if (!u) return;
 
-    setUsers(prev => prev.filter(x => x.id !== userId));
-    setSubscriptions(prev => prev.filter(s => s.userId !== userId));
+    setUsers((prev) => prev.filter((x) => x.id !== userId));
+    setSubscriptions((prev) => prev.filter((s) => s.userId !== userId));
     addToast(`User ${u.name} deleted`, "success");
   };
 
@@ -391,13 +392,17 @@ const [users, setUsers] = useState(
     );
     const newExpiryISO = base.toISOString().slice(0, 10);
 
-    const existing = subscriptions.find(s => s.userId === userId);
+    const existing = subscriptions.find((s) => s.userId === userId);
     if (existing) {
       // Only renew if status is expired
       if (existing.status === "expired") {
-        setSubscriptions(subscriptions.map(s =>
-          s.userId === userId ? { ...s, status: "active", expires: newExpiryISO } : s
-        ));
+        setSubscriptions(
+          subscriptions.map((s) =>
+            s.userId === userId
+              ? { ...s, status: "active", expires: newExpiryISO }
+              : s
+          )
+        );
         addToast(`Subscription renewed for ${months} month(s)`, "success");
       }
     } else {
@@ -410,42 +415,50 @@ const [users, setUsers] = useState(
           status: "active",
           expires: newExpiryISO,
           paymentMethod: "credit_card",
-          monthlyPrice: 9.99
-        }
+          monthlyPrice: 9.99,
+        },
       ]);
       addToast("New subscription created", "success");
     }
   };
 
   const upgradeSubscription = (userId) => {
-    setSubscriptions(subscriptions.map(s =>
-      s.userId === userId
-        ? { ...s, plan: "Premium", monthlyPrice: 19.99 }
-        : s
-    ));
+    setSubscriptions(
+      subscriptions.map((s) =>
+        s.userId === userId ? { ...s, plan: "Premium", monthlyPrice: 19.99 } : s
+      )
+    );
     addToast("Subscription upgraded to Premium", "success");
   };
 
   const endSubscription = (userId) => {
-    setSubscriptions(subscriptions.map(s =>
-      s.userId === userId
-        ? { ...s, status: "expired", expires: new Date().toISOString().slice(0, 10) }
-        : s
-    ));
+    setSubscriptions(
+      subscriptions.map((s) =>
+        s.userId === userId
+          ? {
+              ...s,
+              status: "expired",
+              expires: new Date().toISOString().slice(0, 10),
+            }
+          : s
+      )
+    );
     addToast("Subscription ended", "success");
   };
 
   const updateProductStock = (id, value) => {
     const newStock = Math.max(0, parseInt(value, 10) || 0);
-    setProducts(prev => prev.map(p =>
-      p.id === id ? { ...p, stock: newStock, inStock: newStock > 0 } : p
-    ));
+    setProducts((prev) =>
+      prev.map((p) =>
+        p.id === id ? { ...p, stock: newStock, inStock: newStock > 0 } : p
+      )
+    );
   };
 
   const toggleProductStock = (id) => {
-    setProducts(prev => prev.map(p =>
-      p.id === id ? { ...p, inStock: !p.inStock } : p
-    ));
+    setProducts((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, inStock: !p.inStock } : p))
+    );
   };
 
   const openEditProduct = (p) => setProductEdit({ ...p });
@@ -453,15 +466,17 @@ const [users, setUsers] = useState(
   const saveEditProduct = () => {
     if (!productEdit) return;
     const { id } = productEdit;
-    setProducts(prev => prev.map(p => (p.id === id ? { ...p, ...productEdit } : p)));
+    setProducts((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, ...productEdit } : p))
+    );
     setProductEdit(null);
     addToast("Product updated successfully", "success");
   };
 
   const deleteProduct = (id) => {
-    const pr = products.find(p => p.id === id);
+    const pr = products.find((p) => p.id === id);
     if (!pr) return;
-    setProducts(prev => prev.filter(p => p.id !== id));
+    setProducts((prev) => prev.filter((p) => p.id !== id));
     addToast(`Product ${pr.name} deleted`, "success");
   };
 
@@ -497,7 +512,7 @@ const [users, setUsers] = useState(
     stock: "w-[120px]",
     plan: "w-[120px]",
     payment: "w-[120px]",
-    expires: "w-[120px]"
+    expires: "w-[120px]",
   };
 
   return (
@@ -548,7 +563,10 @@ const [users, setUsers] = useState(
             </nav>
 
             <div className="p-4 border-t border-gray-200">
-              <Link to="/login" className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100">
+              <Link
+                to="/login"
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-100"
+              >
                 <FaSignOutAlt /> Logout
               </Link>
             </div>
@@ -583,10 +601,15 @@ const [users, setUsers] = useState(
                     const blob = new Blob(
                       [
                         JSON.stringify(
-                          { users, products, subscriptions, exportedAt: new Date().toISOString() },
+                          {
+                            users,
+                            products,
+                            subscriptions,
+                            exportedAt: new Date().toISOString(),
+                          },
                           null,
                           2
-                        )
+                        ),
                       ],
                       { type: "application/json;charset=utf-8" }
                     );
@@ -617,7 +640,8 @@ const [users, setUsers] = useState(
                         const text = await file.text();
                         const data = JSON.parse(text);
                         if (Array.isArray(data.users)) setUsers(data.users);
-                        if (Array.isArray(data.products)) setProducts(data.products);
+                        if (Array.isArray(data.products))
+                          setProducts(data.products);
                         if (Array.isArray(data.subscriptions))
                           setSubscriptions(data.subscriptions);
                         addToast("Data imported successfully", "success");
@@ -642,13 +666,17 @@ const [users, setUsers] = useState(
                     secondaryValue={`${stats.activeUsers} active`}
                   />
                   <StatCard
-                    icon={<FaShoppingBag className="text-emerald-500 text-3xl" />}
+                    icon={
+                      <FaShoppingBag className="text-emerald-500 text-3xl" />
+                    }
                     label="Products"
                     value={stats.totalProducts}
                     secondaryValue={`${stats.inStockProducts} in stock`}
                   />
                   <StatCard
-                    icon={<FaMoneyBillWave className="text-purple-500 text-3xl" />}
+                    icon={
+                      <FaMoneyBillWave className="text-purple-500 text-3xl" />
+                    }
                     label="Subscriptions"
                     value={stats.activeSubscriptions}
                     secondaryValue={`LE${currency(stats.monthlyRevenue)}/mo`}
@@ -668,29 +696,33 @@ const [users, setUsers] = useState(
                   </h2>
                   <div className="space-y-3">
                     {[
-                      ...users.map(u => ({
+                      ...users.map((u) => ({
                         type: "user",
                         id: u.id,
                         name: u.name,
-                        date: u.joinDate
+                        date: u.joinDate,
                       })),
-                      ...products.map(p => ({
+                      ...products.map((p) => ({
                         type: "product",
                         id: p.id,
                         name: p.name,
-                        date: p.createdAt
-                      }))
+                        date: p.createdAt,
+                      })),
                     ]
                       .sort((a, b) => safeDateMs(b.date) - safeDateMs(a.date))
                       .slice(0, 8)
-                      .map(item => (
+                      .map((item) => (
                         <div
                           key={`${item.type}-${item.id}`}
                           className="flex items-center justify-between p-3 rounded-lg bg-gray-50"
                         >
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
-                              {item.type === "product" ? <FaShoppingBag /> : <FaUserCog />}
+                              {item.type === "product" ? (
+                                <FaShoppingBag />
+                              ) : (
+                                <FaUserCog />
+                              )}
                             </div>
                             <div>
                               <p className="text-sm font-medium text-gray-900">
@@ -699,7 +731,9 @@ const [users, setUsers] = useState(
                                   : `New user: ${item.name}`}
                               </p>
                               <p className="text-xs text-gray-500">
-                                {item.date ? new Date(item.date).toLocaleDateString() : "—"}
+                                {item.date
+                                  ? new Date(item.date).toLocaleDateString()
+                                  : "—"}
                               </p>
                             </div>
                           </div>
@@ -739,8 +773,10 @@ const [users, setUsers] = useState(
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {filteredUsers.map(user => {
-                        const userSub = subscriptions.find(s => s.userId === user.id);
+                      {filteredUsers.map((user) => {
+                        const userSub = subscriptions.find(
+                          (s) => s.userId === user.id
+                        );
                         return (
                           <tr key={user.id}>
                             <Td className={colWidths.user}>
@@ -749,12 +785,18 @@ const [users, setUsers] = useState(
                                   <FaUserCog className="text-gray-500" />
                                 </div>
                                 <div>
-                                  <p className="text-sm font-medium text-gray-900">{user.name}</p>
-                                  <p className="text-xs text-gray-500">{user.email}</p>
+                                  <p className="text-sm font-medium text-gray-900">
+                                    {user.name}
+                                  </p>
+                                  <p className="text-xs text-gray-500">
+                                    {user.email}
+                                  </p>
                                 </div>
                               </div>
                             </Td>
-                            <Td className={`${colWidths.lastActive} text-sm text-gray-500`}>
+                            <Td
+                              className={`${colWidths.lastActive} text-sm text-gray-500`}
+                            >
                               {user.joinDate || "—"}
                             </Td>
                             <Td className={colWidths.subscription}>
@@ -769,7 +811,11 @@ const [users, setUsers] = useState(
                                   {userSub.plan} ({userSub.status})
                                 </span>
                               ) : (
-                                <span className={`${pill} bg-red-100 text-red-800`}>Basic (expired)</span>
+                                <span
+                                  className={`${pill} bg-red-100 text-red-800`}
+                                >
+                                  Basic (expired)
+                                </span>
                               )}
                             </Td>
                             <Td className={colWidths.actions}>
@@ -778,14 +824,18 @@ const [users, setUsers] = useState(
                                   <>
                                     {userSub.plan === "Basic" && (
                                       <button
-                                        onClick={() => upgradeSubscription(user.id)}
+                                        onClick={() =>
+                                          upgradeSubscription(user.id)
+                                        }
                                         className={`${btnPrimary} text-xs px-2 py-1`}
                                       >
                                         <FaArrowUp size={12} /> Upgrade
                                       </button>
                                     )}
                                     <button
-                                      onClick={() => renewSubscription(user.id, 1)}
+                                      onClick={() =>
+                                        renewSubscription(user.id, 1)
+                                      }
                                       className={`${btnPrimary} text-xs px-2 py-1`}
                                       disabled={userSub.status === "active"}
                                     >
@@ -829,7 +879,8 @@ const [users, setUsers] = useState(
               <section className={card}>
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                   <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                    <FaShoppingBag className="text-emerald-500" /> Product Management
+                    <FaShoppingBag className="text-emerald-500" /> Product
+                    Management
                   </h2>
                 </div>
 
@@ -856,7 +907,7 @@ const [users, setUsers] = useState(
                         onChange={(e) =>
                           setNewProduct({
                             ...newProduct,
-                            description: e.target.value
+                            description: e.target.value,
                           })
                         }
                       />
@@ -864,7 +915,10 @@ const [users, setUsers] = useState(
                         className={`${input} text-sm`}
                         value={newProduct.category}
                         onChange={(e) =>
-                          setNewProduct({ ...newProduct, category: e.target.value })
+                          setNewProduct({
+                            ...newProduct,
+                            category: e.target.value,
+                          })
                         }
                       >
                         <option value="supplements">Supplements</option>
@@ -881,7 +935,10 @@ const [users, setUsers] = useState(
                           placeholder="Price"
                           value={newProduct.price}
                           onChange={(e) =>
-                            setNewProduct({ ...newProduct, price: e.target.value })
+                            setNewProduct({
+                              ...newProduct,
+                              price: e.target.value,
+                            })
                           }
                           min="0"
                           step="0.01"
@@ -892,7 +949,10 @@ const [users, setUsers] = useState(
                           placeholder="Stock"
                           value={newProduct.stock}
                           onChange={(e) =>
-                            setNewProduct({ ...newProduct, stock: e.target.value })
+                            setNewProduct({
+                              ...newProduct,
+                              stock: e.target.value,
+                            })
                           }
                           min="0"
                         />
@@ -905,7 +965,7 @@ const [users, setUsers] = useState(
                           onChange={(e) =>
                             setNewProduct({
                               ...newProduct,
-                              inStock: e.target.checked
+                              inStock: e.target.checked,
                             })
                           }
                           className="rounded border-gray-300 text-green-600 focus:ring-green-500"
@@ -918,7 +978,9 @@ const [users, setUsers] = useState(
                           Product Image
                         </label>
                         <div className="flex items-center gap-3">
-                          <label className={`${btnSecondary} text-sm cursor-pointer`}>
+                          <label
+                            className={`${btnSecondary} text-sm cursor-pointer`}
+                          >
                             <FaImage /> Upload Image
                             <input
                               type="file"
@@ -939,7 +1001,10 @@ const [users, setUsers] = useState(
                         </div>
                       </div>
 
-                      <button onClick={addNewProduct} className={`${btnPrimary} text-sm w-full`}>
+                      <button
+                        onClick={addNewProduct}
+                        className={`${btnPrimary} text-sm w-full`}
+                      >
                         <FaPlus size={14} /> Add Product
                       </button>
                     </div>
@@ -960,17 +1025,21 @@ const [users, setUsers] = useState(
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {filteredProducts.map(product => (
+                      {filteredProducts.map((product) => (
                         <tr key={product.id}>
                           <Td className={colWidths.product}>
                             <div className="flex items-center gap-3">
                               <div className="w-12 h-12 rounded border border-gray-200 overflow-hidden flex-shrink-0">
                                 <img
-                                  src={product.image || "https://via.placeholder.com/150"}
+                                  src={
+                                    product.image ||
+                                    "https://via.placeholder.com/150"
+                                  }
                                   alt={product.name}
                                   className="w-full h-full object-cover"
                                   onError={(e) => {
-                                    e.currentTarget.src = "https://via.placeholder.com/150";
+                                    e.currentTarget.src =
+                                      "https://via.placeholder.com/150";
                                   }}
                                 />
                               </div>
@@ -980,7 +1049,9 @@ const [users, setUsers] = useState(
                                 </p>
                                 <p className="text-xs text-gray-500">
                                   {(product.description || "").slice(0, 120)}
-                                  {(product.description || "").length > 120 ? "…" : ""}
+                                  {(product.description || "").length > 120
+                                    ? "…"
+                                    : ""}
                                 </p>
                               </div>
                             </div>
@@ -996,7 +1067,9 @@ const [users, setUsers] = useState(
                               type="number"
                               min="0"
                               value={product.stock}
-                              onChange={(e) => updateProductStock(product.id, e.target.value)}
+                              onChange={(e) =>
+                                updateProductStock(product.id, e.target.value)
+                              }
                               className="w-20 px-2 py-1 rounded border border-gray-200"
                             />
                           </Td>
@@ -1049,13 +1122,19 @@ const [users, setUsers] = useState(
 
                 {/* Edit Modal */}
                 {productEdit && (
-                  <Modal onClose={() => setProductEdit(null)} title="Edit Product">
+                  <Modal
+                    onClose={() => setProductEdit(null)}
+                    title="Edit Product"
+                  >
                     <div className="space-y-3">
                       <input
                         className={input}
                         value={productEdit.name}
                         onChange={(e) =>
-                          setProductEdit({ ...productEdit, name: e.target.value })
+                          setProductEdit({
+                            ...productEdit,
+                            name: e.target.value,
+                          })
                         }
                         placeholder="Name"
                       />
@@ -1065,7 +1144,7 @@ const [users, setUsers] = useState(
                         onChange={(e) =>
                           setProductEdit({
                             ...productEdit,
-                            description: e.target.value
+                            description: e.target.value,
                           })
                         }
                         placeholder="Description"
@@ -1080,7 +1159,7 @@ const [users, setUsers] = useState(
                           onChange={(e) =>
                             setProductEdit({
                               ...productEdit,
-                              price: parseFloat(e.target.value || "0")
+                              price: parseFloat(e.target.value || "0"),
                             })
                           }
                           placeholder="Price"
@@ -1093,7 +1172,10 @@ const [users, setUsers] = useState(
                           onChange={(e) =>
                             setProductEdit({
                               ...productEdit,
-                              stock: Math.max(0, parseInt(e.target.value || "0", 10))
+                              stock: Math.max(
+                                0,
+                                parseInt(e.target.value || "0", 10)
+                              ),
                             })
                           }
                           placeholder="Stock"
@@ -1103,7 +1185,10 @@ const [users, setUsers] = useState(
                         className={input}
                         value={productEdit.category}
                         onChange={(e) =>
-                          setProductEdit({ ...productEdit, category: e.target.value })
+                          setProductEdit({
+                            ...productEdit,
+                            category: e.target.value,
+                          })
                         }
                       >
                         <option value="supplements">Supplements</option>
@@ -1116,7 +1201,10 @@ const [users, setUsers] = useState(
                           type="checkbox"
                           checked={!!productEdit.inStock}
                           onChange={(e) =>
-                            setProductEdit({ ...productEdit, inStock: e.target.checked })
+                            setProductEdit({
+                              ...productEdit,
+                              inStock: e.target.checked,
+                            })
                           }
                           className="rounded border-gray-300 text-green-600 focus:ring-green-500"
                         />
@@ -1124,10 +1212,16 @@ const [users, setUsers] = useState(
                       </label>
 
                       <div className="flex gap-2 justify-end pt-2">
-                        <button className={btnSecondary} onClick={() => setProductEdit(null)}>
+                        <button
+                          className={btnSecondary}
+                          onClick={() => setProductEdit(null)}
+                        >
                           Cancel
                         </button>
-                        <button className={btnPrimary} onClick={saveEditProduct}>
+                        <button
+                          className={btnPrimary}
+                          onClick={saveEditProduct}
+                        >
                           Save
                         </button>
                       </div>
@@ -1142,7 +1236,8 @@ const [users, setUsers] = useState(
               <section className={card}>
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                   <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                    <FaMoneyBillWave className="text-purple-500" /> Subscription Management
+                    <FaMoneyBillWave className="text-purple-500" /> Subscription
+                    Management
                   </h2>
                 </div>
 
@@ -1159,8 +1254,8 @@ const [users, setUsers] = useState(
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {filteredSubscriptions.map(sub => {
-                        const user = users.find(u => u.id === sub.userId);
+                      {filteredSubscriptions.map((sub) => {
+                        const user = users.find((u) => u.id === sub.userId);
                         return (
                           <tr key={sub.id}>
                             <Td className={colWidths.user}>
@@ -1172,11 +1267,15 @@ const [users, setUsers] = useState(
                                   <p className="text-sm font-medium text-gray-900">
                                     {user?.name || "Unknown User"}
                                   </p>
-                                  <p className="text-xs text-gray-500">{user?.email || ""}</p>
+                                  <p className="text-xs text-gray-500">
+                                    {user?.email || ""}
+                                  </p>
                                 </div>
                               </div>
                             </Td>
-                            <Td className={`${colWidths.plan} text-sm text-gray-700`}>
+                            <Td
+                              className={`${colWidths.plan} text-sm text-gray-700`}
+                            >
                               {sub.plan} (LE{currency(sub.monthlyPrice)}/mo)
                             </Td>
                             <Td className={colWidths.status}>
@@ -1190,24 +1289,32 @@ const [users, setUsers] = useState(
                                 {sub.status}
                               </span>
                             </Td>
-                            <Td className={`${colWidths.payment} capitalize text-sm text-gray-700`}>
+                            <Td
+                              className={`${colWidths.payment} capitalize text-sm text-gray-700`}
+                            >
                               {(sub.paymentMethod || "").replace("_", " ")}
                             </Td>
-                            <Td className={`${colWidths.expires} text-sm text-gray-700`}>
+                            <Td
+                              className={`${colWidths.expires} text-sm text-gray-700`}
+                            >
                               {sub.expires || "—"}
                             </Td>
                             <Td className={colWidths.actions}>
                               <div className="flex flex-wrap gap-2">
                                 {sub.plan === "Basic" && (
                                   <button
-                                    onClick={() => upgradeSubscription(sub.userId)}
+                                    onClick={() =>
+                                      upgradeSubscription(sub.userId)
+                                    }
                                     className={`${btnPrimary} text-xs px-2 py-1`}
                                   >
                                     <FaArrowUp size={12} /> Upgrade
                                   </button>
                                 )}
                                 <button
-                                  onClick={() => renewSubscription(sub.userId, 1)}
+                                  onClick={() =>
+                                    renewSubscription(sub.userId, 1)
+                                  }
                                   className={`${btnPrimary} text-xs px-2 py-1`}
                                   disabled={sub.status === "active"}
                                 >
@@ -1270,11 +1377,11 @@ const [users, setUsers] = useState(
                                     users,
                                     products,
                                     subscriptions,
-                                    backedUpAt: new Date().toISOString()
+                                    backedUpAt: new Date().toISOString(),
                                   },
                                   null,
                                   2
-                                )
+                                ),
                               ],
                               { type: "application/json;charset=utf-8" }
                             );
@@ -1305,7 +1412,11 @@ const [users, setUsers] = useState(
                           Email Notifications
                         </label>
                         <label className="inline-flex items-center cursor-pointer">
-                          <input type="checkbox" className="sr-only peer" defaultChecked />
+                          <input
+                            type="checkbox"
+                            className="sr-only peer"
+                            defaultChecked
+                          />
                           <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600" />
                           <span className="ms-3 text-sm text-gray-600">
                             Receive email alerts
@@ -1317,7 +1428,12 @@ const [users, setUsers] = useState(
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                           Low Stock Threshold
                         </label>
-                        <input type="number" className={`${input} text-sm w-24`} defaultValue="5" min="1" />
+                        <input
+                          type="number"
+                          className={`${input} text-sm w-24`}
+                          defaultValue="5"
+                          min="1"
+                        />
                       </div>
                     </div>
                   </div>
@@ -1339,7 +1455,9 @@ function NavItem({ icon, label, active, onClick }) {
     <button
       onClick={onClick}
       className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg ${
-        active ? "bg-green-50 text-green-600" : "text-gray-600 hover:bg-gray-100"
+        active
+          ? "bg-green-50 text-green-600"
+          : "text-gray-600 hover:bg-gray-100"
       }`}
     >
       {icon} {label}
@@ -1357,7 +1475,9 @@ function StatCard({ icon, label, value, secondaryValue }) {
         <div>
           <div className="text-sm text-gray-500">{label}</div>
           <div className="text-xl font-bold text-gray-900">{value}</div>
-          {secondaryValue && <div className="text-xs text-gray-500 mt-1">{secondaryValue}</div>}
+          {secondaryValue && (
+            <div className="text-xs text-gray-500 mt-1">{secondaryValue}</div>
+          )}
         </div>
       </div>
     </div>
@@ -1366,14 +1486,22 @@ function StatCard({ icon, label, value, secondaryValue }) {
 
 function Th({ children, className = "" }) {
   return (
-    <th className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${className}`}>
+    <th
+      className={`px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider ${className}`}
+    >
       {children}
     </th>
   );
 }
 
 function Td({ children, className = "" }) {
-  return <td className={`px-6 py-4 whitespace-nowrap text-sm text-gray-700 ${className}`}>{children}</td>;
+  return (
+    <td
+      className={`px-6 py-4 whitespace-nowrap text-sm text-gray-700 ${className}`}
+    >
+      {children}
+    </td>
+  );
 }
 
 function Modal({ title, onClose, children }) {

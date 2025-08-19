@@ -89,7 +89,7 @@ function SearchResultsPage() {
           </button>
         </div>
 
-        <div className="healthy__container flex flex-col md:flex-row py-4 md:py-6">
+        <div className="healthy__container healthy__container flex flex-col md:flex-row py-4 md:py-6 py-4 md:py-6">
           {/* Filter - always visible on desktop, toggleable on mobile */}
           <div
             className={`${
