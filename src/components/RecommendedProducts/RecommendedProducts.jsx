@@ -1,9 +1,14 @@
-import { useEffect, useRef } from 'react';
-import './RecommendedProducts.css'
+import { useEffect, useRef } from "react";
+import "./RecommendedProducts.css";
 import RecommendedCard from "./RecommendedCard/RecommendedCard";
+import { useQuery } from "@tanstack/react-query";
+import { getProducts } from "../../services/apiProducts";
 
 function RecommendedProducts() {
-
+  const { isLoading, data: products } = useQuery({
+    queryKey: ["products"],
+    queryFn: getProducts,
+  });
   const scrollRef = useRef(null);
 
   useEffect(() => {
@@ -25,7 +30,10 @@ function RecommendedProducts() {
     });
 
     const { scrollLeft, scrollWidth, clientWidth } = container;
-    if (direction === "right" && scrollLeft + clientWidth >= scrollWidth - 386) {
+    if (
+      direction === "right" &&
+      scrollLeft + clientWidth >= scrollWidth - 386
+    ) {
       container.scrollTo({ left: 0, behavior: "smooth" });
     }
   };
@@ -34,14 +42,10 @@ function RecommendedProducts() {
     <div className="recommended-wrapper healthy__container section-padding relative">
       <h2 className="subTitle">Recommended</h2>
       <div className="overflow-x-auto hide-scrollbar p-2" ref={scrollRef}>
-        <div className="flex justify-between shrink gap-4 w-max" >
-          <RecommendedCard />
-          <RecommendedCard />
-          <RecommendedCard />
-          <RecommendedCard />
-          <RecommendedCard />
-          <RecommendedCard />
-          <RecommendedCard />
+        <div className="flex justify-between shrink gap-4 w-max">
+          {products?.map((product) => (
+            <RecommendedCard product={product} key={product.id} />
+          ))}
         </div>
       </div>
     </div>

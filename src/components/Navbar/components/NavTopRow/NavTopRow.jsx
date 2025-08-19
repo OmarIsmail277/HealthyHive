@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { FaLeaf } from "react-icons/fa";
 import { useState } from "react";
-import { FiMenu, FiX } from "react-icons/fi";
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 import MiniCart from "../MiniCart/MiniCart";
