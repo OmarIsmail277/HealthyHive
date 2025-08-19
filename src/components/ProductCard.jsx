@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteProduct } from "../services/apiProducts";
+import toast from "react-hot-toast";
 
 function ProductCard({ product }) {
   const { id, Name, imageURL } = product;
@@ -8,11 +9,11 @@ function ProductCard({ product }) {
   const { isLoading: isDeleting, mutate } = useMutation({
     mutationFn: deleteProduct,
     onSuccess: () => {
-      alert("Product successfully deleted!");
+      toast.success("Product successfully deleted!");
       queryClient.invalidateQueries({ queryKey: ["products"] });
     },
 
-    onError: (err) => alert(err.message),
+    onError: (err) => toast.error(err.message),
   });
 
   return (

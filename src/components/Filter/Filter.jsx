@@ -1,20 +1,20 @@
 import { useState } from "react";
-import {
-  FaStar,
-  FaChevronDown,
-  FaChevronUp,
-  FaTimes
-} from "react-icons/fa";
+import { FaStar, FaChevronDown, FaChevronUp, FaTimes } from "react-icons/fa";
+import { useSearchParams } from "react-router";
 
 const categories = [
   { label: "Food", subs: ["Fruits", "Vegetables", "Healthy Meals"] },
-  { label: "Drinks", subs: ["Smoothies", "Teas", "Juice"] },
+  { label: "Drinks", subs: ["Smoothies", "Tea", "Juice"] },
   { label: "Personal Care", subs: ["Shampoo", "Shower Gel", "Hand Wash"] },
   { label: "Bakery", subs: ["Bread", "Gluten-Free", "Pastries"] },
   { label: "Meals", subs: ["Breakfast", "Lunch", "Dinner"] },
 ];
 
-export default function FilterSidebar({ onFilterChange }) {
+export default function FilterSidebar({
+  onFilterChange,
+  filterField,
+  options,
+}) {
   const [categoryOpen, setCategoryOpen] = useState(true);
   const [subcategoryOpen, setSubcategoryOpen] = useState(true);
   const [sortOpen, setSortOpen] = useState(true);
@@ -41,6 +41,17 @@ export default function FilterSidebar({ onFilterChange }) {
     }
   };
 
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // change active class
+  // const currentFilter = searchParams.get(filterField);
+
+  function handleClick(value) {
+    searchParams.set(filterField, value);
+    searchParams.delete("subCategory");
+    setSearchParams(searchParams);
+  }
+
   const handleCategoryChange = (cat) => {
     setSelectedCategory(cat);
     setSelectedSubcategory("");
@@ -50,6 +61,10 @@ export default function FilterSidebar({ onFilterChange }) {
   const handleSubcategoryChange = (subcat) => {
     setSelectedSubcategory(subcat);
     triggerChange({ subcategory: subcat });
+
+    // push to searchParams
+    searchParams.set("subCategory", subcat);
+    setSearchParams(searchParams);
   };
 
   const handlePriceChange = (e) => {
@@ -65,59 +80,140 @@ export default function FilterSidebar({ onFilterChange }) {
   };
 
   const subcategories = selectedCategory
-    ? categories.find((c) => c.label === selectedCategory)?.subs || []
+    ? options.find((option) => option.label === selectedCategory)?.subs || []
     : [];
 
   return (
-    <div className="md:mt-20 px-2 md:px-0">
-      <div className="transition-all duration-300 ease-in-out rounded-2xl shadow-xl overflow-hidden flex flex-col md:w-64">
-        {/* Header - only close button on mobile */}
-        <div className="flex justify-between items-center p-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white">
-          <h2 className="text-xl">Filters</h2>
-        </div>
+    <>
+      <div className="md:mt-20 px-2 md:px-0">
+        <div className="transition-all duration-300 ease-in-out rounded-2xl shadow-xl overflow-hidden flex flex-col md:w-64">
+          {/* Header - only close button on mobile */}
+          <div className="flex justify-between items-center p-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white">
+            <h2 className="text-xl">Filters</h2>
+          </div>
 
-        {/* Content */}
-        <div className="flex-1 p-5 space-y-6 overflow-y-auto bg-white">
-          {/* Mobile horizontal layout container */}
-          <div className="md:hidden flex flex-wrap gap-4 mb-6">
-            {/* Category dropdown */}
-            <div className="flex-1 min-w-[150px]">
-              <button
-                onClick={() => setCategoryOpen(!categoryOpen)}
-                className="flex justify-between items-center w-full text-emerald-700 font-semibold text-sm px-3 py-2 rounded-lg bg-emerald-50 hover:bg-emerald-100 transition"
-              >
-                <span>Category</span>
-                {categoryOpen ? (
-                  <FaChevronUp className="text-emerald-600" />
-                ) : (
-                  <FaChevronDown className="text-emerald-600" />
+          {/* Content */}
+          <div className="flex-1 p-5 space-y-6 overflow-y-auto bg-white">
+            {/* Mobile horizontal layout container */}
+            <div className="md:hidden flex flex-wrap gap-4 mb-6">
+              {/* Category dropdown */}
+              <div className="flex-1 min-w-[150px]">
+                <button
+                  onClick={() => setCategoryOpen(!categoryOpen)}
+                  className="flex justify-between items-center w-full text-emerald-700 font-semibold text-sm px-3 py-2 rounded-lg bg-emerald-50 hover:bg-emerald-100 transition"
+                >
+                  <span>Category</span>
+                  {categoryOpen ? (
+                    <FaChevronUp className="text-emerald-600" />
+                  ) : (
+                    <FaChevronDown className="text-emerald-600" />
+                  )}
+                </button>
+                {categoryOpen && (
+                  <div className="mt-2 grid grid-cols-2 gap-2">
+                    {options.map((option) => (
+                      <button
+                        key={option.label}
+                        onClick={() => {
+                          handleCategoryChange(option.label);
+                          handleClick(option.value);
+                        }}
+                        className={`text-left px-3 py-1.5 rounded-lg border transition text-sm ${
+                          selectedCategory === option.label
+                            ? "bg-emerald-100 border-emerald-500 font-semibold"
+                            : "border-transparent hover:bg-emerald-50"
+                        }`}
+                      >
+                        {option.label}
+                      </button>
+                    ))}
+                  </div>
                 )}
-              </button>
-              {categoryOpen && (
-                <div className="mt-2 grid grid-cols-2 gap-2">
-                  {categories.map(({ label }) => (
-                    <button
-                      key={label}
-                      onClick={() => handleCategoryChange(label)}
-                      className={`text-left px-3 py-1.5 rounded-lg border transition text-sm ${
-                        selectedCategory === label
-                          ? "bg-emerald-100 border-emerald-500 font-semibold"
-                          : "border-transparent hover:bg-emerald-50"
-                      }`}
-                    >
-                      {label}
-                    </button>
-                  ))}
+              </div>
+
+              {/* Subcategory dropdown */}
+              {selectedCategory && (
+                <div className="flex-1 min-w-[150px]">
+                  <button
+                    onClick={() => setSubcategoryOpen(!subcategoryOpen)}
+                    className="flex justify-between items-center w-full text-emerald-700 font-semibold text-sm px-3 py-2 rounded-lg bg-emerald-50 hover:bg-emerald-100 transition"
+                  >
+                    <span>Subcategory</span>
+                    {subcategoryOpen ? (
+                      <FaChevronUp className="text-emerald-600" />
+                    ) : (
+                      <FaChevronDown className="text-emerald-600" />
+                    )}
+                  </button>
+                  {subcategoryOpen && (
+                    <div className="mt-2 grid grid-cols-2 gap-2">
+                      {subcategories.map((sub) => (
+                        <button
+                          key={sub.label}
+                          onClick={() => handleSubcategoryChange(sub.label)}
+                          className={`text-left px-3 py-1.5 rounded-lg border transition text-sm ${
+                            selectedSubcategory === sub.label
+                              ? "bg-emerald-100 border-emerald-500 font-semibold"
+                              : "border-transparent hover:bg-emerald-50"
+                          }`}
+                        >
+                          {sub.label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
 
-            {/* Subcategory dropdown */}
-            {selectedCategory && (
-              <div className="flex-1 min-w-[150px]">
+            {/* Desktop vertical layout */}
+            <div className="hidden md:block space-y-6">
+              {/* Category */}
+              <section>
+                <button
+                  onClick={() => setCategoryOpen(!categoryOpen)}
+                  className="flex justify-between items-center w-full text-emerald-700 font-semibold text-base px-3 py-2 rounded-lg bg-emerald-50 hover:bg-emerald-100 transition"
+                >
+                  <span>Category</span>
+                  {categoryOpen ? (
+                    <FaChevronUp className="text-emerald-600" />
+                  ) : (
+                    <FaChevronDown className="text-emerald-600" />
+                  )}
+                </button>
+                {categoryOpen && (
+                  <ul className="mt-2 space-y-1">
+                    {options.map((option) => (
+                      <li key={option.label}>
+                        <button
+                          onClick={() => {
+                            handleCategoryChange(option.label);
+                            handleClick(option.value);
+                          }}
+                          className={`w-full text-left px-3 py-1.5 rounded-lg border transition ${
+                            selectedCategory === option.label
+                              ? "bg-emerald-100 border-emerald-500 font-semibold"
+                              : "border-transparent hover:bg-emerald-50"
+                          }`}
+                        >
+                          {option.label}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </section>
+
+              {/* Subcategory */}
+              <section>
                 <button
                   onClick={() => setSubcategoryOpen(!subcategoryOpen)}
-                  className="flex justify-between items-center w-full text-emerald-700 font-semibold text-sm px-3 py-2 rounded-lg bg-emerald-50 hover:bg-emerald-100 transition"
+                  disabled={!selectedCategory}
+                  className={`flex justify-between items-center w-full text-emerald-700 font-semibold text-base px-3 py-2 rounded-lg bg-emerald-50 transition ${
+                    !selectedCategory
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:bg-emerald-100"
+                  }`}
                 >
                   <span>Subcategory</span>
                   {subcategoryOpen ? (
@@ -126,50 +222,125 @@ export default function FilterSidebar({ onFilterChange }) {
                     <FaChevronDown className="text-emerald-600" />
                   )}
                 </button>
-                {subcategoryOpen && (
-                  <div className="mt-2 grid grid-cols-2 gap-2">
+                {subcategoryOpen && selectedCategory && (
+                  <ul className="mt-2 space-y-1">
                     {subcategories.map((sub) => (
-                      <button
-                        key={sub}
-                        onClick={() => handleSubcategoryChange(sub)}
-                        className={`text-left px-3 py-1.5 rounded-lg border transition text-sm ${
-                          selectedSubcategory === sub
-                            ? "bg-emerald-100 border-emerald-500 font-semibold"
-                            : "border-transparent hover:bg-emerald-50"
-                        }`}
-                      >
-                        {sub}
-                      </button>
+                      <li key={sub.value}>
+                        <button
+                          onClick={() => handleSubcategoryChange(sub.value)}
+                          className={`w-full text-left px-3 py-1.5 rounded-lg border transition ${
+                            selectedSubcategory === sub.value
+                              ? "bg-emerald-100 border-emerald-500 font-semibold"
+                              : "border-transparent hover:bg-emerald-50"
+                          }`}
+                        >
+                          {sub.label}
+                        </button>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 )}
-              </div>
-            )}
-          </div>
+              </section>
+            </div>
 
-          {/* Desktop vertical layout */}
-          <div className="hidden md:block space-y-6">
-            {/* Category */}
+            {/* Common sections (same for mobile and desktop) */}
+            {/* Price Range */}
+            <section>
+              <label className="block font-semibold text-emerald-700 mb-2 text-base">
+                {`Price Range: LE${priceRange}`}
+              </label>
+              <input
+                type="range"
+                min="5"
+                max="1000"
+                step="5"
+                value={priceRange}
+                onChange={handlePriceChange}
+                className="w-full h-2 bg-emerald-200 rounded-lg accent-emerald-500 cursor-pointer"
+              />
+            </section>
+
+            {/* Stars */}
+            <section>
+              <span className="block font-semibold text-emerald-700 mb-2 text-base">
+                Star Rating
+              </span>
+              <div className="flex gap-2">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button
+                    key={star}
+                    onClick={() => handleStarChange(star)}
+                    className={`transition transform hover:scale-110 ${
+                      starRating >= star ? "text-yellow-400" : "text-gray-300"
+                    }`}
+                  >
+                    <FaStar size={22} />
+                  </button>
+                ))}
+              </div>
+            </section>
+
+            {/* Checkboxes */}
+            <div className="grid grid-cols-2 gap-4">
+              <section>
+                <label className="flex items-center gap-2 font-semibold text-emerald-700 text-base">
+                  <input
+                    type="checkbox"
+                    className="accent-emerald-500"
+                    checked={inStock}
+                    onChange={(e) => {
+                      setInStock(e.target.checked);
+                      triggerChange({ inStock: e.target.checked });
+                    }}
+                  />
+                  In Stock
+                </label>
+              </section>
+
+              <section>
+                <label className="flex items-center gap-2 font-semibold text-emerald-700 text-base">
+                  <input
+                    type="checkbox"
+                    className="accent-emerald-500"
+                    checked={onSale}
+                    onChange={(e) => {
+                      setOnSale(e.target.checked);
+                      triggerChange({ onSale: e.target.checked });
+                    }}
+                  />
+                  On Sale
+                </label>
+              </section>
+            </div>
+
+            {/* Sort */}
             <section>
               <button
-                onClick={() => setCategoryOpen(!categoryOpen)}
+                onClick={() => setSortOpen(!sortOpen)}
                 className="flex justify-between items-center w-full text-emerald-700 font-semibold text-base px-3 py-2 rounded-lg bg-emerald-50 hover:bg-emerald-100 transition"
               >
-                <span>Category</span>
-                {categoryOpen ? (
+                <span>Sort By</span>
+                {sortOpen ? (
                   <FaChevronUp className="text-emerald-600" />
                 ) : (
                   <FaChevronDown className="text-emerald-600" />
                 )}
               </button>
-              {categoryOpen && (
+              {sortOpen && (
                 <ul className="mt-2 space-y-1">
-                  {categories.map(({ label }) => (
-                    <li key={label}>
+                  {[
+                    { key: "priceLowHigh", label: "Price: Low to High" },
+                    { key: "priceHighLow", label: "Price: High to Low" },
+                    { key: "ratingHighLow", label: "Rating: High to Low" },
+                  ].map(({ key, label }) => (
+                    <li key={key}>
                       <button
-                        onClick={() => handleCategoryChange(label)}
+                        onClick={() => {
+                          setSortBy(key);
+                          triggerChange({ sortBy: key });
+                        }}
                         className={`w-full text-left px-3 py-1.5 rounded-lg border transition ${
-                          selectedCategory === label
+                          sortBy === key
                             ? "bg-emerald-100 border-emerald-500 font-semibold"
                             : "border-transparent hover:bg-emerald-50"
                         }`}
@@ -181,157 +352,26 @@ export default function FilterSidebar({ onFilterChange }) {
                 </ul>
               )}
             </section>
-
-            {/* Subcategory */}
-            <section>
-              <button
-                onClick={() => setSubcategoryOpen(!subcategoryOpen)}
-                disabled={!selectedCategory}
-                className={`flex justify-between items-center w-full text-emerald-700 font-semibold text-base px-3 py-2 rounded-lg bg-emerald-50 transition ${
-                  !selectedCategory
-                    ? "opacity-50 cursor-not-allowed"
-                    : "hover:bg-emerald-100"
-                }`}
-              >
-                <span>Subcategory</span>
-                {subcategoryOpen ? (
-                  <FaChevronUp className="text-emerald-600" />
-                ) : (
-                  <FaChevronDown className="text-emerald-600" />
-                )}
-              </button>
-              {subcategoryOpen && selectedCategory && (
-                <ul className="mt-2 space-y-1">
-                  {subcategories.map((sub) => (
-                    <li key={sub}>
-                      <button
-                        onClick={() => handleSubcategoryChange(sub)}
-                        className={`w-full text-left px-3 py-1.5 rounded-lg border transition ${
-                          selectedSubcategory === sub
-                            ? "bg-emerald-100 border-emerald-500 font-semibold"
-                            : "border-transparent hover:bg-emerald-50"
-                        }`}
-                      >
-                        {sub}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </section>
           </div>
-
-          {/* Common sections (same for mobile and desktop) */}
-          {/* Price Range */}
-          <section>
-            <label className="block font-semibold text-emerald-700 mb-2 text-base">
-              {`Price Range: LE${priceRange}`}
-            </label>
-            <input
-              type="range"
-              min="5"
-              max="1000"
-              step="5"
-              value={priceRange}
-              onChange={handlePriceChange}
-              className="w-full h-2 bg-emerald-200 rounded-lg accent-emerald-500 cursor-pointer"
-            />
-          </section>
-
-          {/* Stars */}
-          <section>
-            <span className="block font-semibold text-emerald-700 mb-2 text-base">
-              Star Rating
-            </span>
-            <div className="flex gap-2">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <button
-                  key={star}
-                  onClick={() => handleStarChange(star)}
-                  className={`transition transform hover:scale-110 ${
-                    starRating >= star ? "text-yellow-400" : "text-gray-300"
-                  }`}
-                >
-                  <FaStar size={22} />
-                </button>
-              ))}
-            </div>
-          </section>
-
-          {/* Checkboxes */}
-          <div className="grid grid-cols-2 gap-4">
-            <section>
-              <label className="flex items-center gap-2 font-semibold text-emerald-700 text-base">
-                <input
-                  type="checkbox"
-                  className="accent-emerald-500"
-                  checked={inStock}
-                  onChange={(e) => {
-                    setInStock(e.target.checked);
-                    triggerChange({ inStock: e.target.checked });
-                  }}
-                />
-                In Stock
-              </label>
-            </section>
-
-            <section>
-              <label className="flex items-center gap-2 font-semibold text-emerald-700 text-base">
-                <input
-                  type="checkbox"
-                  className="accent-emerald-500"
-                  checked={onSale}
-                  onChange={(e) => {
-                    setOnSale(e.target.checked);
-                    triggerChange({ onSale: e.target.checked });
-                  }}
-                />
-                On Sale
-              </label>
-            </section>
-          </div>
-
-          {/* Sort */}
-          <section>
-            <button
-              onClick={() => setSortOpen(!sortOpen)}
-              className="flex justify-between items-center w-full text-emerald-700 font-semibold text-base px-3 py-2 rounded-lg bg-emerald-50 hover:bg-emerald-100 transition"
-            >
-              <span>Sort By</span>
-              {sortOpen ? (
-                <FaChevronUp className="text-emerald-600" />
-              ) : (
-                <FaChevronDown className="text-emerald-600" />
-              )}
-            </button>
-            {sortOpen && (
-              <ul className="mt-2 space-y-1">
-                {[
-                  { key: "priceLowHigh", label: "Price: Low to High" },
-                  { key: "priceHighLow", label: "Price: High to Low" },
-                  { key: "ratingHighLow", label: "Rating: High to Low" },
-                ].map(({ key, label }) => (
-                  <li key={key}>
-                    <button
-                      onClick={() => {
-                        setSortBy(key);
-                        triggerChange({ sortBy: key });
-                      }}
-                      className={`w-full text-left px-3 py-1.5 rounded-lg border transition ${
-                        sortBy === key
-                          ? "bg-emerald-100 border-emerald-500 font-semibold"
-                          : "border-transparent hover:bg-emerald-50"
-                      }`}
-                    >
-                      {label}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
         </div>
       </div>
-    </div>
+    </>
   );
+}
+{
+  /* <>
+  <div className="flex gap-5">
+    {options.map((option) => (
+      <button
+        key={option.value}
+        onClick={() => handleClick(option.value)}
+        className={`bg-blue-500  w-20 h-14 ${
+          option.value === currentFilter ? "text-amber-400" : ""
+        } `}
+      >
+        {option.label}
+      </button>
+    ))}
+  </div>
+</>; */
 }
