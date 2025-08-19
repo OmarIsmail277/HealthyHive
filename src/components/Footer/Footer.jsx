@@ -10,6 +10,7 @@ import { FiInstagram } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import footerimg from "/images/Footer.jpg";
 
+
 function Footer() {
   return (
     <footer
@@ -18,15 +19,18 @@ function Footer() {
     >
       {/* Decorative accent */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent"></div>
-      
+
       <div className="relative z-10 w-11/12 max-w-7xl mx-auto py-14 px-4 flex flex-col gap-12 lg:flex-row lg:justify-between">
         {/* About & Contact */}
         <div className="flex flex-col gap-10 lg:w-2/5">
           <div className="space-y-4">
-            <h2 className="text-2xl font-bold border-b-2 border-primary inline-flex items-center gap-2 pb-1">
-              <FaLeaf className="text-primary" />
-              About Us
-            </h2>
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-1 sm:gap-2">
+              <FaLeaf className="text-lg sm:text-xl lg:text-2xl text-button" />
+              <span className="font-bold text-base sm:text-lg lg:text-3xl">
+                HealthyHive
+              </span>
+            </Link>
             <p className="text-sm leading-relaxed text-gray-300 hover:text-gray-100 transition-colors duration-300 group">
               We are dedicated to providing the best health and wellness
               resources. Fuel your energy with a full range of healthy and yummy
@@ -34,9 +38,9 @@ function Footer() {
               children, and anyone seeking a natural, healthy lifestyle.
             </p>
             <div className="flex gap-2 mt-2">
-              <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Organic</span>
-              <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Non-GMO</span>
-              <span className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">Eco-Friendly</span>
+              <span className="bg-primary/10 text-primary text-s px-3 py-1 rounded-full">Organic</span>
+              <span className="bg-primary/10 text-primary text-s px-3 py-1 rounded-full">Non-GMO</span>
+              <span className="bg-primary/10 text-primary text-s px-3 py-1 rounded-full">Eco-Friendly</span>
             </div>
           </div>
 
