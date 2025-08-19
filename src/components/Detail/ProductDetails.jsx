@@ -1,16 +1,36 @@
 import { motion } from "framer-motion";
-import test from '../../assets/test_img.jpg'
 import { FaLeaf } from "react-icons/fa";
 import { useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { BiMinus, BiPlus } from "react-icons/bi";
-
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getProductById } from "../../services/apiProducts";
+import { FaHeart } from "react-icons/fa";
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+import { toggleWishlistItem } from "../../store/wishlistSlice";
+import { toggleCartItem } from "../../store/cartSlice";
 
 export default function ProductDetails() {
+
+    const { id } = useParams();
+
+    const { isLoading, data: product } = useQuery({
+        queryKey: ["product", id],
+        queryFn: () => getProductById(id)
+    })
+
+    const ingredients = product?.ingredients.split(",").map(item => item.trim())
+
+    const dispatch = useDispatch();
+    const wishlist = useSelector((state) => state.wishlist.items);
+    const isInWishlist = wishlist.some((item) => item.id === product?.id);
+
     const [open, setOpen] = useState(true);
     const [quantity, setQuantity] = useState(1);
 
-    const increase = () => setQuantity(quantity + 1);
+    const increase = () => setQuantity(quantity < product?.stockQuantity ? quantity + 1 : product?.stockQuantity);
     const decrease = () => setQuantity(quantity > 1 ? quantity - 1 : 1);
 
     const renderStars = (rating) => {
@@ -32,12 +52,11 @@ export default function ProductDetails() {
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease: "easeOut" }}
-                className="w-full md:w-4/5 bg-white rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 min-[1175px]:grid-cols-2"
-            >
+                className="w-full md:w-4/5 bg-white rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 min-[1175px]:grid-cols-2">
                 {/*product img*/}
                 <div className="relative flex  p-6">
                     <img
-                        src={test}
+                        src={product?.imageURL}
                         alt="Product"
                         className="w-full  object-cover max-h-[650px] rounded-tl-3xl rounded-bl-3xl"
                     />
@@ -49,26 +68,39 @@ export default function ProductDetails() {
                 {/* product details*/}
                 <div className="p-10 flex flex-col justify-between">
                     <div className="flex flex-col gap-4">
-                        <div className='flex gap-2 items-center justify-center sm:justify-start'>
-                            <FaLeaf className='text-primary text-[24px]' />
-                            <h6 className='font-bold text-[22px]'>HealthyHive</h6>
+                        <div className="relative flex justify-between">
+                            <div className='flex gap-2 items-center justify-center sm:justify-start'>
+                                <FaLeaf className='text-primary text-[24px]' />
+                                <h6 className='font-bold text-[22px]'>HealthyHive</h6>
+                            </div>
+                            <button
+                                onClick={(e) => {
+                                    dispatch(toggleWishlistItem(product))
+                                }}
+                                className="absolute right-4 text-3xl cursor-pointer z-20">
+                                <FaHeart
+                                    className={`transition-colors duration-300 ${isInWishlist
+                                        ? "text-primary hover:text-secondary"
+                                        : "text-gray-400 hover:text-emerald-300"
+                                        }`} />
+                            </button>
                         </div>
                         {/* Title  */}
                         <div className="title flex-col justify-between lg:flex xl:flex-row">
-                            <h1 className="text-4xl font-extrabold text-gray-900 leading-tight">Name of Product</h1>
+                            <h1 className="text-4xl font-extrabold text-gray-900 leading-tight xl:w-[80%]">{product?.Name}</h1>
                             <div className="bg-detail-price-green rounded-4xl px-3 h-fit w-fit py-1 text-white flex items-center">in stock</div>
                         </div>
                         <div className='flex gap-2'>
-                            <div>{renderStars(4)}</div>
-                            <p className='text-recommended-rating font-semibold'>4.4</p>
+                            <div>{renderStars(product?.rating)}</div>
+                            <p className='text-recommended-rating font-semibold'>{product?.rating}</p>
                         </div>
                         <p className="text-gray-600 text-md leading-relaxed">
-                            rorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                            {product?.description}.
                         </p>
-                        <p className='text-recommended-rating font-semibold sm:mr-2'>SKU: <span className='text-black'>S5T6U7V8</span></p>
+                        <p className='text-recommended-rating font-semibold sm:mr-2'>SKU: <span className='text-black'>{product?.SKU}</span></p>
 
                         {/* price */}
-                        <p className="text-3xl font-bold flex items-center gap-2">  34.19 LE <span className='text-recommended-price-gray text-lg line-through'>34.19 LE</span> </p>
+                        <p className="text-3xl font-bold flex items-center gap-2">  {product?.price} LE <span className='text-recommended-price-gray ml-2 text-[22px] line-through'>{product?.discount} LE</span> </p>
                         {/* Accordion Nutrition Info */}
                         <div className="border border-secondary rounded-xl">
                             <button
@@ -90,31 +122,27 @@ export default function ProductDetails() {
                                     transition={{ duration: 0.4 }}
                                     className="px-5 pb-5"
                                 >
-                                    <p className="font-bold text-lg mb-2">Serving Size: 50g</p>
-                                    <p className="font-bold text-2xl mb-4">Calories 220</p>
+                                    {/* <p className="font-bold text-lg mb-2">Serving Size: 50g</p> */}
+                                    <p className="font-bold text-2xl mb-4">Calories {product?.nutritionFacts?.calories}</p>
                                     <ul className="divide-y divide-gray-300 text-gray-800">
                                         <li className="flex justify-between py-2">
-                                            <span>Total Fat</span> <span>8 g</span>
+                                            <span>Total Fat</span> <span>{product?.nutritionFacts?.fats} g</span>
                                         </li>
                                         <li className="flex justify-between py-2">
-                                            <span>Carbohydrates</span> <span>28 g</span>
+                                            <span>Protein</span> <span>{product?.nutritionFacts?.protein} g</span>
                                         </li>
                                         <li className="flex justify-between py-2">
-                                            <span>Protein</span> <span>10 g</span>
-                                        </li>
-                                        <li className="flex justify-between py-2">
-                                            <span>Fiber</span> <span>5 g</span>
-                                        </li>
-                                        <li className="flex justify-between py-2">
-                                            <span>Sugars</span> <span>12 g</span>
-                                        </li>
-                                        <li className="flex justify-between py-2">
-                                            <span>Calcium</span> <span>15%</span>
-                                        </li>
-                                        <li className="flex justify-between py-2">
-                                            <span>Iron</span> <span>8%</span>
+                                            <span>Carbohydrates</span> <span>{product?.nutritionFacts?.carbs} g</span>
                                         </li>
                                     </ul>
+                                    <p className="font-bold text-2xl mb-3 mt-2">Ingredients</p>
+                                    <div className="">
+                                        {ingredients?.map((item) => (
+                                            <div className="">
+                                                {item}
+                                            </div>
+                                        ))}
+                                    </div>
                                     <p className="text-sm text-gray-500 mt-3">
                                         * % Daily Value based on a 2,000 calorie diet.
                                     </p>
@@ -142,13 +170,16 @@ export default function ProductDetails() {
                                 <BiPlus size={18} />
                             </button>
                         </div>
-                        <p>Only <span className='font-semibold text-primary'>10 items</span> Left!</p>
+                        <p>Only <span className='font-semibold text-primary'>{product?.stockQuantity} items</span> Left!</p>
                     </div>
 
                     {/* buttons*/}
                     <div className="mt-10 flex flex-col sm:flex-row gap-4">
                         <button
                             className="flex-1 bg-secondary text-white py-4 rounded-2xl font-semibold shadow-md hover:bg-primary transition"
+                            onClick={(e) => {
+                                dispatch(toggleCartItem(product))
+                            }}
                         >
                             Add to Cart
                         </button>
