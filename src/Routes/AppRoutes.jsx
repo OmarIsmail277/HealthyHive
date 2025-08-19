@@ -20,8 +20,11 @@ const Consultations = lazy(() => import("../pages/ConsultationsPage"));
 const Recipes = lazy(() =>
   import("../components/Recipes/components/RecipesList/RecipesList")
 );
-// const Recipes = lazy(() => import("../pages/RecipesPage"))
 const RecipeDetail = lazy(() => import("../pages/RecipeDetailPage"));
+const AdminDashboard = lazy(() => import("../pages/AdminDashboard"));
+const Wishlist = lazy(() => import("../pages/WishlistPage"));
+const Subscription = lazy(() => import("../pages/Subscription"));
+
 
 export default function AppRoutes() {
   return (
@@ -32,11 +35,13 @@ export default function AppRoutes() {
       <Route path="/services" element={<Services />} />
       <Route path="/products" element={<ProductsList />} />
       <Route path="/products/:category" element={<ProductCategory />} />
+      <Route path="/admin" element={<AdminDashboard />} />
       <Route
         path="/services/calorie-calculator"
         element={<CalorieCalculator />}
       />
       <Route path="/services/consultations" element={<Consultations />} />
+      <Route path="/subscription" element={<Subscription />} />
       <Route path="/product/:id" element={<ProductDetail />} />
       <Route path="/search/:query" element={<SearchResults />} />
       <Route path="/profile" element={<Profile />} />
@@ -47,6 +52,7 @@ export default function AppRoutes() {
       <Route path="/recipes" element={<Recipes />} />
       <Route path="/recipeDetail/:id" element={<RecipeDetail />} />
       <Route path="/test" element={<TestProducts />} />
+      <Route path="/wishlist" element={<Wishlist />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

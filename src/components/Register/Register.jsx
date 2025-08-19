@@ -59,7 +59,7 @@ export default function Register() {
   ];
 
   return (
-    <div className="relative min-h-screen w-full bg-gradient-to-br from-green-50 to-emerald-100 overflow-hidden">
+    <div className="relative min-h-screen w-full bg-gradient-to-br from-white-50 to-emerald-100 overflow-hidden">
       {/* Floating Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_#d1fae5_0%,_transparent_70%)] opacity-50" />

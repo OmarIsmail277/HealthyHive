@@ -1,17 +1,15 @@
-import React from 'react'
-import CartProducts from '../Cart/components/CartProducts/CartProducts'
-import CartCheckout from '../Cart/components/CartCheckout/CartCheckout'
-
+import CartProducts from "../Cart/components/CartProducts/CartProducts";
+import CartCheckout from "../Cart/components/CartCheckout/CartCheckout";
 
 function Cart() {
-    return (
-        <>
-            <div className='2xl:flex 2xl:gap-8 mt-8'>
-                <CartProducts/>
-                <CartCheckout/>
-            </div>
-        </>
-    )
+  return (
+    <>
+      <div className="2xl:flex 2xl:gap-8 mt-8">
+        <CartProducts />
+        <CartCheckout />
+      </div>
+    </>
+  );
 }
 
-export default Cart
+export default Cart;

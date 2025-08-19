@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 function NavActionButton({ title, subTitle, icon, to }) {
   return (
     <NavLink to={to} className="flex items-center sm:gap-3">
-      <div className="flex items-center justify-center w-12 h-12 rounded-full border-0 lg:border lg:border-green-300">
+      <div className="flex items-center justify-center w-10 h-10 rounded-full border-0 lg:border lg:border-green-400">
         {icon}
       </div>
       <div className="flex flex-col">

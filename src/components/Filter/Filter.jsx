@@ -16,8 +16,8 @@ export default function FilterSidebar({
   options,
 }) {
   const [categoryOpen, setCategoryOpen] = useState(true);
-  const [subcategoryOpen, setSubcategoryOpen] = useState(true);
-  const [sortOpen, setSortOpen] = useState(true);
+  const [subcategoryOpen, setSubcategoryOpen] = useState(false);
+  const [sortOpen, setSortOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubcategory, setSelectedSubcategory] = useState("");
   const [priceRange, setPriceRange] = useState(50);

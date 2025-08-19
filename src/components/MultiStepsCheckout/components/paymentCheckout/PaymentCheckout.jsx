@@ -104,13 +104,6 @@ function PaymentCheckout() {
                 </div>
 
 
-                <div className="border border-gray-300 rounded-lg p-4">
-                    <label className="flex items-center space-x-2">
-                        <input type="radio" name="paymentMethod" value="googlePay" {...register("paymentMethod")}/>
-                        <span className="font-medium">Google Pay</span>
-                    </label>
-                </div>
-
                 <button
                     type="submit"
                     className="w-full mt-4 bg-button text-white rounded-lg py-3 text-lg hover:bg-button-hover transition"

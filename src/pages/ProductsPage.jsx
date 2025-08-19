@@ -89,45 +89,47 @@ function SearchResultsPage() {
           </button>
         </div>
 
-        <div className="flex flex-col md:flex-row">
+        <div className="healthy__container flex flex-col md:flex-row py-4 md:py-6">
           {/* Filter - always visible on desktop, toggleable on mobile */}
           <div
             className={`${
               showFilter ? "block" : "hidden"
-            } md:block shrink-0 md:ml-4`}
+            } md:block w-full md:w-72 shrink-0`}
           >
-            <Filter
-              filterField="mainCategory"
-              options={[
-                {
-                  value: "food",
-                  label: "Food",
-                  subs: [
-                    { value: "dairy", label: "Dairy" },
-                    { value: "nuts spread", label: "Nuts Spread" },
-                    { value: "sauces", label: "Sauces" },
-                  ],
-                },
-                {
-                  value: "drinks",
-                  label: "Drinks",
-                  subs: [
-                    { value: "smoothies", label: "Smoothies" },
-                    { value: "tea", label: "Tea" },
-                    { value: "juice", label: "Juice" },
-                  ],
-                },
-                {
-                  value: "personal care",
-                  label: "Personal Care",
-                  subs: [
-                    { value: "shampoo", label: "Shampoo" },
-                    { value: "shower gel", label: "Shower Gel" },
-                    { value: "hand wash", label: "Hand Wash" },
-                  ],
-                },
-              ]}
-            />
+            <div className="">
+              <Filter
+                filterField="mainCategory"
+                options={[
+                  {
+                    value: "food",
+                    label: "Food",
+                    subs: [
+                      { value: "dairy", label: "Dairy" },
+                      { value: "nuts spread", label: "Nuts Spread" },
+                      { value: "sauces", label: "Sauces" },
+                    ],
+                  },
+                  {
+                    value: "drinks",
+                    label: "Drinks",
+                    subs: [
+                      { value: "smoothies", label: "Smoothies" },
+                      { value: "tea", label: "Tea" },
+                      { value: "juice", label: "Juice" },
+                    ],
+                  },
+                  {
+                    value: "personal care",
+                    label: "Personal Care",
+                    subs: [
+                      { value: "shampoo", label: "Shampoo" },
+                      { value: "shower gel", label: "Shower Gel" },
+                      { value: "hand wash", label: "Hand Wash" },
+                    ],
+                  },
+                ]}
+              />
+            </div>
           </div>
 
           {/* Main content */}
