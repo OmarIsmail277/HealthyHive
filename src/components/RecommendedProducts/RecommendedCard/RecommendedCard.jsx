@@ -1,6 +1,4 @@
 import { FaHeart } from "react-icons/fa";
-import test from "../../../assets/test_img.jpg";
-
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { toggleWishlistItem } from "../../../store/wishlistSlice";
@@ -36,7 +34,7 @@ function RecommendedCard({ product }) {
       </div>
 
       {/* Wishlist Icon */}
-      <button
+          <button
         onClick={() => dispatch(toggleWishlistItem(product))}
         className="absolute top-4 right-4 text-3xl cursor-pointer z-20"
       >
@@ -49,12 +47,15 @@ function RecommendedCard({ product }) {
         />
       </button>
 
+
       {/* Image with Flip Animation */}
       <figure className="text-center perspective">
         <div className="relative w-full h-48 transition-transform duration-700 transform-style-preserve-3d hover:[transform:rotateY(180deg)]">
           <img
+
             className="absolute inset-0 w-full h-full object-contain backface-hidden"
             src={product.imageURL}
+ 
             alt="Front"
           />
           <div className="absolute inset-0 flex items-center justify-center bg-green-100 backface-hidden [transform:rotateY(180deg)] rounded-lg">

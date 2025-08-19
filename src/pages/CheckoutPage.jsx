@@ -8,7 +8,7 @@ function CheckoutPage() {
     <div>
         <Navbar/>
         <MutliStepsCheckout/>
-
+        <Footer/>
     </div>
   )
 }

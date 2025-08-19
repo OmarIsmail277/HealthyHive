@@ -10,14 +10,26 @@ function RecommendedProducts() {
     queryFn: getProducts,
   });
   const scrollRef = useRef(null);
+  const intervalRef = useRef(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      handleScroll("right");
-    }, 5000);
-
-    return () => clearInterval(interval);
+    startAutoScroll();
+    return () => stopAutoScroll();
   }, []);
+
+  const startAutoScroll = () => {
+    stopAutoScroll(); // prevent multiple intervals
+    intervalRef.current = setInterval(() => {
+      handleScroll("right");
+    }, 2000);
+  };
+
+  const stopAutoScroll = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  };
 
   const handleScroll = (direction) => {
     const container = scrollRef.current;
