@@ -36,6 +36,7 @@ export default function AppRoutes() {
       <Route path="/products" element={<ProductsList />} />
       <Route path="/products/:category" element={<ProductCategory />} />
       <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/admin" element={<AdminDashboard />} />
       <Route
         path="/services/calorie-calculator"
         element={<CalorieCalculator />}

@@ -3,11 +3,13 @@ import { FaHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleWishlistItem } from "../../../store/wishlistSlice";
 import { toggleCartItem } from "../../../store/cartSlice";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { deleteProduct } from "../../../services/apiProducts";
 
 function RecommendedCard({ product }) {
   const dispatch = useDispatch();
   const wishlist = useSelector((state) => state.wishlist.items);
-
   const isInWishlist = wishlist.some((item) => item.id === product.id);
 
   const renderStars = (rating) => {
@@ -26,6 +28,18 @@ function RecommendedCard({ product }) {
     return stars;
   };
 
+  const queryClient = useQueryClient();
+
+  const { isLoading: isDeleting, mutate } = useMutation({
+    mutationFn: deleteProduct,
+    onSuccess: () => {
+      toast.success("Product successfully deleted!");
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+
+    onError: (err) => toast.error(err.message),
+  });
+
   return (
     <div className="relative border border-[#64a30d78] w-[370px] p-5 rounded-xl shadow-md bg-white">
       {/* Price Tag */}
@@ -34,6 +48,7 @@ function RecommendedCard({ product }) {
       </div>
 
       {/* Wishlist Icon */}
+
           <button
         onClick={() => dispatch(toggleWishlistItem(product))}
         className="absolute top-4 right-4 text-3xl cursor-pointer z-20"
@@ -55,7 +70,6 @@ function RecommendedCard({ product }) {
 
             className="absolute inset-0 w-full h-full object-contain backface-hidden"
             src={product.imageURL}
- 
             alt="Front"
           />
           <div className="absolute inset-0 flex items-center justify-center bg-green-100 backface-hidden [transform:rotateY(180deg)] rounded-lg">
@@ -68,6 +82,8 @@ function RecommendedCard({ product }) {
       <div className="flex items-center gap-2 mt-3">
         <div className="flex">{renderStars(product.rating)}</div>
         <p className="text-gray-600 text-sm font-medium">{product.rating}</p>
+        <div className="flex">{renderStars(4)}</div>
+        <p className="text-gray-600 text-sm font-medium">{rating}</p>
       </div>
 
       {/* Title */}
@@ -81,6 +97,7 @@ function RecommendedCard({ product }) {
         <p className="text-gray-400 font-semibold text-lg line-through">
           {product.discount + product.price} LE
         </p>
+        <p className="text-green-600 font-bold text-xl">{price}</p>
       </div>
 
       {/* Add to Cart */}
