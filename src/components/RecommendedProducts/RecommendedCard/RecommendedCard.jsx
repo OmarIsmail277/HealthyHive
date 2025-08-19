@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaHeart } from "react-icons/fa";
 import test from "../../../assets/test_img.jpg";
 
@@ -33,21 +33,16 @@ function RecommendedCard() {
       {/* Wishlist Icon - stays fixed, doesn’t flip */}
       <button
         onClick={toggleWishlist}
-        className="absolute top-4 right-4 text-3xl cursor-pointer z-20"
-      >
+        className="absolute top-4 right-4 text-3xl cursor-pointer z-20">
         <FaHeart
-          className={`transition-colors duration-300 ${
-            wishlist  ? "text-primary hover:text-secondary"
-                    : "text-gray-400 hover:text-emerald-500"
-          }`}
-        />
+          className={`transition-colors duration-300 ${wishlist ? "text-primary hover:text-secondary" : "text-gray-400 hover:text-emerald-500"}`} />
       </button>
 
       {/* Image with Flip Animation */}
       <figure className="text-center perspective">
         <div className="relative w-full h-48 transition-transform duration-700 transform-style-preserve-3d hover:[transform:rotateY(180deg)]">
           <img
-            className="absolute inset-0 w-full h-full object-contain backface-hidden"
+            className="absolute inset-0 w-full h-full object-contain backface-hidden cursor-pointer"
             src={test}
             alt="Front"
           />
