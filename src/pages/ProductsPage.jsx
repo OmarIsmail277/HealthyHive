@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import RecommendedCard from "../components/RecommendedProducts/RecommendedCard/RecommendedCard";
@@ -9,7 +9,7 @@ import { getProducts } from "../services/apiProducts";
 import Spinner from "../components/Spinner/Spinner";
 import { useSearchParams } from "react-router";
 
-function SearchResultsPage() {
+function ProudctsPage() {
   const [showFilter, setShowFilter] = useState(true);
 
   const { isLoading, data: products } = useQuery({
@@ -19,22 +19,89 @@ function SearchResultsPage() {
 
   const [searchParams] = useSearchParams();
 
+  const [filters, setFilters] = useState({
+    category: searchParams.get("mainCategory") || "",
+    subcategory: searchParams.get("subCategory") || "",
+    priceRange: 1000,
+    starRating: 0,
+    inStock: false,
+    onSale: false,
+    sortBy: "",
+  });
+
+  // callback from FilterSidebar
+  const handleFilterChange = (newFilters) => {
+    setFilters((prev) => ({ ...prev, ...newFilters }));
+  };
+
+  useEffect(() => {
+    const mainCategory = searchParams.get("mainCategory") || "";
+    const subCategory = searchParams.get("subCategory") || "";
+
+    setFilters((prev) => ({
+      ...prev,
+      category: mainCategory,
+      subcategory: subCategory,
+    }));
+  }, [searchParams]);
+
   if (isLoading) return <Spinner />;
 
-  const mainCategory = searchParams.get("mainCategory");
-  const subCategory = searchParams.get("subCategory");
+  // const mainCategory = searchParams.get("mainCategory");
+  // const subCategory = searchParams.get("subCategory");
 
   let filteredProducts = products;
 
-  if (mainCategory) {
+  // 1. Main category
+  if (filters.category) {
     filteredProducts = filteredProducts.filter(
-      (product) => product.mainCategory === mainCategory
+      (product) =>
+        product.mainCategory.toLowerCase() === filters.category.toLowerCase()
     );
   }
 
-  if (subCategory) {
+  // 2. Subcategory
+  if (filters.subcategory) {
     filteredProducts = filteredProducts.filter(
-      (product) => product.subCategory === subCategory
+      (product) =>
+        product.subCategory.toLowerCase() === filters.subcategory.toLowerCase()
+    );
+  }
+
+  // 3. Price range
+  filteredProducts = filteredProducts.filter(
+    (product) => product.price <= filters.priceRange
+  );
+
+  // 4. Star rating
+  if (filters.starRating > 0) {
+    filteredProducts = filteredProducts.filter(
+      (product) => Math.floor(product.rating) >= filters.starRating
+    );
+  }
+
+  // 5. In stock
+  if (filters.inStock) {
+    filteredProducts = filteredProducts.filter(
+      (product) => product.stockStatus
+    );
+  }
+
+  // 6. On sale
+  if (filters.onSale) {
+    filteredProducts = filteredProducts.filter(
+      (product) => product.discount > 0
+    );
+  }
+
+  // 7. Sorting
+  if (filters.sortBy === "priceLowHigh") {
+    filteredProducts = [...filteredProducts].sort((a, b) => a.price - b.price);
+  } else if (filters.sortBy === "priceHighLow") {
+    filteredProducts = [...filteredProducts].sort((a, b) => b.price - a.price);
+  } else if (filters.sortBy === "ratingHighLow") {
+    filteredProducts = [...filteredProducts].sort(
+      (a, b) => b.rating - a.rating
     );
   }
 
@@ -106,6 +173,7 @@ function SearchResultsPage() {
                     subs: [
                       { value: "dairy", label: "Dairy" },
                       { value: "nuts spread", label: "Nuts Spread" },
+                      { value: "healthy meals", label: "Healthy Meals" },
                       { value: "sauces", label: "Sauces" },
                     ],
                   },
@@ -127,7 +195,25 @@ function SearchResultsPage() {
                       { value: "hand wash", label: "Hand Wash" },
                     ],
                   },
+                  {
+                    value: "bakery",
+                    label: "Bakery",
+                    subs: [
+                      { value: "bread", label: "Bread" },
+                      { value: "pastries", label: "Pasteies" },
+                      { value: "croissants", label: "Croissants" },
+                    ],
+                  },
+                  {
+                    value: "meals",
+                    label: "Meals",
+                    subs: [
+                      { value: "frozen", label: "Frozen" },
+                      { value: "preorder", label: "Pre-Order" },
+                    ],
+                  },
                 ]}
+                onFilterChange={handleFilterChange}
               />
             </div>
           </div>
@@ -157,4 +243,4 @@ function SearchResultsPage() {
   );
 }
 
-export default SearchResultsPage;
+export default ProudctsPage;

@@ -6,7 +6,7 @@ import TestProducts from "../pages/TestProducts";
 const Login = lazy(() => import("../pages/LoginPage"));
 const Register = lazy(() => import("../pages/RegisterPage"));
 const Services = lazy(() => import("../pages/ServicesPage"));
-const ProductsList = lazy(() => import("../pages/ProductsPage"));
+const ProductsPage = lazy(() => import("../pages/ProductsPage"));
 const ProductDetail = lazy(() => import("../pages/ProductDetail"));
 const ProductCategory = lazy(() => import("../pages/ProductsCategoryPage"));
 const HomePage = lazy(() => import("../pages/HomePage"));
@@ -33,9 +33,8 @@ export default function AppRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/services" element={<Services />} />
-      <Route path="/products" element={<ProductsList />} />
+      <Route path="/products" element={<ProductsPage />} />
       <Route path="/products/:category" element={<ProductCategory />} />
-      <Route path="/admin" element={<AdminDashboard />} />
       <Route path="/admin" element={<AdminDashboard />} />
       <Route
         path="/services/calorie-calculator"
