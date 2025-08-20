@@ -1,5 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { FiChevronDown } from "react-icons/fi";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function MobileMenu({
   isOpen,
@@ -7,22 +9,40 @@ function MobileMenu({
   mobileDropdownIndex,
   setMobileDropdownIndex,
 }) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search/${encodeURIComponent(searchQuery.trim())}`);
+      setSearchQuery("");
+      // Close the mobile menu after search
+      setMobileDropdownIndex(null);
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
     <div className="w-[90%] mx-auto lg:hidden overflow-hidden transition-all duration-300 ease-in-out max-h-screen opacity-100">
       <div className="px-3 py-3 border-t border-gray-200">
         {/* Search mobile */}
-        <div className="flex mb-4">
+        <form className="flex mb-4" onSubmit={handleSearch}>
           <input
             type="text"
             placeholder="Search for healthy products..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full border border-gray-300 rounded-l-md px-2 py-1 sm:px-3 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
           />
-          <button className="bg-primary text-white px-2 sm:px-3 rounded-r-md hover:bg-secondary text-sm sm:text-base">
+          <button 
+            type="submit"
+            className="bg-primary text-white px-2 sm:px-3 rounded-r-md hover:bg-secondary text-sm sm:text-base"
+          >
             Search
           </button>
-        </div>
+        </form>
 
         {/* Subscribe */}
         {/* <button className="block w-full bg-green-100 text-green-700 px-4 py-2 rounded-md hover:bg-green-200 text-sm sm:text-base text-center mb-4 cursor-pointer">
@@ -55,6 +75,7 @@ function MobileMenu({
                       key={`mobile-sub-${sub.path}`}
                       to={sub.path}
                       className="block px-2 py-1 text-gray-600 hover:bg-green-100 rounded-md"
+                      onClick={() => setMobileDropdownIndex(null)} // Close menu when clicking a link
                     >
                       {sub.label}
                     </NavLink>
