@@ -26,8 +26,8 @@ function HomePage() {
       {/* Deals Section */}
       <RecommendedProducts
         title={
-          <h2 className="text-3xl md:text-4xl text-center font-bold text-gray-800">
-            💎 Exclusive Deals <span className="text-primary">You Can't Miss</span>
+          <h2 className="text-3xl pt-12 md:text-4xl text-center font-bold text-gray-800">
+            Exclusive Deals <span className="text-primary">You Can't Miss</span>
           </h2>
         }
         filterFn={(product) => product.discount > 0}

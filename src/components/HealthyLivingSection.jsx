@@ -3,9 +3,8 @@ import HealthInsights from './HealthyArticles/HealthyInsights';
 
 const HealthyLivingSection = () => {
   return (
-    <section className=" bg-white">
+    <section className=" bg-grey-50 py-12">
       <div className="max-w-7xl mx-auto px-4">
-        {/* Section Header */}
         <div className="text-center mb-16">
       <div className="text-center">
         <h2 className="text-3xl md:text-4xl text-center font-bold text-gray-800">
