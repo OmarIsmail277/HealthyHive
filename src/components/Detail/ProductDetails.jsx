@@ -54,7 +54,7 @@ export default function ProductDetails({ product }) {
                     <img
                         src={product?.imageURL}
                         alt="Product"
-                        className="w-full  object-cover max-h-[650px] rounded-tl-3xl rounded-bl-3xl"
+                        className="w-full  object-contain max-h-[650px] rounded-tl-3xl rounded-bl-3xl"
                     />
                     {/* <span className="absolute top-6 left-6 bg-primary text-white px-4 py-1 rounded-full text-sm tracking-wide">
                         19 LE
@@ -70,7 +70,7 @@ export default function ProductDetails({ product }) {
                                 <h6 className='font-bold text-[22px]'>HealthyHive</h6>
                             </div>
                             <button
-                                onClick={(e) => { dispatch(toggleWishlistItem(product)) }}
+                                onClick={() => { dispatch(toggleWishlistItem(product)) }}
                                 className="absolute right-4 text-3xl cursor-pointer z-20">
                                 <FaHeart
                                     className={`transition-colors duration-300 ${isInWishlist

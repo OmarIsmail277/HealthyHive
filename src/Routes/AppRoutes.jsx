@@ -27,6 +27,7 @@ const AdminDashboard = lazy(() => import("../pages/AdminDashboard"));
 const Wishlist = lazy(() => import("../pages/WishlistPage"));
 const Subscription = lazy(() => import("../pages/Subscription"));
 const AboutUs = lazy(() => import("../pages/AboutUs"));
+const Cart = lazy(() => import("../pages/CartPage"));
 
 export default function AppRoutes() {
   return (
@@ -39,6 +40,7 @@ export default function AppRoutes() {
 
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="/services" element={<Services />} />
         <Route path="/products" element={<ProductsPage />} />
         <Route path="/products/:category" element={<ProductCategory />} />
