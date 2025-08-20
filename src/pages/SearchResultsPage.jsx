@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
@@ -25,8 +25,8 @@ function SearchResultsPage() {
     const searchParam =
       query || new URLSearchParams(location.search).get("q") || "";
     setSearchQuery(searchParam);
-    setResultsCount(products.length); // In real app, this would come from API response
-  }, [query, location.search, products.length]);
+    setResultsCount(products?.length); // In real app, this would come from API response
+  }, [query, location.search, products?.length]);
 
   return (
     <>
@@ -86,7 +86,7 @@ function SearchResultsPage() {
           </div>
 
           {/* Main content */}
-          <div className="flex-1">
+          <div className="flex-1 mt-10 md:mt-0">
             <div className="mb-6">
               <h1 className="text-xl font-semibold text-gray-800">
                 Results found: {resultsCount}
@@ -101,7 +101,7 @@ function SearchResultsPage() {
               )}
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-              {products.map((product) => (
+              {products?.map((product) => (
                 <div key={product.id} className="flex justify-center">
                   <RecommendedCard product={product} />
                 </div>

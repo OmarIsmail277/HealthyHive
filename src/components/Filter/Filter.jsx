@@ -138,7 +138,7 @@ export default function FilterSidebar({
               </button>
               {categoryOpen && (
                 <ul className="mt-2 space-y-1">
-                  {options.map((option) => (
+                  {options?.map((option) => (
                     <li key={option.value}>
                       <button
                         onClick={() => {
