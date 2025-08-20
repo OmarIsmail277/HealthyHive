@@ -1,14 +1,18 @@
 import { Link } from "react-router-dom";
+import Footer from "../components/Footer/Footer";
+import Navbar from "../components/Navbar/Navbar";
 
 export default function NotFoundPage() {
   return (
+    <div>
+<Navbar/> 
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-[550px] text-button">
         <img
           src="/images/pages/not-found.svg"
           alt="Page not found"
           className="block mx-auto drop-shadow-lg w-full h-auto"
-        />
+          />
       </div>
 
       <h1 className="text-2xl md:text-3xl font-bold text-gray-800 text-center mt-8">
@@ -28,5 +32,7 @@ export default function NotFoundPage() {
         Return to Home Page
       </Link>
     </div>
+    <Footer/>
+        </div>
   );
 }

@@ -75,8 +75,6 @@ function SearchResultsPage() {
         </div>
 
         <div className="healthy__container flex flex-col md:flex-row py-4 md:py-6 px-4 md:px-0">
-        <div className="healthy__container flex flex-col md:flex-row py-4 md:py-6 px-4 md:px-0">
-          {/* Filter - always visible on desktop, toggleable on mobile */}
           <div
             className={`${
               showFilter ? "block" : "hidden"

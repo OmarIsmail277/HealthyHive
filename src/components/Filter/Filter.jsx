@@ -1,14 +1,6 @@
-import { useState } from "react";
-import { FaStar, FaChevronDown, FaChevronUp, FaTimes } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { FaStar, FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { useSearchParams } from "react-router";
-
-const categories = [
-  { label: "Food", subs: ["Fruits", "Vegetables", "Healthy Meals"] },
-  { label: "Drinks", subs: ["Smoothies", "Tea", "Juice"] },
-  { label: "Personal Care", subs: ["Shampoo", "Shower Gel", "Hand Wash"] },
-  { label: "Bakery", subs: ["Bread", "Gluten-Free", "Pastries"] },
-  { label: "Meals", subs: ["Breakfast", "Lunch", "Dinner"] },
-];
 
 export default function FilterSidebar({
   onFilterChange,
@@ -18,19 +10,34 @@ export default function FilterSidebar({
   const [categoryOpen, setCategoryOpen] = useState(true);
   const [subcategoryOpen, setSubcategoryOpen] = useState(false);
   const [sortOpen, setSortOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedSubcategory, setSelectedSubcategory] = useState("");
-  const [priceRange, setPriceRange] = useState(50);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // local states
+  const [selectedCategory, setSelectedCategory] = useState(
+    searchParams.get("mainCategory") || ""
+  );
+  const [selectedSubcategory, setSelectedSubcategory] = useState(
+    searchParams.get("subCategory") || ""
+  );
+  const [priceRange, setPriceRange] = useState(1000);
   const [starRating, setStarRating] = useState(0);
   const [inStock, setInStock] = useState(false);
   const [onSale, setOnSale] = useState(false);
   const [sortBy, setSortBy] = useState("");
 
-  const triggerChange = (changes) => {
+  // keep state in sync with URL on refresh
+  useEffect(() => {
+    setSelectedCategory(searchParams.get("mainCategory") || "");
+    setSelectedSubcategory(searchParams.get("subCategory") || "");
+  }, [searchParams]);
+
+  // --- CORE FIX: always include category + subcategory when sending filters
+  const triggerChange = (changes = {}) => {
     if (onFilterChange) {
       onFilterChange({
-        category: selectedCategory,
-        subcategory: selectedSubcategory,
+        category: searchParams.get("mainCategory") || selectedCategory,
+        subcategory: searchParams.get("subCategory") || selectedSubcategory,
         priceRange,
         starRating,
         inStock,
@@ -41,10 +48,29 @@ export default function FilterSidebar({
     }
   };
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const handleReset = () => {
+    setSelectedCategory("");
+    setSelectedSubcategory("");
+    setPriceRange(1000);
+    setStarRating(0);
+    setInStock(false);
+    setOnSale(false);
+    setSortBy("");
 
-  // change active class
-  // const currentFilter = searchParams.get(filterField);
+    searchParams.delete("mainCategory");
+    searchParams.delete("subCategory");
+    setSearchParams(searchParams);
+
+    triggerChange({
+      category: "",
+      subcategory: "",
+      priceRange: 1000,
+      starRating: 0,
+      inStock: false,
+      onSale: false,
+      sortBy: "",
+    });
+  };
 
   function handleClick(value) {
     searchParams.set(filterField, value);
@@ -52,19 +78,22 @@ export default function FilterSidebar({
     setSearchParams(searchParams);
   }
 
-  const handleCategoryChange = (cat) => {
-    setSelectedCategory(cat);
+  const handleCategoryChange = (catValue) => {
+    setSelectedCategory(catValue);
     setSelectedSubcategory("");
-    triggerChange({ category: cat, subcategory: "" });
+    searchParams.set("mainCategory", catValue);
+    searchParams.delete("subCategory");
+    setSearchParams(searchParams);
+
+    triggerChange({ category: catValue, subcategory: "" });
   };
 
   const handleSubcategoryChange = (subcat) => {
     setSelectedSubcategory(subcat);
-    triggerChange({ subcategory: subcat });
-
-    // push to searchParams
     searchParams.set("subCategory", subcat);
     setSearchParams(searchParams);
+
+    triggerChange({ subcategory: subcat });
   };
 
   const handlePriceChange = (e) => {
@@ -80,170 +109,96 @@ export default function FilterSidebar({
   };
 
   const subcategories = selectedCategory
-    ? options.find((option) => option.label === selectedCategory)?.subs || []
+    ? options.find((option) => option.value === selectedCategory)?.subs || []
     : [];
 
   return (
     <>
       <div className="md:mt-20 px-2 md:px-0">
         <div className="transition-all duration-300 ease-in-out rounded-2xl shadow-xl overflow-hidden flex flex-col md:w-64">
-          {/* Header - only close button on mobile */}
+          {/* Header */}
           <div className="flex justify-between items-center p-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white">
             <h2 className="text-xl">Filters</h2>
           </div>
 
           {/* Content */}
           <div className="flex-1 p-5 space-y-6 overflow-y-auto bg-white">
-            {/* Mobile horizontal layout container */}
-            <div className="md:hidden flex flex-wrap gap-4 mb-6">
-              {/* Category dropdown */}
-              <div className="flex-1 min-w-[150px]">
-                <button
-                  onClick={() => setCategoryOpen(!categoryOpen)}
-                  className="flex justify-between items-center w-full text-emerald-700 font-semibold text-sm px-3 py-2 rounded-lg bg-emerald-50 hover:bg-emerald-100 transition"
-                >
-                  <span>Category</span>
-                  {categoryOpen ? (
-                    <FaChevronUp className="text-emerald-600" />
-                  ) : (
-                    <FaChevronDown className="text-emerald-600" />
-                  )}
-                </button>
-                {categoryOpen && (
-                  <div className="mt-2 grid grid-cols-2 gap-2">
-                    {options.map((option) => (
+            {/* Category (desktop shown only) */}
+            <section>
+              <button
+                onClick={() => setCategoryOpen(!categoryOpen)}
+                className="flex justify-between items-center w-full text-emerald-700 font-semibold text-base px-3 py-2 rounded-lg bg-emerald-50 hover:bg-emerald-100 transition"
+              >
+                <span>Category</span>
+                {categoryOpen ? (
+                  <FaChevronUp className="text-emerald-600" />
+                ) : (
+                  <FaChevronDown className="text-emerald-600" />
+                )}
+              </button>
+              {categoryOpen && (
+                <ul className="mt-2 space-y-1">
+                  {options.map((option) => (
+                    <li key={option.value}>
                       <button
-                        key={option.label}
                         onClick={() => {
-                          handleCategoryChange(option.label);
+                          handleCategoryChange(option.value);
                           handleClick(option.value);
                         }}
-                        className={`text-left px-3 py-1.5 rounded-lg border transition text-sm ${
-                          selectedCategory === option.label
+                        className={`w-full text-left px-3 py-1.5 rounded-lg border transition ${
+                          selectedCategory === option.value
                             ? "bg-emerald-100 border-emerald-500 font-semibold"
                             : "border-transparent hover:bg-emerald-50"
                         }`}
                       >
                         {option.label}
                       </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Subcategory dropdown */}
-              {selectedCategory && (
-                <div className="flex-1 min-w-[150px]">
-                  <button
-                    onClick={() => setSubcategoryOpen(!subcategoryOpen)}
-                    className="flex justify-between items-center w-full text-emerald-700 font-semibold text-sm px-3 py-2 rounded-lg bg-emerald-50 hover:bg-emerald-100 transition"
-                  >
-                    <span>Subcategory</span>
-                    {subcategoryOpen ? (
-                      <FaChevronUp className="text-emerald-600" />
-                    ) : (
-                      <FaChevronDown className="text-emerald-600" />
-                    )}
-                  </button>
-                  {subcategoryOpen && (
-                    <div className="mt-2 grid grid-cols-2 gap-2">
-                      {subcategories.map((sub) => (
-                        <button
-                          key={sub.label}
-                          onClick={() => handleSubcategoryChange(sub.label)}
-                          className={`text-left px-3 py-1.5 rounded-lg border transition text-sm ${
-                            selectedSubcategory === sub.label
-                              ? "bg-emerald-100 border-emerald-500 font-semibold"
-                              : "border-transparent hover:bg-emerald-50"
-                          }`}
-                        >
-                          {sub.label}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
+                    </li>
+                  ))}
+                </ul>
               )}
-            </div>
+            </section>
 
-            {/* Desktop vertical layout */}
-            <div className="hidden md:block space-y-6">
-              {/* Category */}
-              <section>
-                <button
-                  onClick={() => setCategoryOpen(!categoryOpen)}
-                  className="flex justify-between items-center w-full text-emerald-700 font-semibold text-base px-3 py-2 rounded-lg bg-emerald-50 hover:bg-emerald-100 transition"
-                >
-                  <span>Category</span>
-                  {categoryOpen ? (
-                    <FaChevronUp className="text-emerald-600" />
-                  ) : (
-                    <FaChevronDown className="text-emerald-600" />
-                  )}
-                </button>
-                {categoryOpen && (
-                  <ul className="mt-2 space-y-1">
-                    {options.map((option) => (
-                      <li key={option.label}>
-                        <button
-                          onClick={() => {
-                            handleCategoryChange(option.label);
-                            handleClick(option.value);
-                          }}
-                          className={`w-full text-left px-3 py-1.5 rounded-lg border transition ${
-                            selectedCategory === option.label
-                              ? "bg-emerald-100 border-emerald-500 font-semibold"
-                              : "border-transparent hover:bg-emerald-50"
-                          }`}
-                        >
-                          {option.label}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
+            {/* Subcategory */}
+            <section>
+              <button
+                onClick={() => setSubcategoryOpen(!subcategoryOpen)}
+                disabled={!selectedCategory}
+                className={`flex justify-between items-center w-full text-emerald-700 font-semibold text-base px-3 py-2 rounded-lg bg-emerald-50 transition ${
+                  !selectedCategory
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:bg-emerald-100"
+                }`}
+              >
+                <span>Subcategory</span>
+                {subcategoryOpen ? (
+                  <FaChevronUp className="text-emerald-600" />
+                ) : (
+                  <FaChevronDown className="text-emerald-600" />
                 )}
-              </section>
+              </button>
+              {subcategoryOpen && selectedCategory && (
+                <ul className="mt-2 space-y-1">
+                  {subcategories.map((sub) => (
+                    <li key={sub.value || sub.label}>
+                      <button
+                        onClick={() =>
+                          handleSubcategoryChange(sub.value || sub.label)
+                        }
+                        className={`w-full text-left px-3 py-1.5 rounded-lg border transition ${
+                          selectedSubcategory === (sub.value || sub.label)
+                            ? "bg-emerald-100 border-emerald-500 font-semibold"
+                            : "border-transparent hover:bg-emerald-50"
+                        }`}
+                      >
+                        {sub.label || sub}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
 
-              {/* Subcategory */}
-              <section>
-                <button
-                  onClick={() => setSubcategoryOpen(!subcategoryOpen)}
-                  disabled={!selectedCategory}
-                  className={`flex justify-between items-center w-full text-emerald-700 font-semibold text-base px-3 py-2 rounded-lg bg-emerald-50 transition ${
-                    !selectedCategory
-                      ? "opacity-50 cursor-not-allowed"
-                      : "hover:bg-emerald-100"
-                  }`}
-                >
-                  <span>Subcategory</span>
-                  {subcategoryOpen ? (
-                    <FaChevronUp className="text-emerald-600" />
-                  ) : (
-                    <FaChevronDown className="text-emerald-600" />
-                  )}
-                </button>
-                {subcategoryOpen && selectedCategory && (
-                  <ul className="mt-2 space-y-1">
-                    {subcategories.map((sub) => (
-                      <li key={sub.value}>
-                        <button
-                          onClick={() => handleSubcategoryChange(sub.value)}
-                          className={`w-full text-left px-3 py-1.5 rounded-lg border transition ${
-                            selectedSubcategory === sub.value
-                              ? "bg-emerald-100 border-emerald-500 font-semibold"
-                              : "border-transparent hover:bg-emerald-50"
-                          }`}
-                        >
-                          {sub.label}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </section>
-            </div>
-
-            {/* Common sections (same for mobile and desktop) */}
             {/* Price Range */}
             <section>
               <label className="block font-semibold text-emerald-700 mb-2 text-base">
@@ -351,27 +306,20 @@ export default function FilterSidebar({
                   ))}
                 </ul>
               )}
+
+              {/* Reset */}
+              <section className="pt-4">
+                <button
+                  onClick={handleReset}
+                  className="w-full px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow transition"
+                >
+                  Reset Filters
+                </button>
+              </section>
             </section>
           </div>
         </div>
       </div>
     </>
   );
-}
-{
-  /* <>
-  <div className="flex gap-5">
-    {options.map((option) => (
-      <button
-        key={option.value}
-        onClick={() => handleClick(option.value)}
-        className={`bg-blue-500  w-20 h-14 ${
-          option.value === currentFilter ? "text-amber-400" : ""
-        } `}
-      >
-        {option.label}
-      </button>
-    ))}
-  </div>
-</>; */
 }
