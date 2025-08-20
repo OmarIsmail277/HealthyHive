@@ -18,7 +18,7 @@ function RecommendedCard({ product }) {
   const handleNavigate = () => {
     navigate(`/product/${product.id}`);
   };
-  
+
 
   const renderStars = (rating) => {
     const stars = [];
@@ -65,11 +65,10 @@ function RecommendedCard({ product }) {
         className="absolute top-4 right-4 text-3xl cursor-pointer z-20"
       >
         <FaHeart
-          className={`transition-colors duration-300 ${
-            isInWishlist
-              ? "text-primary hover:text-secondary"
-              : "text-gray-400 hover:text-emerald-300"
-          }`}
+          className={`transition-colors duration-300 ${isInWishlist
+            ? "text-primary hover:text-secondary"
+            : "text-gray-400 hover:text-emerald-300"
+            }`}
         />
       </button>
 
@@ -100,10 +99,11 @@ function RecommendedCard({ product }) {
 
       {/* Price */}
       <div className="flex items-center gap-3 mt-3">
-        <p className="text-green-600 font-bold text-xl">{product.price} LE</p>
-        <p className="text-gray-400 font-semibold text-lg line-through">
-          {product.discount + product.price} LE
-        </p>
+        <p className="text-green-600 font-bold text-xl">{product.price - product.discount} LE</p>
+        {product.discount > 0 &&
+          <p className="text-gray-400 font-semibold text-lg line-through">
+            {product.price} LE
+          </p>}
       </div>
 
       {/* Add to Cart */}

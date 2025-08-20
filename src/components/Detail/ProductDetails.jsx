@@ -3,23 +3,14 @@ import { FaLeaf } from "react-icons/fa";
 import { useState } from "react";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { BiMinus, BiPlus } from "react-icons/bi";
-import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { getProductById } from "../../services/apiProducts";
 import { FaHeart } from "react-icons/fa";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { toggleWishlistItem } from "../../store/wishlistSlice";
 import { toggleCartItem } from "../../store/cartSlice";
 
-export default function ProductDetails() {
+export default function ProductDetails({ product }) {
 
-    const { id } = useParams();
-
-    const { isLoading, data: product } = useQuery({
-        queryKey: ["product", id],
-        queryFn: () => getProductById(id)
-    })
 
     const ingredients = product?.ingredients.split(",").map(item => item.trim())
 
@@ -47,7 +38,7 @@ export default function ProductDetails() {
         return stars;
     };
     return (
-        <div className="flex items-center justify-center p-2 my-3">
+        <div className="flex items-center justify-center p-2 mb-10 mt-3">
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -100,7 +91,9 @@ export default function ProductDetails() {
                         <p className='text-recommended-rating font-semibold sm:mr-2'>SKU: <span className='text-black'>{product?.SKU}</span></p>
 
                         {/* price */}
-                        <p className="text-3xl font-bold flex items-center gap-2">  {product?.price} LE <span className='text-recommended-price-gray ml-2 text-[22px] line-through'>{product?.discount} LE</span> </p>
+                        <p className="text-3xl font-bold flex items-center gap-2">  {product?.price - product?.discount} LE
+                            {product?.discount > 0 &&
+                                <span className='text-recommended-price-gray ml-2 text-[22px] line-through'>{product?.price} LE</span>} </p>
                         {/* Accordion Nutrition Info */}
                         <div className="border border-secondary rounded-xl">
                             <button
@@ -138,7 +131,7 @@ export default function ProductDetails() {
                                     <p className="font-bold text-2xl mb-3 mt-2">Ingredients</p>
                                     <div className="">
                                         {ingredients?.map((item) => (
-                                            <div className="">
+                                            <div className="" key={item}>
                                                 {item}
                                             </div>
                                         ))}
