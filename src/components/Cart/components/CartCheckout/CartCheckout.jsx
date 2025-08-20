@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { FaTruckFast, FaHouse } from "react-icons/fa6";
 
 function CartCheckout() {
-  const { subTotal } = useSelector((state) => state.cart);
+  const { totalPrice } = useSelector((state) => state.cart);
   const [shippingMethod, setShippingMethod] = useState("pickup");
 
   // delivery price logic
@@ -14,13 +14,13 @@ function CartCheckout() {
   };
 
   return (
-    <div className="2xl:w-1/4 border border-gray-300 bg-white rounded-xl shadow-md p-4">
+    <div className="2xl:w-1/4 border border-gray-300 bg-white rounded-xl shadow-md p-4 h-[463px]">
       <h4 className="text-black font-bold mb-6">Cart totals</h4>
 
       {/* Subtotal */}
       <div className="flex justify-between border-b border-gray-300 pb-3 mb-4">
         <h6 className="text-gray-500 font-semibold">Subtotal</h6>
-        <p className="font-semibold">{subTotal} LE</p>
+        <p className="font-semibold">{totalPrice > 0 ? `${totalPrice} LE` : `0 LE`}</p>
       </div>
 
       {/* Shipping */}
@@ -40,8 +40,7 @@ function CartCheckout() {
               name="shipping"
               value="pickup"
               checked={shippingMethod === "pickup"}
-              onChange={(e) => handleShippingChange(e.target.value)}
-            />
+              onChange={(e) => handleShippingChange(e.target.value)}/>
             <FaHouse className="text-2xl text-primary" />
             <div>
               <p className="font-medium">Free Store Pickup</p>
@@ -80,10 +79,11 @@ function CartCheckout() {
       {/* Total */}
       <div className="flex justify-between">
         <h6 className="text-gray-500 font-semibold">Total</h6>
-        <p className="font-semibold">{subTotal + deliveryCost} LE</p>
+        <p className="font-semibold">{totalPrice + deliveryCost > 0 ? `${totalPrice + deliveryCost} LE` : `0 LE` }</p>
       </div>
 
       {/* Checkout button */}
+      
       <button className="w-full text-center bg-button text-white py-3 rounded-lg mt-5 hover:bg-button-hover transition">
         Proceed to checkout
       </button>
