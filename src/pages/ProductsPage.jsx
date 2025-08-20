@@ -157,7 +157,7 @@ function ProudctsPage() {
           </button>
         </div>
 
-        <div className="healthy__container healthy__container flex flex-col md:flex-row py-4 md:py-6">
+        <div className="healthy__container flex flex-col md:flex-row py-4 md:py-6">
           {/* Filter - always visible on desktop, toggleable on mobile */}
           <div
             className={`${
@@ -220,21 +220,19 @@ function ProudctsPage() {
           </div>
 
           {/* Main content */}
-          <div className="flex-1">
-            <div className="healthy__container py-4 md:py-6 ">
+          <div className="flex-1 md:mt-7 mt-10">
               <div className="flex justify-between">
                 <h1 className="text-xl font-semibold text-gray-800 mb-6">
                   Results found: {filteredProducts.length}
                 </h1>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 md:gap-6">
                 {filteredProducts.map((product) => (
                   <div key={product.id} className="flex justify-center">
                     <RecommendedCard product={product} />
                   </div>
                 ))}
               </div>
-            </div>
           </div>
         </div>
       </main>

@@ -7,7 +7,8 @@ import { FaHeart } from "react-icons/fa";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { toggleWishlistItem } from "../../store/wishlistSlice";
-import { toggleCartItem } from "../../store/cartSlice";
+import { addToCartFromDetail } from "../../store/cartSlice";
+
 
 export default function ProductDetails({ product }) {
 
@@ -19,10 +20,14 @@ export default function ProductDetails({ product }) {
     const isInWishlist = wishlist.some((item) => item.id === product?.id);
 
     const [open, setOpen] = useState(true);
-    const [quantity, setQuantity] = useState(1);
+    const [count, setCount] = useState(1);
 
-    const increase = () => setQuantity(quantity < product?.stockQuantity ? quantity + 1 : product?.stockQuantity);
-    const decrease = () => setQuantity(quantity > 1 ? quantity - 1 : 1);
+    const increase = () => setCount(count < product?.stockQuantity ? count + 1 : product?.stockQuantity);
+    const decrease = () => setCount(count > 1 ? count - 1 : 1);
+
+    const handleAddToCart = () => {
+        dispatch(addToCartFromDetail({ id: product.id, count, product  }));
+    };
 
     const renderStars = (rating) => {
         const stars = [];
@@ -38,7 +43,7 @@ export default function ProductDetails({ product }) {
         return stars;
     };
     return (
-        <div className="flex items-center justify-center p-2 mb-10 mt-3">
+        <div className="flex items-center justify-center p-2 mb-10 mt-3 scale-[0.95]">
             <motion.div
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -65,9 +70,7 @@ export default function ProductDetails({ product }) {
                                 <h6 className='font-bold text-[22px]'>HealthyHive</h6>
                             </div>
                             <button
-                                onClick={(e) => {
-                                    dispatch(toggleWishlistItem(product))
-                                }}
+                                onClick={(e) => { dispatch(toggleWishlistItem(product)) }}
                                 className="absolute right-4 text-3xl cursor-pointer z-20">
                                 <FaHeart
                                     className={`transition-colors duration-300 ${isInWishlist
@@ -98,13 +101,9 @@ export default function ProductDetails({ product }) {
                         <div className="border border-secondary rounded-xl">
                             <button
                                 onClick={() => setOpen(!open)}
-                                className="w-full flex justify-between items-center p-4 font-semibold text-lg"
-                            >
+                                className="w-full flex justify-between items-center p-4 font-semibold text-lg">
                                 Nutritional Information
-                                <MdKeyboardArrowDown
-                                    className={`w-5 h-5 transition-transform ${open ? "rotate-180" : ""
-                                        }`}
-                                />
+                                <MdKeyboardArrowDown className={`w-5 h-5 transition-transform ${open ? "rotate-180" : ""}`} />
                             </button>
 
                             {open && (
@@ -113,8 +112,7 @@ export default function ProductDetails({ product }) {
                                     animate={{ height: "auto", opacity: 1 }}
                                     exit={{ height: 0, opacity: 0 }}
                                     transition={{ duration: 0.4 }}
-                                    className="px-5 pb-5"
-                                >
+                                    className="px-5 pb-5">
                                     {/* <p className="font-bold text-lg mb-2">Serving Size: 50g</p> */}
                                     <p className="font-bold text-2xl mb-4">Calories {product?.nutritionFacts?.calories}</p>
                                     <ul className="divide-y divide-gray-300 text-gray-800">
@@ -148,18 +146,16 @@ export default function ProductDetails({ product }) {
                     <div className="flex flex-col min-[485px]:flex-row items-center gap-4 mt-4">
 
                         <span className="font-bold">Quantity:</span>
-                        <div className="flex items-center border border-secondary rounded-xl overflow-hidden">
+                        <div className="flex items-center border border-secondary rounded-2xl overflow-hidden">
                             <button
                                 onClick={decrease}
-                                className="px-3 py-2 bg-gray-100 hover:bg-gray-200"
-                            >
+                                className="px-3 py-3 bg-gray-100 hover:bg-gray-200">
                                 <BiMinus size={18} />
                             </button>
-                            <span className="px-6 py-2 font-semibold">{quantity}</span>
+                            <span className="px-6 py-2 font-semibold">{count}</span>
                             <button
                                 onClick={increase}
-                                className="px-3 py-2 bg-gray-100 hover:bg-gray-200"
-                            >
+                                className="px-3 py-3 bg-gray-100 hover:bg-gray-200">
                                 <BiPlus size={18} />
                             </button>
                         </div>
@@ -170,10 +166,7 @@ export default function ProductDetails({ product }) {
                     <div className="mt-10 flex flex-col sm:flex-row gap-4">
                         <button
                             className="flex-1 bg-secondary text-white py-4 rounded-2xl font-semibold shadow-md hover:bg-primary transition"
-                            onClick={(e) => {
-                                dispatch(toggleCartItem(product))
-                            }}
-                        >
+                            onClick={handleAddToCart}>
                             Add to Cart
                         </button>
                         <button
