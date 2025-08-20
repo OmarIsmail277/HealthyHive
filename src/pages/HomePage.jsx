@@ -23,13 +23,21 @@ function HomePage() {
       <ServiceAds />
       <ProductCategories />
       <Featured />
-      <RecommendedProducts />
+      {/* Deals Section */}
+      <RecommendedProducts
+        title={
+          <h2 className="text-3xl md:text-4xl text-center font-bold text-gray-800">
+            💎 Exclusive Deals <span className="text-primary">You Can't Miss</span>
+          </h2>
+        }
+        filterFn={(product) => product.discount > 0}
+      />
       <HealthyLivingSection />
       <AdviceFetch />
       <BrandsWeOffer />
       <WhyUs />
       <Footer />
-<FloatingSubscription/>
+      <FloatingSubscription />
 
     </>
   );

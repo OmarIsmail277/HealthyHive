@@ -4,11 +4,16 @@ import RecommendedCard from "./RecommendedCard/RecommendedCard";
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../../services/apiProducts";
 
-function RecommendedProducts() {
+function RecommendedProducts({ filterFn, title }) {
   const { isLoading, data: products } = useQuery({
     queryKey: ["products"],
     queryFn: getProducts,
   });
+
+  const filterProducts = products?.filter(filterFn);
+  // console.log(discountedProducts);
+
+
   const scrollRef = useRef(null);
   const intervalRef = useRef(null);
 
@@ -53,16 +58,14 @@ function RecommendedProducts() {
   return (
     <div className="recommended-wrapper healthy__container section-padding relative">
       <div className="text-center">
-        <h2 className="text-3xl md:text-4xl text-center font-bold text-gray-800">
-          Recommended <span className="text-primary">Proudcts</span>
-        </h2>
+        {title}
         <div className="flex justify-center mt-4">
           <div className="w-16 h-1 bg-primary rounded-full"></div>
         </div>
       </div>
       <div className="overflow-x-auto hide-scrollbar py-12" ref={scrollRef}>
         <div className="flex justify-between shrink gap-4 w-max">
-          {products?.map((product) => (
+          {filterProducts?.map((product) => (
             <RecommendedCard product={product} key={product.id} />
           ))}
         </div>
