@@ -1,11 +1,16 @@
 import React from 'react'
 import ServiceForm from '../components/Consultations/Consultations'
-ServiceForm
+import AdviceFetch from '../components/FetchAdvice/AdviceFetch';
+import SubIcon from '../components/SubIcon/SubIcon';
 
 
 function ConsultationsPage() {
   return (
+    <>
 <ServiceForm/>
+    <AdviceFetch/>
+    <SubIcon/>
+    </>
 )
 }
 

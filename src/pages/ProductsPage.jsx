@@ -3,7 +3,8 @@ import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import RecommendedCard from "../components/RecommendedProducts/RecommendedCard/RecommendedCard";
 import Filter from "../components/Filter/Filter";
-import AdviceFetch from "../components/FetchAdvice/AdviceFetch";
+import AdviceFetch from '../components/FetchAdvice/AdviceFetch';
+import SubIcon from '../components/SubIcon/SubIcon';
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../services/apiProducts";
 import Spinner from "../components/Spinner/Spinner";
@@ -237,6 +238,7 @@ function ProudctsPage() {
       </main>
       <Footer />
       <AdviceFetch />
+      <SubIcon />
     </>
   );
 }
