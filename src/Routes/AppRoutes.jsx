@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import History from "../pages/History";
 import WishlistPage from "../pages/WishlistPage";
 import TestProducts from "../pages/TestProducts";
+
 const Login = lazy(() => import("../pages/LoginPage"));
 const Register = lazy(() => import("../pages/RegisterPage"));
 const Services = lazy(() => import("../pages/ServicesPage"));
@@ -17,13 +18,12 @@ const CalorieCalculator = lazy(() => import("../pages/Calculator"));
 const NotFound = lazy(() => import("../pages/NotFoundPage"));
 const Checkout = lazy(() => import("../pages/CheckoutPage"));
 const Consultations = lazy(() => import("../pages/ConsultationsPage"));
-const Recipes = lazy(() =>
-  import("../components/Recipes/components/RecipesList/RecipesList")
-);
+const Recipes = lazy(() => import("../components/Recipes/components/RecipesList/RecipesList"));
 const RecipeDetail = lazy(() => import("../pages/RecipeDetailPage"));
 const AdminDashboard = lazy(() => import("../pages/AdminDashboard"));
 const Wishlist = lazy(() => import("../pages/WishlistPage"));
 const Subscription = lazy(() => import("../pages/Subscription"));
+const Cart = lazy(() => import("../pages/CartPage"))
 
 
 export default function AppRoutes() {
@@ -52,6 +52,7 @@ export default function AppRoutes() {
       <Route path="/recipes" element={<Recipes />} />
       <Route path="/recipeDetail/:id" element={<RecipeDetail />} />
       <Route path="/test" element={<TestProducts />} />
+      <Route path="/cart" element={<Cart />} />
       <Route path="/wishlist" element={<Wishlist />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
