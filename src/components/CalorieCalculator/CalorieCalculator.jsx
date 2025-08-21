@@ -152,7 +152,7 @@ export default function CalorieCalculator() {
     <>
     <Navbar/>
    
-    <div className="min-h-screen flex justify-center py-12  bg-gray-50">
+    <div className="flex justify-center py-12  bg-gray-50">
       <div className="bg-white shadow-2xl rounded-2xl w-full max-w-4xl flex flex-col md:flex-row overflow-hidden ">
         <div
           className="w-full md:w-1/2 p-8 flex flex-col"
@@ -305,7 +305,7 @@ export default function CalorieCalculator() {
   </span>
 </h2>
 
-                <div className="bg-green-50 p-4 rounded-lg space-y-3 border border-green-200 shadow-md text-sm">
+                <div className="bg-green-50 p-4 rounded-lg space-y-2 border border-green-200 shadow-md text-sm">
                   <p className="text-green-800 font-bold">
                     BMI:{" "}
                     <span className="font-normal">

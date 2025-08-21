@@ -49,7 +49,6 @@ export default function ProductDetails({ product }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease: "easeOut" }}
                 className="w-full md:w-4/5 bg-white rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 min-[1175px]:grid-cols-2">
-                {/product img/}
                 <div className="relative flex  p-6">
                     <img
                         src={product?.imageURL}
