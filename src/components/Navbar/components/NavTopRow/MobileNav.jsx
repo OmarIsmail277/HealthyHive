@@ -1,7 +1,7 @@
-import NavActionButton from "../NavActionButton/NavActionButton";
-import { FaRegHeart, FaRegUser } from "react-icons/fa";
-import { IoCartOutline } from "react-icons/io5";
+import { FaRegUser } from "react-icons/fa";
 import { FiMenu, FiX } from "react-icons/fi";
+import TotalCartItems from "../TotalCartItems/TotalCartItems";
+import TotalWishlistItems from "../TotalWishlistItems/TotalWishlistItems";
 
 function MobileNav({
   isOpen,
@@ -10,38 +10,25 @@ function MobileNav({
   setMobileWishlistOpen,
 }) {
   return (
-    <div className="flex align-baseline pt-2 lg:hidden items-center gap-3">
-      <NavActionButton
-        title={null}
-        subTitle={null}
-        icon={<FaRegUser className="text-primary text-2xl pb-1" />}
-      />
+    <div className="flex items-center gap-x-5 pt-2 lg:hidden">
       {/* Mobile Wishlist */}
-      <div className="relative">
-        <button
-          onClick={() => setMobileWishlistOpen((prev) => !prev)}
-          className="relative"
-        >
-          <FaRegHeart className="text-primary text-2xl mr-2" />
-          <span className="absolute bottom-[80%] left-[60%] bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
-            5
-          </span>
-        </button>
-      </div>
-
+      <button
+        onClick={() => setMobileWishlistOpen((prev) => !prev)}
+        className="relative"
+      >
+        <TotalWishlistItems />
+      </button>
       {/* Mobile Cart */}
-      <div className="relative">
-        <button
-          onClick={() => setMobileCartOpen((prev) => !prev)}
-          className="relative"
-        >
-          <IoCartOutline className="text-primary text-2xl mr-2" />
-          <span className="absolute bottom-[80%] left-[60%] bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full">
-            2
-          </span>
-        </button>
-      </div>
-
+      <button
+        onClick={() => setMobileCartOpen((prev) => !prev)}
+        className="relative"
+      >
+        <TotalCartItems />
+      </button>
+      {/* User */}
+      <button className="text-2xl text-primary">
+        <FaRegUser />
+      </button>
       {/* Mobile Menu */}
       <button
         onClick={() => setIsOpen(!isOpen)}
