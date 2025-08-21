@@ -6,11 +6,11 @@ function DesktopDropdown({ hoverIndex, navLinks, setHoverIndex }) {
   return (
     <div
       className={`absolute left-0 w-full bg-white shadow-md border-t border-gray-200
-        transform transition-all duration-300 ease-in-out
+        transform transition-all duration-500 ease-out
         ${
           isOpen
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 -translate-y-2 pointer-events-none"
+            ? "opacity-100 translate-y-0 scale-100 shadow-lg"
+            : "opacity-0 -translate-y-2 scale-95 shadow-sm pointer-events-none ease-in"
         }`}
       onMouseEnter={() => setHoverIndex(hoverIndex)}
       onMouseLeave={() => setHoverIndex(null)}

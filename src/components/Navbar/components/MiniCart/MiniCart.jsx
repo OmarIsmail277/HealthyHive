@@ -8,6 +8,7 @@ import {
 } from "../../../../store/cartSlice";
 import { TiDelete } from "react-icons/ti";
 import { Link } from "react-router-dom";
+import QuantitySelector from "../../../../Shared/components/QuantitySelector";
 
 function MiniCart({ onClose }) {
   const dispatch = useDispatch();
@@ -44,25 +45,11 @@ function MiniCart({ onClose }) {
                   {item.Name}
                 </h3>
                 <p className="text-xs text-gray-500">
-                  ${item.price.toFixed(2)} each
+                  LE {item.price.toFixed(2)} each
                 </p>
 
                 {/* Quantity Controls */}
-                <div className="flex items-center gap-2 mt-1">
-                  <button
-                    onClick={() => dispatch(decreaseQuantity(item.id))}
-                    className="w-6 h-6 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full"
-                  >
-                    <IoRemove size={14} />
-                  </button>
-                  <span className="text-sm font-medium">{item.quantity}</span>
-                  <button
-                    onClick={() => dispatch(increaseQuantity(item.id))}
-                    className="w-6 h-6 flex items-center justify-center bg-gray-200 hover:bg-gray-300 rounded-full"
-                  >
-                    <IoAdd size={14} />
-                  </button>
-                </div>
+                <QuantitySelector productId={item.id} variant="circle" />
               </div>
 
               {/* Price + Delete button (one line) */}

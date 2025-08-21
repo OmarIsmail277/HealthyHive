@@ -14,47 +14,93 @@ function Navbar() {
   const navLinks = [
     {
       label: "Food",
-      path: "/food",
+      path: "/products?mainCategory=food",
       subLinks: [
-        { label: "Fruits", path: "/food/fruits" },
-        { label: "Vegetables", path: "/food/vegetables" },
-        { label: "Healthy Meals", path: "/food/healthy-meals" },
+        {
+          label: "Dairy",
+          path: "/products?mainCategory=food&subCategory=dairy",
+        },
+        {
+          label: "Nuts Spread",
+          path: "/products?mainCategory=food&subCategory=nuts+spread",
+        },
+        {
+          label: "Healthy Meals",
+          path: "/products?mainCategory=food&subCategory=healthy+meals",
+        },
+        {
+          label: "Sauces",
+          path: "/products?mainCategory=food&subCategory=sauces",
+        },
       ],
     },
     {
       label: "Drinks",
-      path: "/drinks",
+      path: "/products?mainCategory=drinks",
       subLinks: [
-        { label: "Smoothies", path: "/drinks/smoothies" },
-        { label: "Juices", path: "/drinks/juices" },
-        { label: "Teas", path: "/drinks/teas" },
+        {
+          label: "Smoothies",
+          path: "/products?mainCategory=drinks&subCategory=smoothies",
+        },
+                {
+          label: "Herbs",
+          path: "/products?mainCategory=drinks&subCategory=herbs",
+        },
+        {
+          label: "Juices",
+          path: "/products?mainCategory=drinks&subCategory=juice",
+        },
+
       ],
     },
     {
       label: "Personal Care",
-      path: "/personal-care",
+      path: "/products?mainCategory=personal+care",
       subLinks: [
-        { label: "Shampoo", path: "/personal-care/shampoo" },
-        { label: "Shower Gel", path: "/personal-care/showerGel" },
-        { label: "Hand Wash", path: "/personal-care/handWash" },
+        {
+          label: "Shampoo",
+          path: "/products?mainCategory=personal+care&subCategory=shampoo",
+        },
+        {
+          label: "Shower Gel",
+          path: "/products?mainCategory=personal+care&subCategory=shower+gel",
+        },
+        {
+          label: "Hand Wash",
+          path: "/products?mainCategory=personal+care&subCategory=hand+wash",
+        },
       ],
     },
     {
       label: "Bakery",
-      path: "/bakery",
+      path: "/products?mainCategory=bakery",
       subLinks: [
-        { label: "Bread", path: "/bakery/bread" },
-        { label: "Pastries", path: "/bakery/pastries" },
-        { label: "Gluten-Free", path: "/bakery/gluten-free" },
+        {
+          label: "Bread",
+          path: "/products?mainCategory=bakery&subCategory=bread",
+        },
+        {
+          label: "Pastries",
+          path: "/products?mainCategory=bakery&subCategory=pastries",
+        },
+        {
+          label: "Croissants",
+          path: "/products?mainCategory=bakery&subCategory=croissants",
+        },
       ],
     },
     {
       label: "Order Meals",
-      path: "/order-meals",
+      path: "/products?mainCategory=meals",
       subLinks: [
-        { label: "Home Delivery", path: "/order-meals/home-delivery" },
-        { label: "Catering", path: "/order-meals/catering" },
-        { label: "Meal Plans", path: "/order-meals/meal-plans" },
+        {
+          label: "Frozen ",
+          path: "/products?mainCategory=meals&subCategory=frozen",
+        },
+        {
+          label: "Pre-Order",
+          path: "/products?mainCategory=meals&subCategory=preorder",
+        },
       ],
     },
     {
