@@ -103,7 +103,7 @@ export default function ProductDetails({ product }) {
                                 onClick={() => setOpen(!open)}
                                 className="w-full flex justify-between items-center p-4 font-semibold text-lg">
                                 Nutritional Information
-                                <MdKeyboardArrowDown className={w-5 h-5 transition-transform ${open ? "rotate-180" : ""}} />
+                                <MdKeyboardArrowDown className={`w-5 h-5 transition-transform ${open ? "rotate-180" : ""}`} />
                             </button>
 
                             {open && (
