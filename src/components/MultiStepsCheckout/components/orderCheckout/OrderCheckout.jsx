@@ -1,13 +1,10 @@
-import test from '../../../../assets/test_img.jpg'
+  import { useSelector } from "react-redux";
 
 function OrderCheckout({onNext}) {
 
-  const products = [
-    { name: "Headsets", price: 129, quantity: 2 },
-    { name: "Headsets", price: 129, quantity: 2 }
-  ];
+  const { items } = useSelector((state) => state.cart);
 
-  const subtotal = products.reduce((acc, product) => acc + (product.price * product.quantity), 0)
+  const subtotal = items.reduce((acc, product) => acc + (product.price * product.quantity), 0)
 
   return (
     <div>
@@ -18,13 +15,13 @@ function OrderCheckout({onNext}) {
           <h4>Total</h4>
         </div>
         <div>
-          {products.map((product, index) => (
+          {items.map((product, index) => (
             <div key={index} className='flex justify-between items-center py-4 px-4 border-b border-gray-200'>
               <div className='flex items-center gap-4'>
                 <figure className='w-[15%] rounded-lg overflow-hidden'>
-                  <img src={test} alt={product.name} className='w-full h-auto object-contain' />
+                  <img src={product.imageURL} alt={product.Name} className='w-full h-auto object-contain' />
                 </figure>
-                <p>{`${product.name} x ${product.quantity}`}</p>
+                <p>{`${product.Name} x ${product.quantity}`}</p>
               </div>
               <h6>{product.price * product.quantity}&nbsp;LE</h6>
             </div>

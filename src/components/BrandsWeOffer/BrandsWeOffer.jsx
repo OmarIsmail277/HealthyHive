@@ -56,9 +56,9 @@ function BrandsWeOffer() {
 
   ];
   return (
-  <div className='pt-15'>
+    <div className='pt-15'>
 
-       <div className="text-center">
+      <div className="text-center">
         <h2 className="text-3xl md:text-4xl text-center font-bold text-gray-800">
           Our <span className="text-primary">Partners</span>
         </h2>
@@ -66,23 +66,23 @@ function BrandsWeOffer() {
           <div className="w-16 h-1 bg-primary rounded-full"></div>
         </div>
         <p className="mt-4 text-gray-600 max-w-2xl mx-auto">
-         Explore below a list of our trusted partners and product providers
+          Explore below a list of our trusted partners and product providers
         </p>
       </div>
-    <div className="BrandsWeOffer flex flex-col items-center justify-center p-4 w-4/5 m-auto bg-[#f8faf4] rounded-lg shadow-lg my-10 gap-4">
-      {/* <h2 className='text-2xl text-deepGreen font-bold'>Brands We Offer</h2> */}
-      <div className="cards flex flex-wrap justify-center lg:justify-center items-center gap-4">
-        {brands.map((item, index) => (
-          <BrandsCard key={index}
-            brand={item.brand}
-            image={item.image}
-          // path={item.path}
-          />
-        ))}
+      <div className="BrandsWeOffer flex flex-col items-center justify-center p-4 w-4/5 m-auto bg-[#f8faf4] rounded-lg shadow-lg my-10 gap-4">
+        {/* <h2 className='text-2xl text-deepGreen font-bold'>Brands We Offer</h2> */}
+        <div className="cards flex flex-wrap justify-center lg:justify-center items-center gap-4 p-6">
+          {brands.map((item, index) => (
+            <BrandsCard key={index}
+              brand={item.brand}
+              image={item.image}
+            // path={item.path}
+            />
+          ))}
 
+        </div>
       </div>
     </div>
-          </div>
   )
 }
 

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useParams, useLocation, useSearchParams } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import RecommendedCard from "../components/RecommendedProducts/RecommendedCard/RecommendedCard";
@@ -7,33 +7,121 @@ import Filter from "../components/Filter/Filter";
 import AdviceFetch from "../components/FetchAdvice/AdviceFetch";
 import { getProducts } from "../services/apiProducts";
 import { useQuery } from "@tanstack/react-query";
+import Spinner from "../components/Spinner/Spinner";
+import SubIcon from "../components/SubIcon/SubIcon";
 
 function SearchResultsPage() {
-  const [showFilter, setShowFilter] = useState(true);
+  const [showFilter, setShowFilter] = useState(false); // Start with filters hidden on mobile
   const [searchQuery, setSearchQuery] = useState("");
-  const [resultsCount, setResultsCount] = useState(0);
   const { query } = useParams();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
 
   const { isLoading, data: products } = useQuery({
     queryKey: ["products"],
     queryFn: getProducts,
   });
 
+  const [filters, setFilters] = useState({
+    category: searchParams.get("mainCategory") || "",
+    subcategory: searchParams.get("subCategory") || "",
+    priceRange: 1000,
+    starRating: 0,
+    inStock: false,
+    onSale: false,
+    sortBy: "",
+  });
+
+  // callback from FilterSidebar
+  const handleFilterChange = (newFilters) => {
+    setFilters((prev) => ({ ...prev, ...newFilters }));
+  };
+
+  useEffect(() => {
+    const mainCategory = searchParams.get("mainCategory") || "";
+    const subCategory = searchParams.get("subCategory") || "";
+
+    setFilters((prev) => ({
+      ...prev,
+      category: mainCategory,
+      subcategory: subCategory,
+    }));
+  }, [searchParams]);
+
   useEffect(() => {
     // Extract search query from URL
-    const searchParam =
-      query || new URLSearchParams(location.search).get("q") || "";
+    const searchParam = query || new URLSearchParams(location.search).get("q") || "";
     setSearchQuery(searchParam);
-    setResultsCount(products.length); // In real app, this would come from API response
-  }, [query, location.search, products.length]);
+  }, [query, location.search]);
+
+  if (isLoading) return <Spinner />;
+
+  // First filter by search query
+  let filteredProducts = products.filter(product => 
+    product.Name.toLowerCase().includes(searchQuery.toLowerCase()) || // Changed from Name to name
+    (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
+    product.mainCategory.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    product.subCategory.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  // Then apply additional filters
+  if (filters.category) {
+    filteredProducts = filteredProducts.filter(
+      (product) =>
+        product.mainCategory.toLowerCase() === filters.category.toLowerCase()
+    );
+  }
+
+  if (filters.subcategory) {
+    filteredProducts = filteredProducts.filter(
+      (product) =>
+        product.subCategory.toLowerCase() === filters.subcategory.toLowerCase()
+    );
+  }
+
+  // Price range
+  filteredProducts = filteredProducts.filter(
+    (product) => product.price <= filters.priceRange
+  );
+
+  // Star rating
+  if (filters.starRating > 0) {
+    filteredProducts = filteredProducts.filter(
+      (product) => Math.floor(product.rating) >= filters.starRating
+    );
+  }
+
+  // In stock
+  if (filters.inStock) {
+    filteredProducts = filteredProducts.filter(
+      (product) => product.stockStatus
+    );
+  }
+
+  // On sale
+  if (filters.onSale) {
+    filteredProducts = filteredProducts.filter(
+      (product) => product.discount > 0
+    );
+  }
+
+  // Sorting
+  if (filters.sortBy === "priceLowHigh") {
+    filteredProducts = [...filteredProducts].sort((a, b) => a.price - b.price);
+  } else if (filters.sortBy === "priceHighLow") {
+    filteredProducts = [...filteredProducts].sort((a, b) => b.price - a.price);
+  } else if (filters.sortBy === "ratingHighLow") {
+    filteredProducts = [...filteredProducts].sort(
+      (a, b) => b.rating - a.rating
+    );
+  }
 
   return (
     <>
       <Navbar />
       <main className="min-h-screen">
         {/* Mobile filter toggle button */}
-        <div className="md:hidden flex justify-end p-4">
+        <div className="md:hidden flex justify-end p-4 sticky top-0 bg-white z-10 shadow-sm">
           <button
             onClick={() => setShowFilter(!showFilter)}
             className="flex items-center gap-2 px-4 py-2 bg-emerald-500 text-white rounded-lg shadow hover:bg-emerald-600 transition"
@@ -75,23 +163,80 @@ function SearchResultsPage() {
         </div>
 
         <div className="healthy__container flex flex-col md:flex-row py-4 md:py-6 px-4 md:px-0">
-        <div className="healthy__container flex flex-col md:flex-row py-4 md:py-6 px-4 md:px-0">
-          {/* Filter - always visible on desktop, toggleable on mobile */}
+          {/* Filter sidebar - fixed position on mobile when open */}
+          {showFilter && (
+            <div className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-20" onClick={() => setShowFilter(false)}></div>
+          )}
           <div
-            className={`${
-              showFilter ? "block" : "hidden"
-            } md:block w-full md:w-72 shrink-0`}
+            className={`${showFilter ? "fixed top-0 left-0 h-full z-30 overflow-y-auto" : "hidden"} md:block md:relative md:z-0 w-full md:w-72 shrink-0 bg-white`}
           >
-            <div className="">
-              <Filter />
+            <div className="p-4 md:p-0">
+              <Filter
+                filterField="mainCategory"
+                options={[
+                  {
+                    value: "food",
+                    label: "Food",
+                    subs: [
+                      { value: "dairy", label: "Dairy" },
+                      { value: "nuts spread", label: "Nuts Spread" },
+                      { value: "healthy meals", label: "Healthy Meals" },
+                      { value: "sauces", label: "Sauces" },
+                    ],
+                  },
+                  {
+                    value: "drinks",
+                    label: "Drinks",
+                    subs: [
+                      { value: "smoothies", label: "Smoothies" },
+                      { value: "tea", label: "Tea" },
+                      { value: "juice", label: "Juice" },
+                    ],
+                  },
+                  {
+                    value: "personal care",
+                    label: "Personal Care",
+                    subs: [
+                      { value: "shampoo", label: "Shampoo" },
+                      { value: "shower gel", label: "Shower Gel" },
+                      { value: "hand wash", label: "Hand Wash" },
+                    ],
+                  },
+                  {
+                    value: "bakery",
+                    label: "Bakery",
+                    subs: [
+                      { value: "bread", label: "Bread" },
+                      { value: "pastries", label: "Pastries" },
+                      { value: "croissants", label: "Croissants" },
+                    ],
+                  },
+                  {
+                    value: "meals",
+                    label: "Meals",
+                    subs: [
+                      { value: "frozen", label: "Frozen" },
+                      { value: "preorder", label: "Pre-Order" },
+                    ],
+                  },
+                ]}
+                onFilterChange={handleFilterChange}
+              />
+              {/* Close button for mobile */}
+              <button 
+                className="md:hidden w-full mt-4 px-4 py-2 bg-red-500 text-white rounded-lg"
+                onClick={() => setShowFilter(false)}
+              >
+                Close Filters
+              </button>
             </div>
           </div>
 
           {/* Main content */}
-          <div className="flex-1">
+          <div className="flex-1 md:mt-0 px-4 md:px-0">
             <div className="mb-6">
               <h1 className="text-xl font-semibold text-gray-800">
-                Results found: {resultsCount}
+                Results found: {filteredProducts.length}
               </h1>
               {searchQuery && (
                 <p className="text-gray-600">
@@ -102,18 +247,25 @@ function SearchResultsPage() {
                 </p>
               )}
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-              {products.map((product) => (
-                <div key={product.id} className="flex justify-center">
-                  <RecommendedCard product={product} />
-                </div>
-              ))}
-            </div>
+            {filteredProducts.length === 0 ? (
+              <div className="text-center py-10">
+                <p className="text-gray-500 text-lg">No products found matching your search criteria.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+                {filteredProducts.map((product) => (
+                  <div key={product.id} className="flex justify-center">
+                    <RecommendedCard product={product} />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </main>
       <Footer />
       <AdviceFetch />
+      <SubIcon/>
     </>
   );
 }

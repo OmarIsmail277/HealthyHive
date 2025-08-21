@@ -4,8 +4,10 @@ import {
   FaSquareXTwitter,
   FaLocationDot,
   FaHeart,
-  FaLeaf
+  FaLeaf,
 } from "react-icons/fa6";
+import { FaQuestionCircle } from "react-icons/fa"; // instead of fa6
+
 import { FiInstagram } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import footerimg from "/images/Footer.jpg";
@@ -109,8 +111,26 @@ function Footer() {
               >
                 <FaSquareXTwitter />
               </Link>
+
+              <Link
+                to="/faq"
+                className="text-gray-400 hover:text-primary hover:scale-110 transition-all duration-300"
+                aria-label="FAQ"
+              >
+                <FaQuestionCircle />
+              </Link>
             </div>
-            <p className="text-xs text-white   pt-2">
+
+            <div className="pt-2">
+              <Link
+                to="/about"
+                className="text-lg font-bold text-primary"
+              >
+                About Us
+              </Link>
+            </div>
+
+            <p className="text-xs text-white pt-2">
               Follow us for daily wellness inspiration
             </p>
           </div>
@@ -128,6 +148,7 @@ function Footer() {
           </div>
         </div>
       </div>
+
     </footer>
   );
 }
