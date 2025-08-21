@@ -12,14 +12,14 @@ import { useSearchParams } from "react-router";
 function SearchResultsPage() {
   const [showFilter, setShowFilter] = useState(true);
 
-  const { isLoading, data: products } = useQuery({
+  const { isPending, data: products } = useQuery({
     queryKey: ["products"],
     queryFn: getProducts,
   });
 
   const [searchParams] = useSearchParams();
 
-  if (isLoading) return <Spinner />;
+  if (isPending) return <Spinner />;
 
   const mainCategory = searchParams.get("mainCategory");
   const subCategory = searchParams.get("subCategory");

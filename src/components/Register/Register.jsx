@@ -20,10 +20,7 @@ import {
   FaCookieBite,
   FaIceCream,
   FaCoffee,
-  FaBeer,
   FaCocktail,
-  FaWineGlassAlt,
-  FaGlassWhiskey,
   FaMugHot,
   FaBlender,
   FaMortarPestle,
@@ -31,31 +28,60 @@ import {
   FaShower,
   FaBath,
   FaSpa,
-  FaUtensilSpoon
+  FaUtensilSpoon,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useSignup } from "../../features/authentication/useSignup";
 
 export default function Register() {
+  const { signup, isPending } = useSignup();
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
 
   const password = watch("password", "");
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = ({ username, email, password }) => {
+    signup(
+      { username, email, password },
+      {
+        onSettled: reset,
+      }
+    );
   };
 
   const icons = [
-    FaLeaf, FaSeedling, FaSpa, FaAppleAlt, FaLemon, FaCarrot, FaPepperHot,
-    FaBreadSlice, FaPizzaSlice, FaHamburger, FaHotdog, FaDrumstickBite,
-    FaFish, FaEgg, FaCheese, FaCookie, FaCookieBite, FaIceCream,
-    FaMortarPestle, FaUtensilSpoon, FaCoffee, FaMugHot, FaBeer,
-    FaCocktail, FaWineGlassAlt, FaGlassWhiskey, FaBlender, FaSoap,
-    FaShower, FaBath
+    FaLeaf,
+    FaSeedling,
+    FaSpa,
+    FaAppleAlt,
+    FaLemon,
+    FaCarrot,
+    FaPepperHot,
+    FaBreadSlice,
+    FaPizzaSlice,
+    FaHamburger,
+    FaHotdog,
+    FaDrumstickBite,
+    FaFish,
+    FaEgg,
+    FaCheese,
+    FaCookie,
+    FaCookieBite,
+    FaIceCream,
+    FaMortarPestle,
+    FaUtensilSpoon,
+    FaCoffee,
+    FaMugHot,
+    FaCocktail,
+    FaBlender,
+    FaSoap,
+    FaShower,
+    FaBath,
   ];
 
   return (
@@ -106,18 +132,29 @@ export default function Register() {
         <div className="flex-1 flex items-center justify-center p-6">
           <div className="text-center max-w-md">
             <h1 className="text-5xl md:text-6xl font-bold text-green-700 mb-4 drop-shadow-lg">
-                <span className="relative inline-block">
-                  <span className="relative z-10">HealthyHive</span>
-                  <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300 opacity-70 rounded-full transform rotate-1"></span>
-                </span>
+              <span className="relative inline-block">
+                <span className="relative z-10">HealthyHive</span>
+                <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300 opacity-70 rounded-full transform rotate-1"></span>
+              </span>
             </h1>
             <p className="hidden md:block text-lg text-green-800 opacity-90 mb-8">
-              Join our community of health enthusiasts and discover a world of wellness
+              Join our community of health enthusiasts and discover a world of
+              wellness
             </p>
             <div className=" flex justify-center">
               <div className="grid grid-cols-3 gap-3 max-w-xs">
-                {[FaLeaf, FaAppleAlt, FaCarrot, FaSeedling, FaSpa, FaMortarPestle].map((Icon, i) => (
-                  <div key={i} className="bg-white/50 p-3 rounded-lg shadow-sm backdrop-blur-sm">
+                {[
+                  FaLeaf,
+                  FaAppleAlt,
+                  FaCarrot,
+                  FaSeedling,
+                  FaSpa,
+                  FaMortarPestle,
+                ].map((Icon, i) => (
+                  <div
+                    key={i}
+                    className="bg-white/50 p-3 rounded-lg shadow-sm backdrop-blur-sm"
+                  >
                     <Icon className="text-green-600 text-xl mx-auto" />
                   </div>
                 ))}
@@ -138,10 +175,15 @@ export default function Register() {
               className="grid grid-cols-1 gap-y-4 text-sm"
             >
               <div>
-                <label className="block font-medium text-gray-800 text-xs mb-1">Username</label>
+                <label className="block font-medium text-gray-800 text-xs mb-1">
+                  Username
+                </label>
                 <input
                   type="text"
-                  {...register("username", { required: "Username is required" })}
+                  disabled={isPending}
+                  {...register("username", {
+                    required: "Username is required",
+                  })}
                   className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white/70 ${
                     errors.username ? "border-red-500" : "border-gray-300"
                   }`}
@@ -152,14 +194,16 @@ export default function Register() {
               </div>
 
               <div>
-                <label className="block font-medium text-gray-800 text-xs mb-1">Email</label>
+                <label className="block font-medium text-gray-800 text-xs mb-1">
+                  Email
+                </label>
                 <input
                   type="email"
+                  disabled={isPending}
                   {...register("email", {
                     required: "Email is required",
                     pattern: {
-                      value:
-                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                       message: "Invalid email address",
                     },
                   })}
@@ -173,9 +217,12 @@ export default function Register() {
               </div>
 
               <div>
-                <label className="block font-medium text-gray-800 text-xs mb-1">Password</label>
+                <label className="block font-medium text-gray-800 text-xs mb-1">
+                  Password
+                </label>
                 <input
                   type="password"
+                  disabled={isPending}
                   {...register("password", {
                     required: "Password is required",
                     minLength: {
@@ -198,13 +245,16 @@ export default function Register() {
                 </label>
                 <input
                   type="password"
+                  disabled={isPending}
                   {...register("confirmPassword", {
                     required: "Please confirm your password",
                     validate: (value) =>
                       value === password || "Passwords do not match",
                   })}
                   className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white/70 ${
-                    errors.confirmPassword ? "border-red-500" : "border-gray-300"
+                    errors.confirmPassword
+                      ? "border-red-500"
+                      : "border-gray-300"
                   }`}
                 />
                 <p className="text-red-600 text-xs min-h-[1rem] mt-1">
@@ -215,6 +265,7 @@ export default function Register() {
               <div className="mt-2">
                 <button
                   type="submit"
+                  disabled={isPending}
                   className="w-full bg-green-600 text-white py-2.5 rounded-lg shadow-md hover:bg-green-700 transform hover:scale-[1.01] transition-all duration-200 font-medium"
                 >
                   Get Started
@@ -223,7 +274,9 @@ export default function Register() {
 
               <div className="flex items-center my-3">
                 <div className="flex-grow h-px bg-gray-300"></div>
-                <span className="px-3 text-gray-500 text-xs">or continue with</span>
+                <span className="px-3 text-gray-500 text-xs">
+                  or continue with
+                </span>
                 <div className="flex-grow h-px bg-gray-300"></div>
               </div>
 

@@ -5,6 +5,7 @@ import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 import MiniCart from "../MiniCart/MiniCart";
 import MiniWishlist from "../MiniWishlist/MiniWishlist";
+import ButtonIcon from "../../../ButtonIcon";
 
 function NavTopRow({ isOpen, setIsOpen }) {
   const [hoverIndex, setHoverIndex] = useState(null);
@@ -51,7 +52,6 @@ function NavTopRow({ isOpen, setIsOpen }) {
           setMobileWishlistOpen={setMobileWishlistOpen}
         />
       </div>
-
       {/* Mobile MiniWishlist */}
       <div className="lg:hidden fixed inset-0 z-40 pointer-events-none">
         <div
@@ -74,7 +74,6 @@ function NavTopRow({ isOpen, setIsOpen }) {
           <MiniWishlist onClose={() => setMobileWishlistOpen(false)} />
         </div>
       </div>
-
       {/* Mobile MiniCart */}
       <div className="lg:hidden fixed inset-0 z-40 pointer-events-none">
         <div
