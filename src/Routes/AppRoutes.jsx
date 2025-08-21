@@ -39,8 +39,6 @@ export default function AppRoutes() {
         <Route path="/register" element={<Register />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/faq" element={<Faq />} />
-
-
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/cart" element={<Cart />} />

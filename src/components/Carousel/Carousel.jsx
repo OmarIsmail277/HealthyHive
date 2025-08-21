@@ -53,7 +53,7 @@ function Carousel() {
   const nextSlide = () => setCurrent((prev) => (prev + 1) % slides.length);
 
   return (
-    <div className="relative  w-full h-full section-margin">
+    <div className="relative  w-full h-full ">
       {/* Carousel wrapper */}
 
       <div className="relative min-h-[78vh] overflow-hidden ">
