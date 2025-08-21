@@ -102,12 +102,18 @@ export default function LoginForm() {
       <div className="relative z-10 flex flex-col md:flex-row min-h-screen w-full ">
         <div className="flex-1 flex items-center justify-center p-6">
           <div className="text-center max-w-md">
-            <h1 className="text-5xl md:text-6xl font-bold text-green-700 mb-4 drop-shadow-lg">
-              <span className="relative inline-block">
-                <span className="relative z-10">HealthyHive</span>
-                <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300 opacity-70 rounded-full transform rotate-1"></span>
-              </span>
-            </h1>
+<h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-green-700 mb-4 drop-shadow-lg">
+  <span className="relative inline-flex items-center gap-2">
+    <img
+      className="h-12 sm:h-14 md:h-[80px] w-auto"
+      src="/images/logos/green-logo.svg"
+      alt="HealthyHive Logo"
+    />
+    <span className="relative z-10">HealthyHive</span>
+    <span className="absolute -bottom-1 left-0 w-full h-1 sm:h-1.5 md:h-2 bg-yellow-300 opacity-70 rounded-full transform rotate-1"></span>
+  </span>
+</h1>
+
             <p className="hidden md:block text-lg text-green-800 opacity-90 mb-8">
               Welcome back to your wellness journey
             </p>

@@ -34,6 +34,7 @@ import {
   FaUtensilSpoon
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useMemo } from "react";
 
 export default function Register() {
   const {
@@ -58,6 +59,25 @@ export default function Register() {
     FaShower, FaBath
   ];
 
+  // ✅ FIX: Generate random floating icons only once
+  const floatingIcons = useMemo(() => {
+    return [...Array(60)].map((_, i) => {
+      const Icon = icons[i % icons.length];
+      return {
+        id: i,
+        Icon,
+        top: `${Math.random() * 100}%`,
+        left: `${Math.random() * 100}%`,
+        size: `${12 + Math.random() * 40}px`,
+        opacity: 0.1 + Math.random() * 0.3,
+        floatDuration: `${16 + Math.random() * 22}s`,
+        spinDuration: `${10 + Math.random() * 30}s`,
+        floatDelay: `${Math.random() * 10}s`,
+        spinDelay: `${Math.random() * 10}s`,
+      };
+    });
+  }, []);
+
   return (
     <div className="relative min-h-screen w-full bg-gradient-to-br from-white-50 to-emerald-100 overflow-hidden">
       {/* Floating Background Elements */}
@@ -65,52 +85,45 @@ export default function Register() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_#d1fae5_0%,_transparent_70%)] opacity-50" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_#bbf7d0_0%,_transparent_70%)] opacity-50" />
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#10b981_1px,transparent_1px)] bg-[length:20px_20px]" />
-
-        {[...Array(60)].map((_, i) => {
-          const Icon = icons[i % icons.length];
-          const top = `${Math.random() * 100}%`;
-          const left = `${Math.random() * 100}%`;
-          const size = `${12 + Math.random() * 40}px`;
-          const opacity = 0.1 + Math.random() * 0.3;
-          const floatDuration = `${16 + Math.random() * 22}s`;
-          const spinDuration = `${10 + Math.random() * 30}s`;
-          const floatDelay = `${Math.random() * 10}s`;
-          const spinDelay = `${Math.random() * 10}s`;
-
-          return (
-            <span
-              key={i}
-              className="absolute icon-float"
+        {floatingIcons.map(({ id, Icon, top, left, size, opacity, floatDuration, spinDuration, floatDelay, spinDelay }) => (
+          <span
+            key={id}
+            className="absolute icon-float"
+            style={{
+              top,
+              left,
+              "--float-duration": floatDuration,
+              "--float-delay": floatDelay,
+            }}
+          >
+            <Icon
+              className="icon-spin text-green-700"
               style={{
-                top,
-                left,
-                "--float-duration": floatDuration,
-                "--float-delay": floatDelay,
+                fontSize: size,
+                opacity,
+                "--spin-duration": spinDuration,
+                "--spin-delay": spinDelay,
               }}
-            >
-              <Icon
-                className="icon-spin text-green-700"
-                style={{
-                  fontSize: size,
-                  opacity,
-                  "--spin-duration": spinDuration,
-                  "--spin-delay": spinDelay,
-                }}
-              />
-            </span>
-          );
-        })}
+            />
+          </span>
+        ))}
       </div>
 
       <div className="relative z-10 flex flex-col md:flex-row min-h-screen w-full">
         <div className="flex-1 flex items-center justify-center p-6">
           <div className="text-center max-w-md">
-            <h1 className="text-5xl md:text-6xl font-bold text-green-700 mb-4 drop-shadow-lg">
-                <span className="relative inline-block">
-                  <span className="relative z-10">HealthyHive</span>
-                  <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300 opacity-70 rounded-full transform rotate-1"></span>
-                </span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-green-700 mb-4 drop-shadow-lg">
+              <span className="relative inline-flex items-center gap-2">
+                <img
+                  className="h-12 sm:h-14 md:h-[80px] w-auto"
+                  src="/images/logos/green-logo.svg"
+                  alt="HealthyHive Logo"
+                />
+                <span className="relative z-10">HealthyHive</span>
+                <span className="absolute -bottom-1 left-0 w-full h-1 sm:h-1.5 md:h-2 bg-yellow-300 opacity-70 rounded-full transform rotate-1"></span>
+              </span>
             </h1>
+
             <p className="hidden md:block text-lg text-green-800 opacity-90 mb-8">
               Join our community of health enthusiasts and discover a world of wellness
             </p>
