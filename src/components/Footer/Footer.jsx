@@ -28,7 +28,7 @@ function Footer() {
           <div className="space-y-4">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-1 sm:gap-2">
-              <FaLeaf className="text-lg sm:text-xl lg:text-2xl text-button" />
+              <img className="h-[80px] w-[80px] " src="/images/logos/white-logo.svg"/>
               <span className="font-bold text-base sm:text-lg lg:text-3xl">
                 HealthyHive
               </span>
@@ -124,7 +124,7 @@ function Footer() {
             <div className="pt-2">
               <Link
                 to="/about"
-                className="text-lg font-bold text-primary"
+                className="text-lg font-bold text-primary hover:!text-primary"
               >
                 About Us
               </Link>

@@ -6,7 +6,7 @@ import AdviceFetch from '../components/FetchAdvice/AdviceFetch';
 import { FaHeart, FaUsers, FaSeedling, FaMedal, FaGlobe } from "react-icons/fa";
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import logo from '/images/logo.png'; 
+import logo from '/images/logos/green-logo.svg'; 
 
 function AboutUs() {
   // Animation controls

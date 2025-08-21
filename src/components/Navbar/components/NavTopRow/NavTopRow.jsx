@@ -28,7 +28,8 @@ function NavTopRow({ isOpen, setIsOpen }) {
       <div className="container mx-auto flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-1 sm:gap-2">
-          <FaLeaf className="text-lg sm:text-xl lg:text-2xl text-primary" />
+          {/* <FaLeaf className="text-lg sm:text-xl lg:text-2xl text-primary" /> */}
+          <img src="/images/logos/green-logo.svg" className="h-[80px] w-[80px] "/>
           <span className="font-bold text-base sm:text-lg lg:text-3xl">
             HealthyHive
           </span>
