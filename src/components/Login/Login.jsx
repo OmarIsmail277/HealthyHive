@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
   FaGoogle,
@@ -20,10 +21,8 @@ import {
   FaCookieBite,
   FaIceCream,
   FaCoffee,
-  FaBeer,
   FaCocktail,
   FaWineGlassAlt,
-  FaGlassWhiskey,
   FaMugHot,
   FaBlender,
   FaMortarPestle,
@@ -31,28 +30,67 @@ import {
   FaShower,
   FaBath,
   FaSpa,
-  FaUtensilSpoon
+  FaUtensilSpoon,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { useLogin } from "../../features/authentication/useLogin";
+import SpinnerMini from "../Spinner/SpinnerMini";
 
 export default function LoginForm() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
 
+  const { login, isPending } = useLogin();
+
   const onSubmit = (data) => {
-    console.log(data);
+    const { email, password } = data;
+
+    if (!email || !password) return;
+
+    login(
+      { email, password },
+      {
+        onSettled: () => {
+          // 👇 clears the form inputs after login attempt (success or error)
+          reset({ email: "", password: "" });
+        },
+      }
+    );
   };
 
   const icons = [
-    FaLeaf, FaSeedling, FaSpa, FaAppleAlt, FaLemon, FaCarrot, FaPepperHot,
-    FaBreadSlice, FaPizzaSlice, FaHamburger, FaHotdog, FaDrumstickBite,
-    FaFish, FaEgg, FaCheese, FaCookie, FaCookieBite, FaIceCream,
-    FaMortarPestle, FaUtensilSpoon, FaCoffee, FaMugHot, FaBeer,
-    FaCocktail, FaWineGlassAlt, FaGlassWhiskey, FaBlender, FaSoap,
-    FaShower, FaBath
+    FaLeaf,
+    FaSeedling,
+    FaSpa,
+    FaAppleAlt,
+    FaLemon,
+    FaCarrot,
+    FaPepperHot,
+    FaBreadSlice,
+    FaPizzaSlice,
+    FaHamburger,
+    FaHotdog,
+    FaDrumstickBite,
+    FaFish,
+    FaEgg,
+    FaCheese,
+    FaCookie,
+    FaCookieBite,
+    FaIceCream,
+    FaMortarPestle,
+    FaUtensilSpoon,
+    FaCoffee,
+    FaMugHot,
+    FaCocktail,
+    FaWineGlassAlt,
+    FaBlender,
+    FaSoap,
+    FaShower,
+    FaBath,
   ];
 
   return (
@@ -119,8 +157,18 @@ export default function LoginForm() {
             </p>
             <div className=" flex justify-center">
               <div className="grid grid-cols-3 gap-3 max-w-xs">
-                {[FaLeaf, FaAppleAlt, FaCarrot, FaSeedling, FaSpa, FaMortarPestle].map((Icon, i) => (
-                  <div key={i} className="bg-white/50 p-3 rounded-lg shadow-sm backdrop-blur-sm">
+                {[
+                  FaLeaf,
+                  FaAppleAlt,
+                  FaCarrot,
+                  FaSeedling,
+                  FaSpa,
+                  FaMortarPestle,
+                ].map((Icon, i) => (
+                  <div
+                    key={i}
+                    className="bg-white/50 p-3 rounded-lg shadow-sm backdrop-blur-sm"
+                  >
                     <Icon className="text-green-600 text-xl mx-auto" />
                   </div>
                 ))}
@@ -141,9 +189,12 @@ export default function LoginForm() {
               className="grid grid-cols-1 gap-y-4 text-sm"
             >
               <div>
-                <label className="block font-medium text-gray-800 text-xs mb-1">Email</label>
+                <label className="block font-medium text-gray-800 text-xs mb-1">
+                  Email
+                </label>
                 <input
                   type="email"
+                  disabled={isPending}
                   {...register("email", { required: "Email is required" })}
                   className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white/70 ${
                     errors.email ? "border-red-500" : "border-gray-300"
@@ -155,9 +206,12 @@ export default function LoginForm() {
               </div>
 
               <div>
-                <label className="block font-medium text-gray-800 text-xs mb-1">Password</label>
+                <label className="block font-medium text-gray-800 text-xs mb-1">
+                  Password
+                </label>
                 <input
                   type="password"
+                  disabled={isPending}
                   {...register("password", {
                     required: "Password is required",
                     minLength: {
@@ -181,7 +235,10 @@ export default function LoginForm() {
                     id="remember"
                     className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
                   />
-                  <label htmlFor="remember" className="ml-2 block text-xs text-gray-700">
+                  <label
+                    htmlFor="remember"
+                    className="ml-2 block text-xs text-gray-700"
+                  >
                     Remember me
                   </label>
                 </div>
@@ -196,15 +253,29 @@ export default function LoginForm() {
               <div className="mt-2">
                 <button
                   type="submit"
-                  className="w-full bg-green-600 text-white py-2.5 rounded-lg shadow-md hover:bg-green-700 transform hover:scale-[1.01] transition-all duration-200 font-medium"
+                  disabled={isPending}
+                  className="w-full bg-green-600 text-white py-2.5 rounded-lg shadow-md 
+             font-medium transition-all duration-200
+             hover:bg-green-700 hover:scale-[1.01]
+             disabled:bg-gray-400 disabled:!cursor-not-allowed 
+             disabled:hover:bg-gray-400 disabled:hover:scale-100"
                 >
-                  Sign In
+                  {isPending ? (
+                    <div className="flex items-center justify-center gap-2">
+                      <span>Signing in...</span>
+                      <SpinnerMini />
+                    </div>
+                  ) : (
+                    "Sign In"
+                  )}
                 </button>
               </div>
 
               <div className="flex items-center my-3">
                 <div className="flex-grow h-px bg-gray-300"></div>
-                <span className="px-3 text-gray-500 text-xs">or continue with</span>
+                <span className="px-3 text-gray-500 text-xs">
+                  or continue with
+                </span>
                 <div className="flex-grow h-px bg-gray-300"></div>
               </div>
 

@@ -13,13 +13,14 @@ import { useSearchParams } from "react-router";
 function ProudctsPage() {
   const [showFilter, setShowFilter] = useState(true);
 
-  const { isLoading, data: products } = useQuery({
+  const { isPending, data: products } = useQuery({
     queryKey: ["products"],
     queryFn: getProducts,
   });
 
   const [searchParams] = useSearchParams();
 
+  if (isPending) return <Spinner />;
   const [filters, setFilters] = useState({
     category: searchParams.get("mainCategory") || "",
     subcategory: searchParams.get("subCategory") || "",
@@ -46,7 +47,6 @@ function ProudctsPage() {
     }));
   }, [searchParams]);
 
-  if (isLoading) return <Spinner />;
 
   // const mainCategory = searchParams.get("mainCategory");
   // const subCategory = searchParams.get("subCategory");

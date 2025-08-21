@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import History from "../pages/History";
 import WishlistPage from "../pages/WishlistPage";
 import TestProducts from "../pages/TestProducts";
+import ProtectedRoute from "../components/ProtectedRoute";
 import MainLayout from "../components/MainLayout";
 import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
 
@@ -35,30 +36,40 @@ export default function AppRoutes() {
     <>
       <ScrollToTop />
       <Routes>
+        {/* Public Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/faq" element={<Faq />} />
+
+        {/* Routes with MainLayout */}
         <Route element={<MainLayout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/products" element={<ProductsPage />} />
-          <Route path="/products/:category" element={<ProductCategory />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/services/calorie-calculator" element={<CalorieCalculator />} />
-          <Route path="/services/consultations" element={<Consultations />} />
-          <Route path="/subscription" element={<Subscription />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="/search/:query" element={<SearchResults />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/history" element={<History />} />
-          <Route path="/wishlistPage" element={<WishlistPage />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/recipes" element={<Recipes />} />
-          <Route path="/recipeDetail/:id" element={<RecipeDetail />} />
-          <Route path="/test" element={<TestProducts />} />
-          <Route path="/wishlist" element={<Wishlist />} />
+          {/* Protected Routes */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/products/:category" element={<ProductCategory />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route
+              path="/services/calorie-calculator"
+              element={<CalorieCalculator />}
+            />
+            <Route path="/services/consultations" element={<Consultations />} />
+            <Route path="/subscription" element={<Subscription />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/search/:query" element={<SearchResults />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/history" element={<History />} />
+            <Route path="/faq" element={<Faq />} />
+            <Route path="/wishlist" element={<WishlistPage />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/recipes" element={<Recipes />} />
+            <Route path="/recipeDetail/:id" element={<RecipeDetail />} />
+            <Route path="/test" element={<TestProducts />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/about" element={<AboutUs />} />
+          </Route>
+
+          {/* Fallback */}
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

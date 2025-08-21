@@ -3,6 +3,7 @@ import { FaRegUser } from "react-icons/fa";
 import MiniCart from "../MiniCart/MiniCart";
 import MiniWishlist from "../MiniWishlist/MiniWishlist";
 import { useSelector } from "react-redux";
+import { useUser } from "../../../../features/authentication/useUser";
 import TotalCartItems from "../TotalCartItems/TotalCartItems";
 import TotalWishlistItems from "../TotalWishlistItems/TotalWishlistItems";
 
@@ -13,6 +14,9 @@ function DesktopNav({
   setHideTimeout,
 }) {
   const totalPrice = useSelector((state) => state.cart.totalPrice);
+  const { user, isPending, isAuthenticated } = useUser();
+
+  if (isPending) return null;
 
   return (
     <div className="hidden lg:flex items-center space-x-3 xl:space-x-6">
@@ -81,12 +85,28 @@ function DesktopNav({
           <MiniCart onClose={() => setHoverIndex(null)} />
         </div>
       </div>
-      <NavActionButton
-        title={<span className="text-sm lg:text-base">Sign In</span>}
-        subTitle={<span className="text-xs lg:text-sm">Account</span>}
-        to="/login"
-        icon={<FaRegUser className="text-primary text-lg lg:text-2xl" />}
-      />
+
+      {isAuthenticated ? (
+        <NavActionButton
+          title={
+            <span className="text-sm lg:text-base">
+              {" "}
+              Hello,{" "}
+              {user?.user_metadata?.username || user?.email.split("@")[0]}
+            </span>
+          }
+          subTitle={<span className="text-xs lg:text-sm">Profile</span>}
+          to="/account"
+          icon={<FaRegUser className="text-primary text-lg lg:text-2xl" />}
+        />
+      ) : (
+        <NavActionButton
+          title={<span className="text-sm lg:text-base">Sign In</span>}
+          subTitle={<span className="text-xs lg:text-sm">Account</span>}
+          to="/login"
+          icon={<FaRegUser className="text-primary text-lg lg:text-2xl" />}
+        />
+      )}
     </div>
   );
 }
