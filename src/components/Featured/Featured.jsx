@@ -1,58 +1,29 @@
-import { useState } from "react";
-import { FaHeart, FaPlus, FaCheck } from "react-icons/fa";
+import { getProducts } from "../../services/apiProducts";
+import { useQuery } from "@tanstack/react-query";
+import AddToCartButton from "../../Shared/components/AddToCartButton";
+import WishlistToggle from "../../Shared/components/WishlistToggle";
+import { useNavigate } from "react-router-dom";
 
-export default function FeaturedCards() {
-  const [favorites, setFavorites] = useState([]);
-  const [cart, setCart] = useState([]);
+export default function Featuredproducts() {
 
-  const cards = [
-    {
-      id: 1,
-      title: "Fresh Organic Salad",
-      description: "Crisp greens with seasonal vegetables and house dressing",
-      price: "50.00",
-      originalPrice: "65.00",
-      image: "/images/snacks.jpg",
-      rating: 4.8,
-      isNew: true,
-      isSale: true,
-    },
-    {
-      id: 2,
-      title: "Healthy Smoothie Bowl",
-      description:
-        "Blended tropical fruits topped with granola and honey fruits topped with granola",
-      price: "35.00",
-      originalPrice: "45.00",
-      image: "/images/snacks.jpg",
-      rating: 4.6,
-      isNew: false,
-      isSale: true,
-    },
-    {
-      id: 3,
-      title: "Artisan Whole Grain Bread",
-      description:
-        "Freshly baked with organic whole wheat and seeds fruits topped with granola",
-      price: "20.00",
-      image: "/images/snacks.jpg",
-      rating: 4.9,
-      isNew: true,
-      isSale: false,
-    },
-  ];
-
-  const toggleFavorite = (id) => {
-    setFavorites((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    );
+  const navigate = useNavigate()
+  const handleNavigate = (product) => {
+    navigate(`/product/${product.id}`);
   };
+  const { isPending, data: Products } = useQuery({
+    queryKey: ["products"],
+    queryFn: getProducts,
+  });
 
-  const handleAddToCart = (id) => {
-    if (!cart.includes(id)) {
-      setCart((prev) => [...prev, id]);
-    }
-  };
+  if (isPending) return <p>Loading...</p>;
+
+  const randomThree =
+    Products
+      ?.sort(() => 0.5 - Math.random())
+      .slice(0, 3);
+
+
+
 
   return (
     <section className="healthy__container py-12">
@@ -69,57 +40,35 @@ export default function FeaturedCards() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-6">
-        {cards.map((card) => (
+        {randomThree.map((product) => (
           <div
-            key={card.id}
-            className="bg-white rounded-xl shadow-md overflow-hidden relative flex flex-col"
+            key={product.id}
+            className="bg-white rounded-xl shadow-md overflow-hidden relative flex flex-col hover:-translate-y-2 hover:scale-[1.02] hover:shadow-xl hover:bg-white duration-300 cursor-pointer"
+            onClick={() => handleNavigate(product)}
           >
             {/* Heart Icon */}
-            <button
-              onClick={() => toggleFavorite(card.id)}
-              className="absolute top-4 right-4 text-3xl cursor-pointer z-20"
-            >
-              <FaHeart
-                className={`transition-colors duration-300 ${
-                  favorites.includes(card.id)
-                    ? "text-primary hover:text-secondary"
-                    : "text-gray-400 hover:text-emerald-300"
-                }`}
-              />
-            </button>
-
+            <WishlistToggle product={product} className="absolute top-4 right-4 text-3xl cursor-pointer z-20"
+            />
             {/* Image Section (Bigger now) */}
             <div className="relative h-72 sm:h-64 overflow-hidden flex-shrink-0">
               <img
-                src={card.image}
-                alt={card.title}
+                src={product.imageURL}
+                alt={product.Name}
                 className="w-full h-full object-contain"
               />
-
-              {/* Badges */}
-              <div className="absolute top-3 left-3 flex gap-2">
-                {card.isNew && (
-                  <span className="bg-emerald-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                    NEW
-                  </span>
-                )}
-                {card.isSale && (
-                  <span className="bg-rose-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                    SALE
-                  </span>
-                )}
-              </div>
             </div>
 
-            {/* Card Body */}
+            {/* product Body */}
             <div className="p-5 flex flex-col flex-grow">
               <div className="flex justify-between items-start mb-2">
-                <h3 className="text-lg font-bold text-gray-800">
-                  {card.title}
-                </h3>
+                {/* Title */}
+                <p className="text-gray-900 text-base font-semibold mt-2 leading-snug line-clamp-2">
+                  {product.Name}
+                </p>
+
                 <div className="flex items-center bg-amber-100 px-2 py-1 rounded-full">
                   <span className="text-amber-700 text-sm font-bold">
-                    {card.rating}
+                    {product.rating}
                   </span>
                   <svg
                     className="w-4 h-4 text-amber-500 ml-1"
@@ -133,40 +82,22 @@ export default function FeaturedCards() {
 
               {/* Fixed height description (smaller now) */}
               <p className="text-gray-600 text-sm mb-4 line-clamp-2 min-h-[40px]">
-                {card.description}
+                {product.description}
               </p>
 
               {/* Price + Add to Cart */}
               <div className="mt-auto flex flex-col gap-3">
-                <div className="flex flex-col sm:flex-row sm:items-center">
-                  {card.originalPrice && (
-                    <span className="text-gray-400 text-sm line-through order-1 mx-2 sm:order-none">
-                      LE{card.originalPrice}
-                    </span>
-                  )}
-                  <span className="text-emerald-600 font-bold text-xl order-2">
-                    LE{card.price}
-                  </span>
+                {/* Price */}
+                <div className="flex items-center gap-3 mt-3">
+                  <p className="text-green-600 font-bold text-xl">{product.price - product.discount} LE</p>
+                  {product.discount > 0 &&
+                    <p className="text-gray-400 font-semibold text-lg line-through">
+                      {product.price} LE
+                    </p>}
                 </div>
 
-                <button
-                  onClick={() => handleAddToCart(card.id)}
-                  disabled={cart.includes(card.id)}
-                  className={`flex items-center justify-center px-4 py-2 rounded-lg transition-all duration-300 ${
-                    cart.includes(card.id)
-                      ? "bg-emerald-100 text-emerald-600 cursor-not-allowed"
-                      : "bg-emerald-500 hover:bg-emerald-600 text-white"
-                  }`}
-                >
-                  {cart.includes(card.id) ? (
-                    <FaCheck className="text-lg" />
-                  ) : (
-                    <>
-                      <FaPlus className="mr-2 text-lg" />
-                      <span>Add to Cart</span>
-                    </>
-                  )}
-                </button>
+                {/* Add to Cart Button */}
+                <AddToCartButton product={product} variant="primary" />
               </div>
             </div>
           </div>
