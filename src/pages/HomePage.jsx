@@ -37,7 +37,7 @@ function HomePage() {
         />
       </AnimatedSection>
       <AnimatedSection ><HealthyLivingSection /></AnimatedSection>
-      <AnimatedSection><AdviceFetch /></AnimatedSection>
+      <AdviceFetch />
       <AnimatedSection><BrandsWeOffer /></AnimatedSection>
       <Footer />
       <FloatingSubscription />

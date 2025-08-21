@@ -1,16 +1,18 @@
+import { useQuery } from "@tanstack/react-query";
 import CategoriesCard from "./components/CategoriesCard/CategoriesCard";
+import { getProducts } from "../../services/apiProducts";
 
 function ProductCategories() {
   const categories = [
-    { category: "Bakeries", image: "/images/bakeries.jpg", path: "/bakeries" },
+    { category: "Bakeries", image: "/images/Categories/bakeries.jpg", path: "/products?mainCategory=bakery" },
     {
-      category: "Chocolates",
-      image: "/images/chocolates.jpg",
-      path: "/chocolates",
+      category: "Shampoo",
+      image: "/images/Categories/shampoo.jpg",
+      path: "/products?mainCategory=personal+care&subCategory=shampoo",
     },
-    { category: "Honey", image: "/images/honey.jpg", path: "/honey" },
-    { category: "Snacks", image: "/images/snacks.jpg", path: "/snacks" },
-    { category: "Meals", image: "/images/meals.jpg", path: "/meals" },
+    { category: "Herbs", image: "/images/Categories/herbs.jpg", path: "/products?mainCategory=drinks&subCategory=herbs" },
+    { category: "Dairy", image: "/images/Categories/dairy.jpg", path: "/products?mainCategory=food&subCategory=dairy" },
+    { category: "Meals", image: "/images/Categories/meals.jpg", path: "/products?mainCategory=meals" },
   ];
 
   return (

@@ -189,7 +189,7 @@ function SearchResultsPage() {
                     label: "Drinks",
                     subs: [
                       { value: "smoothies", label: "Smoothies" },
-                      { value: "tea", label: "Tea" },
+                      { value: "herbs", label: "Herbs" },
                       { value: "juice", label: "Juice" },
                     ],
                   },

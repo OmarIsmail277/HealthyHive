@@ -42,8 +42,8 @@ function Navbar() {
           path: "/products?mainCategory=drinks&subCategory=smoothies",
         },
                 {
-          label: "Teas",
-          path: "/products?mainCategory=drinks&subCategory=tea",
+          label: "Herbs",
+          path: "/products?mainCategory=drinks&subCategory=herbs",
         },
         {
           label: "Juices",
