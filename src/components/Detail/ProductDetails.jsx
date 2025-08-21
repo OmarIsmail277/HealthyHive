@@ -49,7 +49,7 @@ export default function ProductDetails({ product }) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease: "easeOut" }}
                 className="w-full md:w-4/5 bg-white rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 min-[1175px]:grid-cols-2">
-                {/*product img*/}
+                {/product img/}
                 <div className="relative flex  p-6">
                     <img
                         src={product?.imageURL}
@@ -103,7 +103,7 @@ export default function ProductDetails({ product }) {
                                 onClick={() => setOpen(!open)}
                                 className="w-full flex justify-between items-center p-4 font-semibold text-lg">
                                 Nutritional Information
-                                <MdKeyboardArrowDown className={`w-5 h-5 transition-transform ${open ? "rotate-180" : ""}`} />
+                                <MdKeyboardArrowDown className={w-5 h-5 transition-transform ${open ? "rotate-180" : ""}} />
                             </button>
 
                             {open && (

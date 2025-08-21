@@ -1,9 +1,10 @@
 import NavActionButton from "../NavActionButton/NavActionButton";
-import { FaRegUser, FaRegHeart } from "react-icons/fa";
-import { IoCartOutline } from "react-icons/io5";
+import { FaRegUser } from "react-icons/fa";
 import MiniCart from "../MiniCart/MiniCart";
 import MiniWishlist from "../MiniWishlist/MiniWishlist";
 import { useSelector } from "react-redux";
+import TotalCartItems from "../TotalCartItems/TotalCartItems";
+import TotalWishlistItems from "../TotalWishlistItems/TotalWishlistItems";
 
 function DesktopNav({
   hoverIndex,
@@ -11,18 +12,10 @@ function DesktopNav({
   hideTimeout,
   setHideTimeout,
 }) {
-  const totalItemsInWishlist = useSelector(
-    (state) => state.wishlist.totalItemsInWishlist
-  );
-  const totalCartItems = useSelector((state) => state.cart.totalCartItems);
   const totalPrice = useSelector((state) => state.cart.totalPrice);
 
   return (
     <div className="hidden lg:flex items-center space-x-3 xl:space-x-6">
-      {/* <button className="bg-green-100 text-button px-2 py-1 lg:px-4 rounded-md hover:bg-green-200 text-sm lg:text-base cursor-pointer">
-        Subscribe
-      </button> */}
-
       {/* Wishlist Hover */}
       <div
         className="relative inline-block"
@@ -39,24 +32,16 @@ function DesktopNav({
           title={<span className="text-sm lg:text-base">Wishlist</span>}
           subTitle={<span className="text-xs lg:text-sm">Your Favorites</span>}
           to="/wishlist"
-          icon={
-            <div className="relative">
-              <FaRegHeart className="text-primary text-lg lg:text-2xl" />
-              {totalItemsInWishlist > 0 && (
-                <span className="absolute -top-4 -right-3 bg-red-500 text-white w-4 h-4 flex items-center justify-center rounded-full text-[10px] leading-none">
-                  {totalItemsInWishlist}
-                </span>
-              )}
-            </div>
-          }
+          icon={<TotalWishlistItems />}
         />
         <div
-          className={`absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg z-50 transform transition-all duration-500 ease-in-out
-            ${
-              hoverIndex === "wishlist"
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 -translate-y-2 pointer-events-none"
-            }`}
+          className={`absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg z-50 
+    transform transition-all duration-300 ease-out
+    ${
+      hoverIndex === "wishlist"
+        ? "opacity-100 translate-y-0 scale-100"
+        : "opacity-0 -translate-y-2 scale-95 pointer-events-none"
+    }`}
         >
           <MiniWishlist onClose={() => setHoverIndex(null)} />
         </div>
@@ -82,24 +67,16 @@ function DesktopNav({
           }
           subTitle={<span className="text-xs lg:text-sm">Cart Total</span>}
           to="/cart"
-          icon={
-            <div className="relative">
-              <IoCartOutline className="text-primary text-xl lg:text-3xl" />
-              {totalCartItems > 0 && (
-                <span className="absolute -top-3.5 -right-2 bg-red-500 text-white w-4 h-4 flex items-center justify-center rounded-full text-[10px] leading-none">
-                  {totalCartItems}
-                </span>
-              )}
-            </div>
-          }
+          icon={<TotalCartItems />}
         />
         <div
-          className={`absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg z-50 transform transition-all duration-500 ease-in-out
-            ${
-              hoverIndex === "cart"
-                ? "opacity-100 translate-y-0"
-                : "opacity-0 -translate-y-2 pointer-events-none"
-            }`}
+          className={`absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg z-50 
+    transform transition-all duration-300 ease-out
+    ${
+      hoverIndex === "cart"
+        ? "opacity-100 translate-y-0 scale-100"
+        : "opacity-0 -translate-y-2 scale-95 pointer-events-none"
+    }`}
         >
           <MiniCart onClose={() => setHoverIndex(null)} />
         </div>
