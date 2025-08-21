@@ -168,7 +168,7 @@ function SearchResultsPage() {
             <div className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-20" onClick={() => setShowFilter(false)}></div>
           )}
           <div
-            className={`${showFilter ? "fixed top-0 left-0 h-full z-30 overflow-y-auto" : "hidden"} md:block md:relative md:z-0 w-full md:w-72 shrink-0 bg-white`}
+            className={`${showFilter ? "fixed top-0 left-0 h-full z-30 overflow-y-auto" : "hidden"} md:block md:relative md:z-0 w-full md:w-72 shrink-0 bg-gray-50`}
           >
             <div className="p-4 md:p-0">
               <Filter
