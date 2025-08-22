@@ -5,11 +5,12 @@ import WishlistToggle from "../../Shared/components/WishlistToggle";
 import { useNavigate } from "react-router-dom";
 
 export default function Featuredproducts() {
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
   const handleNavigate = (product) => {
     navigate(`/product/${product.id}`);
   };
+
   const { isPending, data: Products } = useQuery({
     queryKey: ["products"],
     queryFn: getProducts,
@@ -17,13 +18,7 @@ export default function Featuredproducts() {
 
   if (isPending) return <p>Loading...</p>;
 
-  const randomThree =
-    Products
-      ?.sort(() => 0.5 - Math.random())
-      .slice(0, 3);
-
-
-
+  const randomThree = Products?.sort(() => 0.5 - Math.random()).slice(0, 3);
 
   return (
     <section className="healthy__container py-12">
@@ -47,7 +42,9 @@ export default function Featuredproducts() {
             onClick={() => handleNavigate(product)}
           >
             {/* Heart Icon */}
-            <WishlistToggle product={product} className="absolute top-4 right-4 text-3xl cursor-pointer z-20"
+            <WishlistToggle
+              product={product}
+              className="absolute top-4 right-4 text-3xl cursor-pointer z-20"
             />
             {/* Image Section (Bigger now) */}
             <div className="relative h-72 sm:h-64 overflow-hidden flex-shrink-0">
@@ -89,11 +86,14 @@ export default function Featuredproducts() {
               <div className="mt-auto flex flex-col gap-3">
                 {/* Price */}
                 <div className="flex items-center gap-3 mt-3">
-                  <p className="text-green-600 font-bold text-xl">{product.price - product.discount} LE</p>
-                  {product.discount > 0 &&
+                  <p className="text-green-600 font-bold text-xl">
+                    {product.price - product.discount} LE
+                  </p>
+                  {product.discount > 0 && (
                     <p className="text-gray-400 font-semibold text-lg line-through">
                       {product.price} LE
-                    </p>}
+                    </p>
+                  )}
                 </div>
 
                 {/* Add to Cart Button */}

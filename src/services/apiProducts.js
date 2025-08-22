@@ -5,7 +5,7 @@ export async function getProducts() {
 
   if (error) {
     console.error(error);
-    throw new Error("Cabins could not be loaded");
+    throw new Error("Products could not be retrieved");
   }
 
   return data;
@@ -16,19 +16,37 @@ export async function deleteProduct(id) {
 
   if (error) {
     console.error(error);
-    throw new Error("Cabin could not be deleted");
+    throw new Error("Product could not be deleted");
   }
 
   return data;
 }
 
 export async function getProductById(id) {
-  const { data, error } = await supabase.from("products").select("*").eq("id", id).single();
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("id", id)
+    .single();
 
   if (error) {
     console.error(error);
-    throw new Error("Cabin could not be deleted");
+    throw new Error("Couldn't retrieve product");
   }
-  
+
   return data;
-} 
+}
+
+export async function getProductBySKUs(SKUs) {
+  const { data, error } = await supabase
+    .from("products")
+    .select("*")
+    .in("SKU", SKUs);
+
+  if (error) {
+    console.error(error);
+    throw new Error("Couldn't retrieve product by SKU");
+  }
+
+  return data;
+}
