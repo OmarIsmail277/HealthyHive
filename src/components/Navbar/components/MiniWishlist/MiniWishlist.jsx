@@ -4,6 +4,7 @@ import { toggleWishlistItem } from "../../../../store/wishlistSlice";
 import { addToCart } from "../../../../store/cartSlice";
 import image from "../../../../assets/test_img.jpg";
 import AddToCartButton from "../../../../Shared/components/AddToCartButton";
+import { Link } from "react-router-dom";
 
 function MiniWishlist({ onClose }) {
   const dispatch = useDispatch();
@@ -49,12 +50,6 @@ function MiniWishlist({ onClose }) {
               </div>
 
               {/* Add to Cart Button */}
-              {/* <button
-                onClick={() => handleAddToCart(item)}
-                className="w-full bg-white text-gray-700 border border-gray-400 py-2 text-sm font-medium rounded-sm transition-colors duration-300 hover:bg-secondary hover:text-white"
-              >
-                Add to Cart
-              </button> */}
               <AddToCartButton
                 onClick={() => handleAddToCart(item)}
                 variant="secondary"
@@ -71,9 +66,11 @@ function MiniWishlist({ onClose }) {
 
       {/* Footer - Go to Wishlist Button */}
       <div className="p-4 border-t border-gray-300">
-        <button className="w-full bg-primary hover:bg-secondary text-white py-2 text-sm font-medium transition mb-3 rounded-sm">
-          Go to Wishlist
-        </button>
+        <Link to="/wishlistPage">
+          <button className="w-full bg-primary hover:bg-secondary text-white py-2 text-sm font-medium transition mb-3 rounded-sm">
+            Go to Wishlist
+          </button>
+        </Link>
       </div>
     </div>
   );

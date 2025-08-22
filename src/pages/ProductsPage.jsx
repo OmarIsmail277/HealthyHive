@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import RecommendedCard from "../components/RecommendedProducts/RecommendedCard/RecommendedCard";
 import Filter from "../components/Filter/Filter";
-import AdviceFetch from '../components/FetchAdvice/AdviceFetch';
-import SubIcon from '../components/SubIcon/SubIcon';
+import AdviceFetch from "../components/FetchAdvice/AdviceFetch";
+import SubIcon from "../components/SubIcon/SubIcon";
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../services/apiProducts";
 import Spinner from "../components/Spinner/Spinner";
@@ -20,7 +20,6 @@ function ProudctsPage() {
 
   const [searchParams] = useSearchParams();
 
-  if (isPending) return <Spinner />;
   const [filters, setFilters] = useState({
     category: searchParams.get("mainCategory") || "",
     subcategory: searchParams.get("subCategory") || "",
@@ -47,10 +46,7 @@ function ProudctsPage() {
     }));
   }, [searchParams]);
 
-
-  // const mainCategory = searchParams.get("mainCategory");
-  // const subCategory = searchParams.get("subCategory");
-
+  if (isPending) return <Spinner />;
   let filteredProducts = products;
 
   // 1. Main category
@@ -176,13 +172,14 @@ function ProudctsPage() {
                       { value: "nuts spread", label: "Nuts Spread" },
                       { value: "healthy meals", label: "Healthy Meals" },
                       { value: "sauces", label: "Sauces" },
+                      { value: "snacks", label: "Snacks" },
                     ],
                   },
                   {
                     value: "drinks",
                     label: "Drinks",
                     subs: [
-                      { value: "smoothies", label: "Smoothies" },
+                      { value: "milk", label: "Milks" },
                       { value: "herbs", label: "Herbs" },
                       { value: "juice", label: "Juice" },
                     ],
@@ -221,18 +218,18 @@ function ProudctsPage() {
 
           {/* Main content */}
           <div className="flex-1 md:mt-7 mt-10">
-              <div className="flex justify-between">
-                <h1 className="text-xl font-semibold text-gray-800 mb-6">
-                  Results found: {filteredProducts.length}
-                </h1>
-              </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4 md:gap-6">
-                {filteredProducts.map((product) => (
-                  <div key={product.id} className="flex justify-center">
-                    <RecommendedCard product={product} />
-                  </div>
-                ))}
-              </div>
+            <div className="flex justify-between">
+              <h1 className="text-xl font-semibold text-gray-800 mb-6">
+                Results found: {filteredProducts.length}
+              </h1>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-3 [@media(min-width:1800px)]:grid-cols-4 gap-4 md:gap-6">
+              {filteredProducts.map((product) => (
+                <div key={product.id} className="flex justify-center">
+                  <RecommendedCard product={product} />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </main>

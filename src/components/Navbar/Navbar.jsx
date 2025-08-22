@@ -32,6 +32,10 @@ function Navbar() {
           label: "Sauces",
           path: "/products?mainCategory=food&subCategory=sauces",
         },
+        {
+          label: "Snacks",
+          path: "/products?mainCategory=food&subCategory=snacks",
+        },
       ],
     },
     {
@@ -39,10 +43,10 @@ function Navbar() {
       path: "/products?mainCategory=drinks",
       subLinks: [
         {
-          label: "Smoothies",
-          path: "/products?mainCategory=drinks&subCategory=smoothies",
+          label: "Milks",
+          path: "/products?mainCategory=drinks&subCategory=milk",
         },
-                {
+        {
           label: "Herbs",
           path: "/products?mainCategory=drinks&subCategory=herbs",
         },
@@ -50,7 +54,6 @@ function Navbar() {
           label: "Juices",
           path: "/products?mainCategory=drinks&subCategory=juice",
         },
-
       ],
     },
     {

@@ -9,7 +9,6 @@ function MobileMenu({
   mobileDropdownIndex,
   setMobileDropdownIndex,
 }) {
-
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
@@ -44,7 +43,7 @@ function MobileMenu({
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full border border-gray-300 rounded-l-md px-2 py-1 sm:px-3 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
           />
-          <button 
+          <button
             type="submit"
             className="bg-primary text-white px-2 sm:px-3 rounded-r-md hover:bg-secondary text-sm sm:text-base"
           >

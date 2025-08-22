@@ -50,18 +50,23 @@ function SearchResultsPage() {
 
   useEffect(() => {
     // Extract search query from URL
-    const searchParam = query || new URLSearchParams(location.search).get("q") || "";
+    const searchParam =
+      query || new URLSearchParams(location.search).get("q") || "";
     setSearchQuery(searchParam);
   }, [query, location.search]);
 
   if (isLoading) return <Spinner />;
 
   // First filter by search query
-  let filteredProducts = products.filter(product => 
-    product.Name.toLowerCase().includes(searchQuery.toLowerCase()) || // Changed from Name to name
-    (product.description && product.description.toLowerCase().includes(searchQuery.toLowerCase())) ||
-    product.mainCategory.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    product.subCategory.toLowerCase().includes(searchQuery.toLowerCase())
+  let filteredProducts = products.filter(
+    (product) =>
+      product.Name.toLowerCase().includes(searchQuery.toLowerCase()) || // Changed from Name to name
+      (product.description &&
+        product.description
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())) ||
+      product.mainCategory.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.subCategory.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Then apply additional filters
@@ -165,10 +170,17 @@ function SearchResultsPage() {
         <div className="healthy__container flex flex-col md:flex-row py-4 md:py-6 px-4 md:px-0">
           {/* Filter sidebar - fixed position on mobile when open */}
           {showFilter && (
-            <div className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-20" onClick={() => setShowFilter(false)}></div>
+            <div
+              className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-20"
+              onClick={() => setShowFilter(false)}
+            ></div>
           )}
           <div
-            className={`${showFilter ? "fixed top-0 left-0 h-full z-30 overflow-y-auto" : "hidden"} md:block md:relative md:z-0 w-full md:w-72 shrink-0 bg-gray-50`}
+            className={`${
+              showFilter
+                ? "fixed top-0 left-0 h-full z-30 overflow-y-auto"
+                : "hidden"
+            } md:block md:relative md:z-0 w-full md:w-72 shrink-0 bg-gray-50`}
           >
             <div className="p-4 md:p-0">
               <Filter
@@ -182,13 +194,14 @@ function SearchResultsPage() {
                       { value: "nuts spread", label: "Nuts Spread" },
                       { value: "healthy meals", label: "Healthy Meals" },
                       { value: "sauces", label: "Sauces" },
+                      { value: "snacks", label: "Snacks" },
                     ],
                   },
                   {
                     value: "drinks",
                     label: "Drinks",
                     subs: [
-                      { value: "smoothies", label: "Smoothies" },
+                      { value: "milk", label: "Milks" },
                       { value: "herbs", label: "Herbs" },
                       { value: "juice", label: "Juice" },
                     ],
@@ -223,7 +236,7 @@ function SearchResultsPage() {
                 onFilterChange={handleFilterChange}
               />
               {/* Close button for mobile */}
-              <button 
+              <button
                 className="md:hidden w-full mt-4 px-4 py-2 bg-red-500 text-white rounded-lg"
                 onClick={() => setShowFilter(false)}
               >
@@ -249,7 +262,9 @@ function SearchResultsPage() {
             </div>
             {filteredProducts.length === 0 ? (
               <div className="text-center py-10">
-                <p className="text-gray-500 text-lg">No products found matching your search criteria.</p>
+                <p className="text-gray-500 text-lg">
+                  No products found matching your search criteria.
+                </p>
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
@@ -265,7 +280,7 @@ function SearchResultsPage() {
       </main>
       <Footer />
       <AdviceFetch />
-      <SubIcon/>
+      <SubIcon />
     </>
   );
 }

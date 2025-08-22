@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import { useUser } from "../../../../features/authentication/useUser";
 import TotalCartItems from "../TotalCartItems/TotalCartItems";
 import TotalWishlistItems from "../TotalWishlistItems/TotalWishlistItems";
+import { useState } from "react";
+import UserLogedIn from "../UserLogedIn/UserLogedIn";
 
 function DesktopNav({
   hoverIndex,
@@ -36,7 +38,9 @@ function DesktopNav({
           title={<span className="text-sm lg:text-base">Wishlist</span>}
           subTitle={<span className="text-xs lg:text-sm">Your Favorites</span>}
           to="/wishlist"
-          icon={<TotalWishlistItems />}
+          icon={
+            <TotalWishlistItems className="text-primary text-lg lg:text-2xl" />
+          }
         />
         <div
           className={`absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg z-50 
@@ -71,10 +75,10 @@ function DesktopNav({
           }
           subTitle={<span className="text-xs lg:text-sm">Cart Total</span>}
           to="/cart"
-          icon={<TotalCartItems />}
+          icon={<TotalCartItems className="text-primary text-lg lg:text-2xl" />}
         />
         <div
-          className={`absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg z-50 
+          className={`absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg z-50
     transform transition-all duration-300 ease-out
     ${
       hoverIndex === "cart"

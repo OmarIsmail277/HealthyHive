@@ -2,6 +2,7 @@ import { FaRegUser } from "react-icons/fa";
 import { FiMenu, FiX } from "react-icons/fi";
 import TotalCartItems from "../TotalCartItems/TotalCartItems";
 import TotalWishlistItems from "../TotalWishlistItems/TotalWishlistItems";
+import MobileUserSidebar from "../MobileUserSidebar/MobileUserSidebar";
 
 function MobileNav({
   isOpen,
@@ -29,6 +30,11 @@ function MobileNav({
       <button className="text-2xl text-primary">
         <FaRegUser />
       </button>
+      {/* <MobileUserSidebar
+        userName="User Name"
+        email="user@example.com"
+        imgURL="./images/ProfilePage/profilepic.png"
+      /> */}
       {/* Mobile Menu */}
       <button
         onClick={() => setIsOpen(!isOpen)}
