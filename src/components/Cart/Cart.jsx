@@ -4,7 +4,7 @@ import CartCheckout from "../Cart/components/CartCheckout/CartCheckout";
 function Cart() {
   return (
     <>
-      <div className="2xl:flex 2xl:gap-8 mt-8">
+      <div className="2xl:flex 2xl:gap-8 my-8">
         <CartProducts />
         <CartCheckout />
       </div>

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { toggleWishlistItem } from "../../../../store/wishlistSlice";
 import { addToCart } from "../../../../store/cartSlice";
 import image from "../../../../assets/test_img.jpg";
+import AddToCartButton from "../../../../Shared/components/AddToCartButton";
 
 function MiniWishlist({ onClose }) {
   const dispatch = useDispatch();
@@ -48,12 +49,16 @@ function MiniWishlist({ onClose }) {
               </div>
 
               {/* Add to Cart Button */}
-              <button
+              {/* <button
                 onClick={() => handleAddToCart(item)}
                 className="w-full bg-white text-gray-700 border border-gray-400 py-2 text-sm font-medium rounded-sm transition-colors duration-300 hover:bg-secondary hover:text-white"
               >
                 Add to Cart
-              </button>
+              </button> */}
+              <AddToCartButton
+                onClick={() => handleAddToCart(item)}
+                variant="secondary"
+              />
 
               {/* Divider */}
               {index !== wishlistItems.length - 1 && (

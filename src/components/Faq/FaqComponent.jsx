@@ -57,11 +57,17 @@ const faqs = [
 
 function highlightMatch(text, query) {
   if (!query) return text;
-  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi");
+  const regex = new RegExp(
+    `(${query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`,
+    "gi"
+  );
   const parts = text.split(regex);
   return parts.map((part, i) =>
     regex.test(part) ? (
-      <mark key={i} className="bg-yellow-300 text-yellow-900 rounded px-1">
+      <mark
+        key={i}
+        className="bg-green-200 text-green-900 rounded px-1 font-semibold"
+      >
         {part}
       </mark>
     ) : (
@@ -72,22 +78,28 @@ function highlightMatch(text, query) {
 
 function AccordionItem({ question, answer, isOpen, onToggle, searchQuery }) {
   return (
-    <div className="border border-green-300 rounded-xl shadow hover:shadow-md transition overflow-hidden bg-white">
+    <div className="border border-green-200 rounded-2xl shadow-md hover:shadow-lg transition bg-white/90 backdrop-blur-sm overflow-hidden">
       <button
         onClick={onToggle}
-        className="flex justify-between items-center w-full px-5 py-4 bg-green-100 hover:bg-green-200 transition text-left focus:outline-none focus:ring-2 focus:ring-green-400 text-lg font-semibold text-green-800"
+        className="flex justify-between items-center w-full px-6 py-5 bg-white hover:bg-green-50 transition text-left focus:outline-none focus:ring-2 focus:ring-green-400 text-lg font-semibold text-green-800"
         aria-expanded={isOpen}
       >
         <span>{highlightMatch(question, searchQuery)}</span>
-        {isOpen ? (
-          <FaChevronUp className="text-green-600 transition-transform duration-300" />
-        ) : (
-          <FaChevronDown className="text-green-600 transition-transform duration-300" />
-        )}
+        <span
+          className={`transform transition-transform duration-300 ${
+            isOpen ? "rotate-180" : "rotate-0"
+          }`}
+        >
+          {isOpen ? (
+            <FaChevronUp className="text-green-600" />
+          ) : (
+            <FaChevronDown className="text-green-600" />
+          )}
+        </span>
       </button>
       <div
-        className={`px-5 text-green-900 text-base border-t border-green-200 leading-relaxed transition-[max-height,opacity,padding] duration-300 ease-in-out overflow-hidden ${
-          isOpen ? "max-h-[500px] opacity-100 py-4" : "max-h-0 opacity-0 py-0"
+        className={`px-6 text-green-900 text-base leading-relaxed transition-all duration-500 ease-in-out overflow-hidden ${
+          isOpen ? "max-h-[500px] opacity-100 py-5" : "max-h-0 opacity-0 py-0"
         }`}
       >
         {highlightMatch(answer, searchQuery)}
@@ -127,62 +139,89 @@ export default function FAQPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gray-50 py-16 px-6 md:px-12 lg:px-24 select-none">
-     <h1 className="max-w-4xl mx-auto text-5xl font-bold text-green-700 mb-10 text-center drop-shadow-lg">
-  <span className="relative inline-block">
-    <span className="relative z-10">FAQs</span>
-    <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300 opacity-70 rounded-full transform rotate-1"></span>
-  </span>
-</h1>
-      {/* Search & Controls */}
-      <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center gap-4 mb-12">
-        <div className="relative flex-grow min-w-0">
-          <input
-            type="search"
-            placeholder="Search FAQs..."
-            aria-label="Search FAQs"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full border border-green-400 rounded-lg px-5 py-4 pl-12 text-green-800 placeholder-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 transition text-lg bg-white"
-          />
-          <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-green-500" />
+    <main className="min-h-screen relative py-20 px-6 md:px-12 lg:px-24 select-none overflow-hidden">
+      {/* Animated Logo Background */}
+      <div
+        className="absolute inset-0 opacity-10 animate-[moveBg_60s_linear_infinite]"
+        style={{
+          backgroundImage: "url('/images/logo.png')",
+          backgroundRepeat: "repeat",
+          backgroundSize: "120px",
+        }}
+      ></div>
+
+      {/* Soft overlay for readability */}
+      <div className="absolute inset-0 bg-white/70"></div>
+
+      <div className="relative z-10">
+        {/* Title */}
+        <div className="text-center pb-12">
+          <h2 className="text-3xl md:text-4xl text-center font-bold text-gray-800">
+            Frequently <span className="text-primary">Asked Questions</span>
+          </h2>
+          <div className="flex justify-center mt-4">
+            <div className="w-16 h-1 bg-primary rounded-full"></div>
+          </div>
         </div>
 
-        <div className="flex gap-3">
-          <button
-            onClick={expandAll}
-            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg shadow transition focus:ring-2 focus:ring-green-500"
-          >
-            <FaAngleDoubleDown /> Expand All
-          </button>
-          <button
-            onClick={collapseAll}
-            className="flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-3 rounded-lg shadow transition focus:ring-2 focus:ring-gray-400"
-          >
-            <FaAngleDoubleUp /> Collapse All
-          </button>
+        {/* Search & Controls */}
+        <div className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center gap-4 mb-14">
+          <div className="relative flex-grow min-w-0">
+            <input
+              type="search"
+              placeholder="Search FAQs..."
+              aria-label="Search FAQs"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full border border-green-300 rounded-xl px-5 py-4 pl-12 text-green-800 placeholder-green-500 focus:outline-none focus:ring-2 focus:ring-green-500 transition text-lg bg-white shadow-sm"
+            />
+            <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-green-500" />
+          </div>
+
+          <div className="flex gap-3">
+            <button
+              onClick={expandAll}
+              className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-xl shadow-md transition transform hover:scale-105"
+            >
+              <FaAngleDoubleDown /> Expand All
+            </button>
+            <button
+              onClick={collapseAll}
+              className="flex items-center gap-2 bg-green-100 hover:bg-green-200 text-green-800 px-5 py-3 rounded-xl shadow-md transition transform hover:scale-105"
+            >
+              <FaAngleDoubleUp /> Collapse All
+            </button>
+          </div>
         </div>
+
+        {/* Accordion */}
+        <section className="max-w-3xl mx-auto space-y-6">
+          {filteredFaqs.length === 0 ? (
+            <p className="text-center text-green-700 text-lg font-semibold mt-20">
+              No results found for "{searchQuery}"
+            </p>
+          ) : (
+            filteredFaqs.map(({ question, answer }, i) => (
+              <AccordionItem
+                key={i}
+                question={question}
+                answer={answer}
+                isOpen={openIndices.has(i)}
+                onToggle={() => toggleIndex(i)}
+                searchQuery={searchQuery}
+              />
+            ))
+          )}
+        </section>
       </div>
 
-      {/* Centered Accordion */}
-      <section className="max-w-3xl mx-auto space-y-6">
-        {filteredFaqs.length === 0 ? (
-          <p className="text-center text-green-700 text-lg font-semibold mt-20">
-            No results found for "{searchQuery}"
-          </p>
-        ) : (
-          filteredFaqs.map(({ question, answer }, i) => (
-            <AccordionItem
-              key={i}
-              question={question}
-              answer={answer}
-              isOpen={openIndices.has(i)}
-              onToggle={() => toggleIndex(i)}
-              searchQuery={searchQuery}
-            />
-          ))
-        )}
-      </section>
+      {/* Background animation keyframes */}
+      <style>{`
+        @keyframes moveBg {
+          0% { background-position: 0 0; }
+          100% { background-position: 1000px 1000px; }
+        }
+      `}</style>
     </main>
   );
 }

@@ -34,6 +34,8 @@ import {
 } from "react-icons/fa";
 import Footer from "../components/Footer/Footer";
 import Navbar from "../components/Navbar/Navbar";
+import AdviceFetch from '../components/FetchAdvice/AdviceFetch';
+import SubIcon from '../components/SubIcon/SubIcon';
 
 function ServicesHome() {
   const navigate = useNavigate();
@@ -161,6 +163,8 @@ function ServicesHome() {
       </style>
     </div>
     <Footer/>
+    <AdviceFetch/>
+    <SubIcon/>
                   </>
   );
 }

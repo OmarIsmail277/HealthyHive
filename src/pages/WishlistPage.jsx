@@ -43,14 +43,14 @@ function WishlistPage() {
                 >
                   {/* Product Image */}
                   <img
-                    src={item.image}
-                    alt={item.name}
+                    src={item.imageURL}
+                    alt={item.Name}
                     className="w-full sm:w-24 h-auto rounded-md object-contain"
                   />
 
                   {/* Details */}
                   <div className="flex-1 text-center sm:text-left">
-                    <h3 className="font-semibold">{item.name}</h3>
+                    <h3 className="font-semibold">{item.Name}</h3>
                     <p className="text-sm text-gray-500">{item.description}</p>
                     <p className="text-green-700 font-bold mt-1">
                       ${item.price.toFixed(2)}

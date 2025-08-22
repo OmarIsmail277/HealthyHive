@@ -7,6 +7,7 @@ import { toggleCartItem } from "../../../store/cartSlice";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { deleteProduct } from "../../../services/apiProducts";
+import AddToCartButton from "../../../Shared/components/AddToCartButton";
 
 
 function RecommendedCard({ product }) {
@@ -18,7 +19,7 @@ function RecommendedCard({ product }) {
   const handleNavigate = () => {
     navigate(`/product/${product.id}`);
   };
-  
+
 
   const renderStars = (rating) => {
     const stars = [];
@@ -65,11 +66,10 @@ function RecommendedCard({ product }) {
         className="absolute top-4 right-4 text-3xl cursor-pointer z-20"
       >
         <FaHeart
-          className={`transition-colors duration-300 ${
-            isInWishlist
-              ? "text-primary hover:text-secondary"
-              : "text-gray-400 hover:text-emerald-300"
-          }`}
+          className={`transition-colors duration-300 ${isInWishlist
+            ? "text-primary hover:text-secondary"
+            : "text-gray-400 hover:text-emerald-300"
+            }`}
         />
       </button>
 
@@ -100,22 +100,15 @@ function RecommendedCard({ product }) {
 
       {/* Price */}
       <div className="flex items-center gap-3 mt-3">
-        <p className="text-green-600 font-bold text-xl">{product.price} LE</p>
-        <p className="text-gray-400 font-semibold text-lg line-through">
-          {product.discount + product.price} LE
-        </p>
+        <p className="text-green-600 font-bold text-xl">{product.price - product.discount} LE</p>
+        {product.discount > 0 &&
+          <p className="text-gray-400 font-semibold text-lg line-through">
+            {product.price} LE
+          </p>}
       </div>
 
-      {/* Add to Cart */}
-      <button
-        className="w-full py-3 mt-4 rounded-full border border-green-600 text-green-600 font-medium transition-all duration-200 hover:bg-primary hover:text-white"
-        onClick={(e) => {
-          e.stopPropagation()
-          dispatch(toggleCartItem(product))
-        }}
-      >
-        Add To Cart
-      </button>
+      {/* Add to Cart Button */}
+      <AddToCartButton product={product} variant="outlined" />
     </div>
   );
 }
