@@ -35,6 +35,7 @@ import { useSignup } from "../../features/authentication/useSignup";
 
 export default function Register() {
   const { signup, isPending } = useSignup();
+
   const {
     register,
     handleSubmit,
@@ -49,7 +50,7 @@ export default function Register() {
     signup(
       { username, email, password },
       {
-        onSettled: reset,
+        onSettled: () => reset(),
       }
     );
   };
