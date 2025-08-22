@@ -36,7 +36,7 @@ function AddToCartButton({
   };
 
   const baseClasses =
-    "py-2 px-4 rounded-sm font-medium transition-all duration-200 focus:outline-none flex items-center justify-center";
+    "py-2 px-4 rounded-4xl font-medium transition-all duration-200 focus:outline-none flex items-center justify-center";
 
   const variants = {
     primary: "bg-primary text-white hover:bg-primary/90",

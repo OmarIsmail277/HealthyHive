@@ -41,7 +41,6 @@ function HomePage() {
       <AnimatedSection><BrandsWeOffer /></AnimatedSection>
       <Footer />
       <FloatingSubscription />
-
     </>
   );
 }

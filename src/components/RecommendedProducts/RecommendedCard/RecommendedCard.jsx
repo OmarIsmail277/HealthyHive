@@ -7,6 +7,7 @@ import { toggleCartItem } from "../../../store/cartSlice";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { deleteProduct } from "../../../services/apiProducts";
+import AddToCartButton from "../../../Shared/components/AddToCartButton";
 
 
 function RecommendedCard({ product }) {
@@ -106,16 +107,8 @@ function RecommendedCard({ product }) {
           </p>}
       </div>
 
-      {/* Add to Cart */}
-      <button
-        className="w-full py-3 mt-4 rounded-full border border-green-600 text-green-600 font-medium transition-all duration-200 hover:bg-primary hover:text-white"
-        onClick={(e) => {
-          e.stopPropagation()
-          dispatch(toggleCartItem(product))
-        }}
-      >
-        Add To Cart
-      </button>
+      {/* Add to Cart Button */}
+      <AddToCartButton product={product} variant="outlined" />
     </div>
   );
 }
