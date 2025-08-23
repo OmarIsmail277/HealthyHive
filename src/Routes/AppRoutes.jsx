@@ -23,7 +23,7 @@ const NotFound = lazy(() => import("../pages/NotFoundPage"));
 const Checkout = lazy(() => import("../pages/CheckoutPage"));
 const Consultations = lazy(() => import("../pages/ConsultationsPage"));
 const Recipes = lazy(() =>
-  import("../components/Recipes/components/RecipesList/RecipesList")
+  import("../pages/RecipesPage")
 );
 const RecipeDetail = lazy(() => import("../pages/RecipeDetailPage"));
 const AdminDashboard = lazy(() => import("../pages/AdminDashboard"));
