@@ -70,13 +70,13 @@ function RecommendedProducts({ filterFn, title }) {
           className="hidden md:block absolute  top-1/2 -translate-y-1/2 -translate-x-12 bg-white/80 hover:bg-white text-black p-2 rounded-full shadow z-10">
           <FaAngleLeft size={20} />
         </button>
-        <div className="flex justify-between shrink gap-4 w-max">
+        <div className="flex justify-between shrink gap-4 w-max px-2">
           {filterProducts?.map((product) => (
             <RecommendedCard product={product} key={product.id} />
           ))}
         </div>
         <button onClick={() => handleScroll("right")}
-          className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 bg-white/80 hover:bg-white text-black p-2 rounded-full shadow">
+          className="hidden md:block absolute right-20 top-1/2 -translate-y-1/2 translate-x-12 bg-white/80 hover:bg-white text-black p-2 rounded-full shadow">
           <FaAngleRight size={20} />
         </button>
       </div>
