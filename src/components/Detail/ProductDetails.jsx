@@ -31,13 +31,11 @@ export default function ProductDetails({ product }) {
 
   const [relatedProducts, setRelatedProducts] = useState([]);
 
-  useEffect(() => {
-    if (product?.SKUs?.length) {
-      getProductBySKUs(product.SKUs).then((res) => {
-        setRelatedProducts(res);
-      });
-    }
-  }, [product]);
+  if (product?.SKUs?.length) {
+    getProductBySKUs(product.SKUs).then((res) => {
+      setRelatedProducts(res);
+    });
+  }
 
   const increase = () =>
     setCount(

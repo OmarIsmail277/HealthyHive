@@ -6,6 +6,7 @@ import TestProducts from "../pages/TestProducts";
 import ProtectedRoute from "../components/ProtectedRoute";
 import MainLayout from "../components/MainLayout";
 import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
+import TrackingPage from "../pages/TrackingPage";
 
 const Login = lazy(() => import("../pages/LoginPage"));
 const Register = lazy(() => import("../pages/RegisterPage"));
@@ -67,6 +68,7 @@ export default function AppRoutes() {
             <Route path="/test" element={<TestProducts />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/about" element={<AboutUs />} />
+            <Route path="/tracking" element={<TrackingPage />} />
           </Route>
 
           {/* Fallback */}
