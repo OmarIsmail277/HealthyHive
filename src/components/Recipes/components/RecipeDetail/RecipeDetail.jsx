@@ -43,7 +43,7 @@ function RecipeDetail() {
               target="_blank"
               rel="noopener noreferrer"
               className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:bg-gradient-to-r hover:from-emerald-600 hover:to-teal-600 !text-white px-5 py-2 rounded-lg font-medium transition">
-              View Full Recipe
+              View Some Recipes
             </a>
           </div>
 

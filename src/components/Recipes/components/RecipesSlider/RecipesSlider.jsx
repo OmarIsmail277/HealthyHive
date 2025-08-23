@@ -99,12 +99,13 @@ const RecipeSlider = () => {
                     <span className="text-xs font-medium text-emerald-600 bg-emerald-100 px-3 py-1 rounded-full">
                       {recipe.publisher}
                     </span>
-                    <Link to={`/recipeDetail/${recipe.id}`} key={recipe.id}>
-                      <a
-                        rel="noopener noreferrer"
-                        className="text-sm font-medium !text-white bg-button hover:bg-button-hover px-4 py-2 rounded-lg transition-colors">
-                        View
-                      </a>
+                    <Link
+                      to={`/recipeDetail/${recipe.id}`}
+                      key={recipe.id}
+                      rel="noopener noreferrer"
+                      className="text-sm font-medium !text-white bg-button hover:bg-button-hover px-4 py-2 rounded-lg transition-colors"
+                    >
+                      View
                     </Link>
                   </div>
                 </div>
