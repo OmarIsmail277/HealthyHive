@@ -4,7 +4,6 @@ import DesktopNav from "./components/DesktopNav/DesktopNav";
 import DesktopDropdown from "./components/DesktopDropdown/DesktopDropdown";
 import MobileMenu from "./components/MobileMenu/MobileMenu";
 import FlashyBanner from "../Banner/Banner";
-import Logout from "../../features/authentication/Logout";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -138,8 +137,6 @@ function Navbar() {
           mobileDropdownIndex={mobileDropdownIndex}
           setMobileDropdownIndex={setMobileDropdownIndex}
         />
-
-        <Logout />
       </nav>
     </div>
   );
