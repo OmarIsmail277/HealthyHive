@@ -6,15 +6,15 @@ import {
   FaMoneyBillWave,
   FaStar,
   FaCreditCard,
-  FaPaypal,
 } from "react-icons/fa";
-import { getCurrentUser, updateUserMetadata } from "../../services/apiAuth"; // adjust path if needed
+import { getCurrentUser, updateUserMetadata } from "../../services/apiAuth";
 import { useQueryClient } from "@tanstack/react-query";
 
-const SubscriptionForm = ({ onCancel }) => {
+const SubscriptionForm = () => {
   const [user, setUser] = useState(null);
   const [selectedPlan, setSelectedPlan] = useState("basic");
-  const [paymentMethod, setPaymentMethod] = useState("credit_card");
+  const [cards, setCards] = useState([]);
+  const [selectedCard, setSelectedCard] = useState("");
   const [duration, setDuration] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const queryClient = useQueryClient();
@@ -45,11 +45,17 @@ const SubscriptionForm = ({ onCancel }) => {
     },
   };
 
-  // Fetch current user from Supabase
+  // Fetch current user & saved cards
   useEffect(() => {
     async function fetchUser() {
       const currentUser = await getCurrentUser();
       setUser(currentUser);
+
+      // Use the correct path to cards
+      const savedCards = currentUser?.user_metadata?.paymentMethods || [];
+      setCards(savedCards);
+
+      if (savedCards.length > 0) setSelectedCard(savedCards[0].id);
     }
     fetchUser();
   }, []);
@@ -57,22 +63,22 @@ const SubscriptionForm = ({ onCancel }) => {
   // Handle subscription submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!user) return alert("User not logged in");
+    if (!selectedCard) return alert("Please select a payment card");
+
     setIsSubmitting(true);
 
     try {
-      if (!user) throw new Error("User not logged in");
-
       const subscriptionData = {
         subscription: {
           isSubscribed: true,
           subscriptionType: selectedPlan,
-          consultations: plans[selectedPlan].consultations, 
+          consultations: plans[selectedPlan].consultations,
+          cardUsed: selectedCard,
         },
       };
 
       await updateUserMetadata(subscriptionData);
-
-      // ✅ Re-fetch user so ProfileWrapper shows updated subscription instantly
       queryClient.invalidateQueries(["user"]);
 
       alert(`Subscribed successfully to ${plans[selectedPlan].name} plan!`);
@@ -84,6 +90,8 @@ const SubscriptionForm = ({ onCancel }) => {
       setIsSubmitting(false);
     }
   };
+  const isAlreadySubscribed =
+    user && user.user_metadata?.subscription?.isSubscribed === true;
 
   return (
     <div className="healthy__container flex justify-center py-12">
@@ -240,7 +248,7 @@ const SubscriptionForm = ({ onCancel }) => {
             </div>
           </div>
 
-          {/* Duration & Payment */}
+          {/* Duration & Selected Plan */}
           <div className="bg-gray-50 p-4 rounded-lg mb-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
               <FaCalendarAlt className="text-gray-500" /> Subscription Details
@@ -281,51 +289,26 @@ const SubscriptionForm = ({ onCancel }) => {
           {/* Payment Info */}
           <div className="bg-gray-50 p-4 rounded-lg mb-6">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <FaMoneyBillWave className="text-gray-500" /> Payment Information
+              <FaCreditCard className="text-gray-500" /> Payment Method
             </h3>
-            <div className="space-y-4">
-              <label className="block text-sm font-medium text-gray-700 mb-3">
-                Payment Method
-              </label>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <label
-                  className={`flex items-center gap-3 p-3 border-2 rounded-lg cursor-pointer transition-all ${
-                    paymentMethod === "credit_card"
-                      ? "border-green-500 bg-green-50"
-                      : "border-gray-200 hover:border-gray-300"
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="credit_card"
-                    checked={paymentMethod === "credit_card"}
-                    onChange={() => setPaymentMethod("credit_card")}
-                    className="text-green-600 focus:ring-green-500"
-                  />
-                  <FaCreditCard className="text-gray-700" />
-                  <span>Credit Card</span>
-                </label>
-                <label
-                  className={`flex items-center gap-3 p-3 border-2 rounded-lg cursor-pointer transition-all ${
-                    paymentMethod === "paypal"
-                      ? "border-green-500 bg-green-50"
-                      : "border-gray-200 hover:border-gray-300"
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="paypal"
-                    checked={paymentMethod === "paypal"}
-                    onChange={() => setPaymentMethod("paypal")}
-                    className="text-green-600 focus:ring-green-500"
-                  />
-                  <FaPaypal className="text-blue-500" />
-                  <span>PayPal</span>
-                </label>
-              </div>
-            </div>
+            {cards.length === 0 ? (
+              <p className="text-gray-500">
+                No saved cards. Please add one in your profile.
+              </p>
+            ) : (
+              <select
+                className="w-full px-3 py-2 rounded-lg border border-gray-200"
+                value={selectedCard}
+                onChange={(e) => setSelectedCard(e.target.value)}
+              >
+                {cards.map((card) => (
+                  <option key={card.id} value={card.id}>
+                    {card.type} {card.number}{" "}
+                    {card.isDefault ? "(Default)" : ""}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
 
           {/* Order Summary */}
@@ -379,22 +362,20 @@ const SubscriptionForm = ({ onCancel }) => {
             </div>
           </div>
 
-          {/* Buttons */}
-          <div className="flex justify-end gap-3">
-            <button
-              type="button"
-              onClick={onCancel}
-              className="px-4 py-2 rounded-lg bg-white border border-gray-200 hover:bg-gray-50 transition flex items-center gap-2"
-              disabled={isSubmitting}
-            >
-              Cancel
-            </button>
+          <div className="flex justify-end">
             <button
               type="submit"
-              className="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 transition flex items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
-              disabled={isSubmitting}
+              className={`px-4 py-2 rounded-lg flex items-center gap-2 transition 
+      ${
+        isAlreadySubscribed || isSubmitting
+          ? "bg-gray-400 text-gray-200 cursor-not-allowed"
+          : "bg-green-600 text-white hover:bg-green-700"
+      }`}
+              disabled={isAlreadySubscribed || isSubmitting}
             >
-              {isSubmitting ? (
+              {isAlreadySubscribed ? (
+                "You're already subscribed"
+              ) : isSubmitting ? (
                 "Processing..."
               ) : (
                 <>
