@@ -7,7 +7,7 @@ function CartProduct({ product }) {
     const dispatch = useDispatch();
 
     return (
-        <div className="bg-white rounded-2xl p-4 lg:p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 relative">
+        <div className="bg-white rounded-2xl p-4 lg:p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300 relative mb-4">
             {/* Remove Button - Positioned for both mobile and desktop */}
             <button 
                 onClick={() => dispatch(removeFromCart(product?.id))}

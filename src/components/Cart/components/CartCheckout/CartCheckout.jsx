@@ -13,7 +13,7 @@ function CartCheckout() {
   };
 
   return (
-    <div className="2xl:w-1/4 w-full border border-green-100 bg-white rounded-xl shadow-md p-6 h-fit">
+    <div className="2xl:w-[28%] w-full border border-green-100 bg-white rounded-xl shadow-md p-6 h-fit">
       <h4 className="text-green-800 font-bold text-xl mb-6">Cart Totals</h4>
 
       {/* Subtotal */}

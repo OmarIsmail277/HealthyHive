@@ -115,7 +115,7 @@ export default function FilterSidebar({
   return (
     <>
       <div className="md:mt-20 px-2 md:px-0">
-        <div className="transition-all duration-300 ease-in-out rounded-2xl shadow-xl overflow-hidden flex flex-col md:w-64">
+        <div className="transition-all duration-300 ease-in-out rounded-2xl shadow-xl overflow-hidden flex flex-col md:w-full">
           {/* Header */}
           <div className="flex justify-between items-center p-4 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white">
             <h2 className="text-xl">Filters</h2>
