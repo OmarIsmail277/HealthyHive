@@ -24,6 +24,7 @@ import { useUser } from "../../features/authentication/useUser";
 import { useState, useEffect } from "react";
 import { updateUserMetadata } from "../../services/apiAuth";
 import { useQueryClient } from "@tanstack/react-query";
+import supabase from "../../services/supabase";
 
 // Wrapper page that hosts the layout and switches between views
 export default function ProfileWrapper() {
@@ -210,6 +211,7 @@ function PersonalInformationView() {
     phone: "",
     address: "",
     email: "",
+    subscription: {},
   });
 
   const [editData, setEditData] = useState(profile);
@@ -222,6 +224,7 @@ function PersonalInformationView() {
         phone: user.user_metadata?.phone || "",
         address: user.user_metadata?.address || "",
         email: user.email || "",
+        subscription: user.user_metadata?.subscription || "",
       };
       setProfile(data);
       setEditData(data);
@@ -244,6 +247,7 @@ function PersonalInformationView() {
         lastName: editData.lastName,
         phone: editData.phone,
         address: editData.address,
+        subscription: editData.subscription,
       };
       await updateUserMetadata(updated);
       queryClient.invalidateQueries(["user"]);
@@ -329,6 +333,31 @@ function PersonalInformationView() {
           as="textarea"
           rows={3}
         />
+
+        {/* Subscription Section */}
+        <div className="border-b border-gray-100 pb-4">
+          <label className="block text-sm font-medium text-gray-500 mb-1">
+            Subscription Info
+          </label>
+          {profile.subscription?.isSubscribed ? (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-sm">
+              <p className="text-gray-800">
+                Active Plan:{" "}
+                <span className="font-semibold capitalize text-green-700">
+                  {profile.subscription.subscriptionType}
+                </span>
+              </p>
+              <p className="text-gray-700 mt-1">
+                <span className="font-medium">
+                  {profile.subscription.consultations}
+                </span>{" "}
+                consultations & follow-ups/month
+              </p>
+            </div>
+          ) : (
+            <p className="text-gray-500 italic">Not Subscribed</p>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -373,23 +402,10 @@ function FieldBlock({
   );
 }
 
+
 function PaymentMethodsView() {
-  const [cards, setCards] = useState([
-    {
-      id: 1,
-      number: "•••• •••• •••• 4242",
-      type: "Visa",
-      expiry: "12/24",
-      isDefault: true,
-    },
-    {
-      id: 2,
-      number: "•••• •••• •••• 5555",
-      type: "Mastercard",
-      expiry: "06/25",
-      isDefault: false,
-    },
-  ]);
+  const [cards, setCards] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
   const [newCard, setNewCard] = useState({
     number: "",
@@ -398,177 +414,266 @@ function PaymentMethodsView() {
     cvc: "",
     name: "",
   });
+  const [errors, setErrors] = useState({});
+  const [editCardId, setEditCardId] = useState(null);
+  const [editData, setEditData] = useState({});
 
-  const handleAddCard = () => {
-    const newId = Math.max(...cards.map((c) => c.id), 0) + 1;
-    setCards([
-      ...cards,
-      {
-        id: newId,
-        number: `•••• •••• •••• ${newCard.number.slice(-4)}`,
-        type: newCard.type,
-        expiry: newCard.expiry,
-        isDefault: false,
-      },
-    ]);
+  useEffect(() => {
+    fetchCards();
+  }, []);
+
+  /** Load cards from Supabase metadata **/
+  async function fetchCards() {
+    const { data, error } = await supabase.auth.getUser();
+    if (error) return console.error(error);
+    const paymentMethods = data.user?.user_metadata?.paymentMethods || [];
+    setCards(paymentMethods);
+    setLoading(false);
+  }
+
+  /** Update user metadata **/
+  async function updatePaymentMethods(updatedCards) {
+    const { error } = await supabase.auth.updateUser({
+      data: { paymentMethods: updatedCards },
+    });
+    if (error) console.error(error);
+    else setCards(updatedCards);
+  }
+
+  /** Validate new card **/
+  function validateCard() {
+    const newErrors = {};
+
+    // Card Number Validation (13-19 digits)
+    if (!/^\d{13,19}$/.test(newCard.number)) {
+      newErrors.number = "Card number must be 13–19 digits";
+    }
+
+    // Expiry Validation (MM/YY format, future date)
+    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(newCard.expiry)) {
+      newErrors.expiry = "Expiry must be in MM/YY format";
+    } else {
+      const [month, year] = newCard.expiry.split("/").map(Number);
+      const currentDate = new Date();
+      const currentMonth = currentDate.getMonth() + 1;
+      const currentYear = currentDate.getFullYear() % 100;
+      if (year < currentYear || (year === currentYear && month < currentMonth)) {
+        newErrors.expiry = "Expiry date must be in the future";
+      }
+    }
+
+    // CVC Validation (3–4 digits)
+    if (!/^\d{3,4}$/.test(newCard.cvc)) {
+      newErrors.cvc = "CVC must be 3–4 digits";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }
+
+  /** Add a new card **/
+  async function handleAddCard() {
+    if (!validateCard()) return;
+
+    const newCardObj = {
+      id: crypto.randomUUID(),
+      number: `•••• •••• •••• ${newCard.number.slice(-4)}`,
+      type: newCard.type,
+      expiry: newCard.expiry,
+      cvc: newCard.cvc,
+      isDefault: cards.length === 0, // first card default
+    };
+    await updatePaymentMethods([...cards, newCardObj]);
     setShowAddForm(false);
     setNewCard({ number: "", type: "Visa", expiry: "", cvc: "", name: "" });
-  };
+    setErrors({});
+  }
 
-  const setDefaultCard = (id) => {
-    setCards(cards.map((card) => ({ ...card, isDefault: card.id === id })));
-  };
+  /** Set card as default **/
+  async function setDefaultCard(id) {
+    const updatedCards = cards.map((c) => ({ ...c, isDefault: c.id === id }));
+    await updatePaymentMethods(updatedCards);
+  }
 
-  const removeCard = (id) => setCards(cards.filter((card) => card.id !== id));
+  /** Remove a card **/
+  async function removeCard(id) {
+    const updatedCards = cards.filter((c) => c.id !== id);
+    await updatePaymentMethods(updatedCards);
+  }
+
+  /** Save edited card **/
+  async function saveEditCard(id) {
+    const updatedCards = cards.map((c) =>
+      c.id === id
+        ? {
+            ...c,
+            ...editData,
+            number: editData.number
+              ? `•••• •••• •••• ${editData.number.slice(-4)}`
+              : c.number,
+          }
+        : c
+    );
+    await updatePaymentMethods(updatedCards);
+    setEditCardId(null);
+    setEditData({});
+  }
 
   return (
-    <div className="bg-white rounded-xl shadow-sm p-6 overflow-hidden">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-xl font-bold text-gray-900">Payment Methods</h1>
-        <button
-          onClick={() => setShowAddForm(true)}
-          className="px-3 py-1.5 rounded-lg bg-green-600 text-white hover:bg-green-700 transition flex items-center gap-2 text-sm"
-        >
-          <FaPlus size={14} /> Add Card
-        </button>
-      </div>
+    <div className="max-w-lg mx-auto mt-6 space-y-6">
+      <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
+        Payment Methods
+      </h2>
 
-      {showAddForm && (
-        <div className="mb-6 p-4 border border-gray-200 rounded-lg bg-gray-50">
-          <h2 className="text-lg font-semibold mb-4">Add New Card</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Input
-              label="Card Number"
-              placeholder="1234 5678 9012 3456"
-              value={newCard.number}
-              onChange={(e) =>
-                setNewCard({ ...newCard, number: e.target.value })
-              }
-            />
-            <Select
-              label="Card Type"
-              value={newCard.type}
-              onChange={(e) => setNewCard({ ...newCard, type: e.target.value })}
-              options={["Visa", "Mastercard", "American Express"]}
-            />
-            <Input
-              label="Expiry Date"
-              placeholder="MM/YY"
-              value={newCard.expiry}
-              onChange={(e) =>
-                setNewCard({ ...newCard, expiry: e.target.value })
-              }
-            />
-            <Input
-              label="CVC"
-              placeholder="123"
-              value={newCard.cvc}
-              onChange={(e) => setNewCard({ ...newCard, cvc: e.target.value })}
-            />
-            <Input
-              className="md:col-span-2"
-              label="Name on Card"
-              placeholder="Alex Green"
-              value={newCard.name}
-              onChange={(e) => setNewCard({ ...newCard, name: e.target.value })}
-            />
+      {loading ? (
+        <p className="text-center">Loading...</p>
+      ) : cards.length === 0 ? (
+        <p className="text-center text-gray-500">No cards saved yet.</p>
+      ) : (
+        cards.map((card) => (
+          <div
+            key={card.id}
+            className="p-4 bg-white shadow rounded-2xl border flex flex-col gap-3"
+          >
+            {editCardId === card.id ? (
+              <>
+                <input
+                  className="border p-2 rounded"
+                  placeholder="Card Number"
+                  onChange={(e) =>
+                    setEditData({ ...editData, number: e.target.value })
+                  }
+                />
+                <input
+                  className="border p-2 rounded"
+                  placeholder="Expiry (MM/YY)"
+                  onChange={(e) =>
+                    setEditData({ ...editData, expiry: e.target.value })
+                  }
+                />
+                <input
+                  className="border p-2 rounded"
+                  placeholder="CVV"
+                  onChange={(e) =>
+                    setEditData({ ...editData, cvc: e.target.value })
+                  }
+                />
+                <div className="flex gap-2">
+                  <button
+                    className="bg-green-500 text-white px-3 py-1 rounded"
+                    onClick={() => saveEditCard(card.id)}
+                  >
+                    Save
+                  </button>
+                  <button
+                    className="bg-gray-400 text-white px-3 py-1 rounded"
+                    onClick={() => setEditCardId(null)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <p className="text-lg font-semibold">
+                  {card.type} {card.number}
+                </p>
+                <p className="text-gray-500">Exp: {card.expiry} | CVV: •••</p>
+                {card.isDefault && (
+                  <span className="text-green-600 text-sm font-bold">
+                    Default
+                  </span>
+                )}
+                <div className="flex gap-2 mt-2">
+                  <button
+                    className="bg-blue-500 text-white px-3 py-1 rounded"
+                    onClick={() => {
+                      setEditCardId(card.id);
+                      setEditData({});
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="bg-yellow-500 text-white px-3 py-1 rounded"
+                    onClick={() => setDefaultCard(card.id)}
+                  >
+                    Set Default
+                  </button>
+                  <button
+                    className="bg-red-500 text-white px-3 py-1 rounded"
+                    onClick={() => removeCard(card.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </>
+            )}
           </div>
-          <div className="flex justify-end gap-2 mt-4">
+        ))
+      )}
+
+      {!showAddForm ? (
+        <button
+          className="w-full bg-green-500 text-white py-2 rounded-lg"
+          onClick={() => setShowAddForm(true)}
+        >
+          + Add New Card
+        </button>
+      ) : (
+        <div className="p-4 bg-gray-50 shadow rounded-2xl border flex flex-col gap-3">
+          <h3 className="font-semibold text-gray-700">Add New Card</h3>
+          <input
+            className={`border p-2 rounded ${
+              errors.number ? "border-red-500" : ""
+            }`}
+            placeholder="Card Number"
+            value={newCard.number}
+            onChange={(e) => setNewCard({ ...newCard, number: e.target.value })}
+          />
+          {errors.number && <p className="text-red-500 text-sm">{errors.number}</p>}
+
+          <input
+            className={`border p-2 rounded ${
+              errors.expiry ? "border-red-500" : ""
+            }`}
+            placeholder="Expiry (MM/YY)"
+            value={newCard.expiry}
+            onChange={(e) => setNewCard({ ...newCard, expiry: e.target.value })}
+          />
+          {errors.expiry && <p className="text-red-500 text-sm">{errors.expiry}</p>}
+
+          <input
+            className={`border p-2 rounded ${
+              errors.cvc ? "border-red-500" : ""
+            }`}
+            placeholder="CVV"
+            value={newCard.cvc}
+            onChange={(e) => setNewCard({ ...newCard, cvc: e.target.value })}
+          />
+          {errors.cvc && <p className="text-red-500 text-sm">{errors.cvc}</p>}
+
+          <div className="flex gap-2">
             <button
-              onClick={() => setShowAddForm(false)}
-              className="px-3 py-1.5 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition text-sm"
-            >
-              Cancel
-            </button>
-            <button
+              className="flex-1 bg-green-500 text-white px-3 py-2 rounded hover:bg-green-600"
               onClick={handleAddCard}
-              className="px-3 py-1.5 rounded-lg bg-green-600 text-white hover:bg-green-700 transition text-sm"
             >
               Save Card
+            </button>
+            <button
+              className="flex-1 bg-gray-400 text-white px-3 py-2 rounded"
+              onClick={() => {
+                setShowAddForm(false);
+                setErrors({});
+              }}
+            >
+              Cancel
             </button>
           </div>
         </div>
       )}
-
-      <div className="space-y-4">
-        {cards.length === 0 ? (
-          <p className="text-gray-500 text-center py-4">
-            No payment methods saved
-          </p>
-        ) : (
-          cards.map((card) => (
-            <div
-              key={card.id}
-              className="border border-gray-200 rounded-lg p-4"
-            >
-              <div className="flex justify-between items-start min-w-0">
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span className="font-medium">{card.type}</span>
-                    <span className="truncate">{card.number}</span>
-                  </div>
-                  <div className="text-sm text-gray-600 mt-1">
-                    Expires {card.expiry}
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  {card.isDefault ? (
-                    <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs">
-                      Default
-                    </span>
-                  ) : (
-                    <button
-                      onClick={() => setDefaultCard(card.id)}
-                      className="px-2 py-1 text-xs text-gray-600 hover:text-green-600"
-                    >
-                      Set as default
-                    </button>
-                  )}
-                  <button
-                    onClick={() => removeCard(card.id)}
-                    className="p-1 text-gray-400 hover:text-red-500"
-                  >
-                    <FaTrash size={14} />
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))
-        )}
-      </div>
     </div>
   );
-
-  function Input({ label, className = "", ...rest }) {
-    return (
-      <div className={className}>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          {label}
-        </label>
-        <input
-          {...rest}
-          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-        />
-      </div>
-    );
-  }
-  function Select({ label, options = [], ...rest }) {
-    return (
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
-          {label}
-        </label>
-        <select
-          {...rest}
-          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-        >
-          {options.map((o) => (
-            <option key={o} value={o}>
-              {o}
-            </option>
-          ))}
-        </select>
-      </div>
-    );
-  }
 }
+
+

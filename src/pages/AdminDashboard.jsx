@@ -650,7 +650,7 @@ function AdminDashboard() {
             {activeTab === "dashboard" && (
               <div className="space-y-6">
                 {/* Stats */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div className="flex flex-col gap-5 w-full max-w-3xl mx-auto">
                   <StatCard
                     icon={<FaUsers className="text-blue-500 text-3xl" />}
                     label="Total Users"
@@ -666,7 +666,9 @@ function AdminDashboard() {
                     secondaryValue={`${stats.inStockProducts} in stock`}
                   />
                   <StatCard
-                    icon={<FaMoneyBillWave className="text-purple-500 text-3xl" />}
+                    icon={
+                      <FaMoneyBillWave className="text-purple-500 text-3xl" />
+                    }
                     label="Subscriptions"
                     value={stats.activeSubscriptions}
                     secondaryValue={`LE${currency(stats.monthlyRevenue)}/mo`}
@@ -1146,7 +1148,10 @@ function AdminDashboard() {
                         >
                           Cancel
                         </button>
-                        <button className={btnPrimary} onClick={saveEditProduct}>
+                        <button
+                          className={btnPrimary}
+                          onClick={saveEditProduct}
+                        >
                           Save
                         </button>
                       </div>
@@ -1277,15 +1282,11 @@ function AdminDashboard() {
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Maintenance Mode
+                          System Status
                         </label>
-                        <label className="inline-flex items-center cursor-pointer">
-                          <input type="checkbox" className="sr-only peer" />
-                          <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600" />
-                          <span className="ms-3 text-sm text-gray-600">
-                            Enable maintenance mode
-                          </span>
-                        </label>
+                        <p className="text-sm text-gray-600">
+                          All systems are operating normally.
+                        </p>
                       </div>
 
                       <div>
@@ -1303,7 +1304,8 @@ function AdminDashboard() {
                             className={`${btnSecondary} text-sm`}
                             onClick={exportAllExcel}
                           >
-                            <FaDownload className="mr-2" /> Create Backup (Excel)
+                            <FaDownload className="mr-2" /> Create Backup
+                            (Excel)
                           </button>
                         </div>
                       </div>
@@ -1317,19 +1319,11 @@ function AdminDashboard() {
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Email Notifications
+                          Notifications
                         </label>
-                        <label className="inline-flex items-center cursor-pointer">
-                          <input
-                            type="checkbox"
-                            className="sr-only peer"
-                            defaultChecked
-                          />
-                          <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-green-300 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600" />
-                          <span className="ms-3 text-sm text-gray-600">
-                            Receive email alerts
-                          </span>
-                        </label>
+                        <p className="text-sm text-gray-600">
+                          Email notifications are enabled by default.
+                        </p>
                       </div>
 
                       <div>

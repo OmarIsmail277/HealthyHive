@@ -12,9 +12,14 @@ export async function signup({ username, email, password }) {
         lastName: "",
         address: {},
         phoneNumber: "",
-        paymentMethods: [],
+        paymentMethods: {},
         cart: {},
         wishlist: {},
+        subscription: {
+          isSubscribed: false,
+          subscriptionType: "",
+          consultations: 0,
+        },
       },
     },
   });
