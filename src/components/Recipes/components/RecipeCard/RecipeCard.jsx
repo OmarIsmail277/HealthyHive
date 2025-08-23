@@ -1,10 +1,8 @@
 
-function RecipeCard({ recipe, onClick }) {
+function RecipeCard({ recipe }) {
   return (
     <div
-      onClick={onClick}
-      className="cursor-pointer group rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transform hover:scale-105 transition-all duration-300 bg-white/80 backdrop-blur-md border border-gray-200"
-    >
+      className="cursor-pointer group rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transform hover:scale-105 transition-all duration-300 bg-white/80 backdrop-blur-md border border-gray-200">
       <div className="relative">
         <img
           src={recipe.image_url || recipe.image}
