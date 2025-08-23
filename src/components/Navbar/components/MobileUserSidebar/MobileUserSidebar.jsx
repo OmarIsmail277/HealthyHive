@@ -2,15 +2,16 @@ import { useState } from "react";
 import { FaRegUser } from "react-icons/fa";
 import { FiX } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
+import { useLogout } from "../../../../features/authentication/useLogout";
 
-function MobileUserSidebar({ userName, email, imgURL }) {
+function MobileUserSidebar({ userName, userEmail, userImage = "" }) {
   const [isOpen, setIsOpen] = useState(false);
+  const { logout, isPending } = useLogout();
 
   const menuItems = [
-    { label: "Dashboard", to: "/profile" },
+    { label: "Profile", to: "/profile" },
     { label: "Wishlist", to: "/wishlist" },
-    { label: "Settings", to: "/settings" },
-    { label: "Sign out", to: "/logout" },
+    { label: "Log out", onClick: logout },
   ];
 
   return (
@@ -53,13 +54,13 @@ function MobileUserSidebar({ userName, email, imgURL }) {
           <div className="p-4 border-b border-gray-300">
             <div className="flex items-center gap-3">
               <img
-                src={imgURL}
+                src={userImage}
                 alt={`user ${userName}`}
                 className="w-12 h-12 rounded-full object-cover"
               />
               <div>
                 <p className="text-sm font-medium text-gray-900">{userName}</p>
-                <p className="text-xs text-gray-500">{email}</p>
+                <p className="text-xs text-gray-500">{userEmail}</p>
               </div>
             </div>
           </div>
@@ -68,13 +69,23 @@ function MobileUserSidebar({ userName, email, imgURL }) {
           <ul className="p-4 space-y-2">
             {menuItems.map((item, index) => (
               <li key={index}>
-                <NavLink
-                  to={item.to}
-                  className="block px-3 py-2 rounded-md text-sm text-gray-700 hover:bg-green-100"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.label}
-                </NavLink>
+                {item.onClick ? (
+                  <button
+                    onClick={item.onClick}
+                    className="block px-3 py-2 rounded-md text-sm text-gray-700 hover:bg-green-100"
+                    disabled={isPending}
+                  >
+                    {item.label}
+                  </button>
+                ) : (
+                  <NavLink
+                    to={item.to}
+                    onClick={() => setIsOpen(false)}
+                    className="block px-3 py-2 rounded-md text-sm text-gray-700 hover:bg-green-100"
+                  >
+                    {item.label}
+                  </NavLink>
+                )}
               </li>
             ))}
           </ul>

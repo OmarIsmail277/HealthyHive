@@ -1,37 +1,9 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import healthyRecipes from '../RecipesData/RecipesData'
 
 function RecipeDetail() {
   const { id } = useParams();
-  const [recipe, setRecipe] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchRecipe() {
-      try {
-        setLoading(true);
-        const res = await fetch(
-          `https://forkify-api.herokuapp.com/api/v2/recipes/${id}`
-        );
-        const data = await res.json();
-        setRecipe(data.data.recipe);
-        console.log(data.data.recipe)
-      } catch (err) {
-        console.error("Error fetching recipe:", err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchRecipe();
-  }, [id]);
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p className="text-lg font-semibold text-gray-600">Loading...</p>
-      </div>
-    );
-  }
+  const recipe = healthyRecipes.recipes.find((r) => r.id === id);
 
   if (!recipe) {
     return (
@@ -71,7 +43,7 @@ function RecipeDetail() {
               target="_blank"
               rel="noopener noreferrer"
               className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:bg-gradient-to-r hover:from-emerald-600 hover:to-teal-600 !text-white px-5 py-2 rounded-lg font-medium transition">
-              View Full Recipe
+              View Some Recipes
             </a>
           </div>
 

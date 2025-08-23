@@ -92,17 +92,15 @@ function DesktopNav({
       </div>
 
       {isAuthenticated ? (
-        <NavActionButton
-          title={
-            <span className="text-sm lg:text-base">
-              Hello,
-              {user?.user_metadata?.username || user?.email.split("@")[0]}
-            </span>
-          }
-          subTitle={<span className="text-xs lg:text-sm">Profile</span>}
-          to="/account"
-          icon={<FaRegUser className="text-primary text-lg lg:text-2xl" />}
-        />
+        <div className="flex items-center justify-center w-10 h-10 rounded-full border-0 lg:border lg:border-emerald-500">
+          <UserLogedIn
+            userName={
+              user?.user_metadata?.username || user?.email.split("@")[0]
+            }
+            userEmail={user?.email}
+            userImage="./images/ProfilePage/profilepic.png"
+          />
+        </div>
       ) : (
         <NavActionButton
           title={<span className="text-sm lg:text-base">Sign In</span>}

@@ -12,8 +12,8 @@ const pulse = keyframes`
     opacity: 1;
   }
   50% {
-    transform: scale(1.1);
-    opacity: 0.8;
+    transform: scale(1.08);
+    opacity: 0.95;
   }
   100% {
     transform: scale(1);
@@ -23,13 +23,13 @@ const pulse = keyframes`
 
 const glow = keyframes`
   0% {
-    box-shadow: 0 0 20px #10b981, 0 0 40px #059669;
+    box-shadow: 0 0 25px #10b981, 0 0 50px #059669;
   }
   50% {
-    box-shadow: 0 0 30px #34d399, 0 0 60px #059669, 0 0 80px #10b981;
+    box-shadow: 0 0 40px #34d399, 0 0 80px #059669, 0 0 100px #10b981;
   }
   100% {
-    box-shadow: 0 0 20px #10b981, 0 0 40px #059669;
+    box-shadow: 0 0 25px #10b981, 0 0 50px #059669;
   }
 `;
 
@@ -40,15 +40,15 @@ const SpinnerWrapper = styled.div`
   min-height: 100vh;
   background: radial-gradient(
     circle,
-    rgba(5, 150, 105, 0.1) 0%,
+    rgba(5, 150, 105, 0.12) 0%,
     rgba(255, 255, 255, 0) 70%
   );
 `;
 
-const xSpinner = styled.div`
+const SpinnerCircle = styled.div`
   position: relative;
-  width: 160px;
-  height: 160px;
+  width: 220px;   /* bigger size */
+  height: 220px;
   border-radius: 50%;
   background: conic-gradient(
     #0000 30%,
@@ -58,9 +58,8 @@ const xSpinner = styled.div`
     #047857 70%,
     #0000 80%
   );
-  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 12px), #000 0);
-  mask: radial-gradient(farthest-side, #0000 calc(100% - 12px), #000 0);
-  animation: ${rotate} 1.2s infinite linear, ${glow} 2s infinite ease-in-out;
+
+  animation: ${rotate} 1.5s infinite linear, ${glow} 2s infinite ease-in-out;
 
   display: flex;
   justify-content: center;
@@ -69,14 +68,14 @@ const xSpinner = styled.div`
   &::before {
     content: "";
     position: absolute;
-    width: 180px;
-    height: 180px;
+    width: 260px;
+    height: 260px;
     border-radius: 50%;
     background: conic-gradient(
       transparent 0deg,
       transparent 180deg,
-      rgba(16, 185, 129, 0.5) 180deg,
-      rgba(16, 185, 129, 0.5) 360deg
+      rgba(16, 185, 129, 0.4) 180deg,
+      rgba(16, 185, 129, 0.4) 360deg
     );
     animation: ${rotate} 3s infinite linear reverse;
     z-index: -1;
@@ -85,14 +84,14 @@ const xSpinner = styled.div`
   &::after {
     content: "";
     position: absolute;
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     border-radius: 50%;
     background: conic-gradient(
       transparent 0deg,
       transparent 120deg,
-      rgba(52, 211, 153, 0.3) 120deg,
-      rgba(52, 211, 153, 0.3) 240deg,
+      rgba(52, 211, 153, 0.25) 120deg,
+      rgba(52, 211, 153, 0.25) 240deg,
       transparent 240deg,
       transparent 360deg
     );
@@ -102,19 +101,21 @@ const xSpinner = styled.div`
 `;
 
 const Logo = styled.img`
-  width: 400px;
-  height: 400px;
+  width: 140px;   /* larger logo */
+  height: 140px;
   object-fit: contain;
-  animation: ${pulse} 1.5s infinite ease-in-out;
-  filter: drop-shadow(0 0 8px rgba(5, 150, 105, 0.5));
+  animation: ${pulse} 1.8s infinite ease-in-out;
+  filter: drop-shadow(0 0 15px rgba(16, 185, 129, 0.7))
+          drop-shadow(0 0 25px rgba(5, 150, 105, 0.5));
+  z-index: 2; /* ensure it's above the spinner */
 `;
 
 export default function Spinner() {
   return (
     <SpinnerWrapper>
-      <xSpinner>
+      <SpinnerCircle>
         <Logo src="/images/logos/green-logo.svg" alt="Logo" />
-      </xSpinner>
+      </SpinnerCircle>
     </SpinnerWrapper>
   );
 }

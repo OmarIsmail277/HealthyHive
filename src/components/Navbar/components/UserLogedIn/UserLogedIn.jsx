@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { ImUserCheck } from "react-icons/im";
+import { useLogout } from "../../../../features/authentication/useLogout";
 
 function UserLogedIn({
   userName = "User Name",
@@ -9,12 +10,12 @@ function UserLogedIn({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const timerRef = useRef(null);
+  const { logout, isPending } = useLogout();
 
   const menuItems = [
-    { label: "Dashboard", to: "/profile" },
-    { label: "Wishlist", to: "/wishlistPage" },
-    { label: "Settings", to: "/settings" },
-    { label: "Sign out", to: "/logout" },
+    { label: "Profile", to: "/profile" },
+    { label: "Wishlist", to: "/wishlist" },
+    { label: "Log out", onClick: logout },
   ];
 
   const handleMouseEnter = () => {
@@ -36,7 +37,7 @@ function UserLogedIn({
         {userImage ? (
           <img
             src={userImage}
-            alt={userName}
+            alt={`userName-${userName}`}
             className="w-8 h-8 rounded-full object-cover"
           />
         ) : (
@@ -57,12 +58,22 @@ function UserLogedIn({
           <ul className="py-1">
             {menuItems.map((item, index) => (
               <li key={index}>
-                <NavLink
-                  to={item.to}
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-secondary transition-colors"
-                >
-                  {item.label}
-                </NavLink>
+                {item.onClick ? (
+                  <button
+                    onClick={item.onClick}
+                    className="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-secondary transition-colors"
+                    disabled={isPending}
+                  >
+                    {item.label}
+                  </button>
+                ) : (
+                  <NavLink
+                    to={item.to}
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-secondary transition-colors"
+                  >
+                    {item.label}
+                  </NavLink>
+                )}
               </li>
             ))}
           </ul>
