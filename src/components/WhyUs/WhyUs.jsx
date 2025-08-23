@@ -69,9 +69,9 @@ export default function WhyUs() {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-[#f8faf5] to-[#e8f5e9] ">
-      <div className="max-w-7xl mx-auto px-6 text-center">
-        <h2 className="text-4xl font-extrabold text-gray-900  mb-14">
+    <section className="py-20 bg-gradient-to-br from-[#f8faf5] to-[#e8f5e9] dark:from-gray-900 dark:to-gray-800">
+      <div className="healthy__container mx-auto px-6 text-center">
+        <h2 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-14">
           Why <span className="text-green-600">HealthyHive?</span>
         </h2>
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">

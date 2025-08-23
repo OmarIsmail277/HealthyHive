@@ -61,7 +61,7 @@ function BrandsWeOffer() {
     },
   ];
   return (
-    <div className="pt-15">
+    <div className='pt-15 bg-[#f8faf4] '>
       <div className="text-center">
         <h2 className="text-3xl md:text-4xl text-center font-bold text-gray-800">
           Brands <span className="text-primary">We Offer</span>
@@ -74,7 +74,7 @@ function BrandsWeOffer() {
           providers
         </p>
       </div>
-      <div className="BrandsWeOffer flex flex-col items-center justify-center p-6 w-4/5 m-auto bg-[#f8faf4] rounded-2xl shadow-lg my-10 gap-4">
+      <div className="BrandsWeOffer w-full flex flex-col items-center justify-center p-6  m-auto rounded-2xl shadow-lg  gap-4">
         {/* <h2 className='text-2xl text-deepGreen font-bold'>Brands We Offer</h2> */}
         <div className="cards flex flex-wrap justify-center lg:justify-center items-center gap-4 p-6">
           {brands.map((item, index) => (

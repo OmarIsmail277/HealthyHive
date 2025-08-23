@@ -40,35 +40,35 @@ export default function AppRoutes() {
         {/* Public Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/" element={<HomePage />} />
-
         {/* Routes with MainLayout */}
         <Route element={<MainLayout />}>
+          <Route path="/" element={<HomePage />} />
+
+          <Route path="/services" element={<Services />} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/products/:category" element={<ProductCategory />} />
+          <Route path="/admin" element={<AdminDashboard />} />
+          <Route
+            path="/services/calorie-calculator"
+            element={<CalorieCalculator />}
+          />
+          <Route path="/services/consultations" element={<Consultations />} />
+          <Route path="/subscription" element={<Subscription />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
+          <Route path="/search/:query" element={<SearchResults />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/faq" element={<Faq />} />
+          <Route path="/wishlist" element={<WishlistPage />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/recipes" element={<Recipes />} />
+          <Route path="/recipeDetail/:id" element={<RecipeDetail />} />
+          <Route path="/test" element={<TestProducts />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/tracking" element={<TrackingPage />} />
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
-            <Route path="/services" element={<Services />} />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/products/:category" element={<ProductCategory />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route
-              path="/services/calorie-calculator"
-              element={<CalorieCalculator />}
-            />
-            <Route path="/services/consultations" element={<Consultations />} />
-            <Route path="/subscription" element={<Subscription />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
-            <Route path="/search/:query" element={<SearchResults />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/history" element={<History />} />
-            <Route path="/faq" element={<Faq />} />
-            <Route path="/wishlist" element={<WishlistPage />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/recipes" element={<Recipes />} />
-            <Route path="/recipeDetail/:id" element={<RecipeDetail />} />
-            <Route path="/test" element={<TestProducts />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/about" element={<AboutUs />} />
-            <Route path="/tracking" element={<TrackingPage />} />
           </Route>
 
           {/* Fallback */}

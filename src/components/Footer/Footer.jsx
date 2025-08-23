@@ -22,13 +22,13 @@ function Footer() {
       {/* Decorative accent */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary to-transparent"></div>
 
-      <div className="relative z-10 w-11/12 max-w-7xl mx-auto py-14 px-4 flex flex-col gap-12 lg:flex-row lg:justify-between">
+      <div className="relative z-10 w-11/12 healthy__container mx-auto py-14 px-4 flex flex-col gap-12 lg:flex-row lg:justify-between">
         {/* About & Contact */}
         <div className="flex flex-col gap-10 lg:w-2/5">
           <div className="space-y-4">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-1 sm:gap-2">
-              <img className="h-[80px] w-[80px] " src="/images/logos/white-logo.svg"/>
+            <Link to="/" className="flex items-center gap-1 sm:gap-2 w-fit">
+              <img className="h-[80px] w-[80px] " src="/images/logos/white-logo.svg" />
               <span className="font-bold text-base sm:text-lg lg:text-3xl">
                 HealthyHive
               </span>
@@ -65,7 +65,7 @@ function Footer() {
 
         {/* Newsletter & Social */}
         <div className="flex flex-col gap-10 lg:w-2/5">
-          <div className="space-y-4">
+          <div className="space-y-4 flex flex-col items-center">
             <h2 className="text-2xl font-bold border-b-2 border-primary inline-block pb-1">
               Newsletter
             </h2>
@@ -78,14 +78,14 @@ function Footer() {
               />
               <button
                 type="submit"
-                className="bg-primary px-5 py-3 rounded-lg text-white font-semibold hover:bg-detail-btn-green transition-all duration-300 shadow-md hover:shadow-primary/30"
+                className="bg-primary px-5 py-3 rounded-lg text-white font-semibold hover:bg-secondary transition-all duration-300 shadow-md hover:shadow-primary/30"
               >
                 Subscribe
               </button>
             </form>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-4 flex flex-col items-center">
             <h2 className="text-2xl font-bold border-b-2 border-primary inline-block pb-1">
               Stay Connected
             </h2>
@@ -112,13 +112,6 @@ function Footer() {
                 <FaSquareXTwitter />
               </Link>
 
-              <Link
-                to="/faq"
-                className="text-gray-400 hover:text-primary hover:scale-110 transition-all duration-300"
-                aria-label="FAQ"
-              >
-                <FaQuestionCircle />
-              </Link>
             </div>
 
             <div className="pt-2">
@@ -145,6 +138,13 @@ function Footer() {
           <div className="flex gap-4">
             <Link to="/privacy" className="hover:text-primary transition-colors">Privacy Policy</Link>
             <Link to="/terms" className="hover:text-primary transition-colors">Terms of Service</Link>
+            <Link
+              to="/faq"
+              className="text-gray-400 hover:text-primary hover:scale-110 transition-all duration-300"
+              aria-label="FAQ"
+            >
+              FAQ
+            </Link>
           </div>
         </div>
       </div>
