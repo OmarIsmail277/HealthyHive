@@ -1525,7 +1525,6 @@ function Modal({ title, onClose, children }) {
   );
 }
 
-// Wrap the AdminDashboard with ToastProvider
 export default function AdminDashboardWithToast() {
   return (
     <ToastProvider>

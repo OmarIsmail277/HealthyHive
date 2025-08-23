@@ -108,7 +108,7 @@ function RecommendedCard({ product }) {
 
       {/* Image with Flip Animation */}
       <figure className="text-center perspective">
-        <div className="relative w-full h-48 transition-transform duration-700 transform-style-preserve-3d hover:[transform:rotateY(180deg)]">
+        <div className="relative w-full h-48 transition-transform duration-500 hover:scale-105">
           <img
             className="absolute inset-0 w-full h-full object-contain backface-hidden"
             src={product.imageURL}
