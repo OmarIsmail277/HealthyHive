@@ -1,4 +1,4 @@
-import { supabase } from "./supabaseClient";
+import supabase from "./supabase"; 
 
 // ✅ Get current user data
 export async function getUser() {
