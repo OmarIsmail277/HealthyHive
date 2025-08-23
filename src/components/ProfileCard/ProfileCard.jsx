@@ -1,5 +1,4 @@
 // ProfileWrapper.jsx
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   FaUserCircle,
@@ -21,6 +20,10 @@ import {
 // 👉 Import the new components
 import Dashboard from "../Dashboard/Dashboard";
 import OrderHistory from "../OrderHistory/OrderHistory";
+import { useUser } from "../../features/authentication/useUser";
+import { useState, useEffect } from "react";
+import { updateUserMetadata } from "../../services/apiAuth";
+import { useQueryClient } from "@tanstack/react-query";
 
 // Wrapper page that hosts the layout and switches between views
 export default function ProfileWrapper() {
@@ -78,7 +81,9 @@ export default function ProfileWrapper() {
           {/* Sidebar */}
           <aside className="lg:col-span-1 space-y-4 min-w-0">
             <div className="bg-white rounded-xl shadow-sm p-4 overflow-hidden">
-              <h2 className="text-md font-semibold text-gray-900 mb-3">Navigation</h2>
+              <h2 className="text-md font-semibold text-gray-900 mb-3">
+                Navigation
+              </h2>
               <nav className="space-y-1">
                 <ProfileNavItem
                   icon={<FaHome className="text-green-500" />}
@@ -115,7 +120,9 @@ export default function ProfileWrapper() {
 
             {activeView === "dashboard" && (
               <div className="bg-white rounded-xl shadow-sm p-4 overflow-hidden">
-                <h2 className="text-md font-semibold text-gray-900 mb-3">Quick Stats</h2>
+                <h2 className="text-md font-semibold text-gray-900 mb-3">
+                  Quick Stats
+                </h2>
                 <div className="space-y-2">
                   <MiniStat
                     icon={<FaFire className="text-orange-500" />}
@@ -138,7 +145,9 @@ export default function ProfileWrapper() {
           </aside>
 
           {/* Content */}
-          <section className="lg:col-span-3 min-w-0">{renderActiveView()}</section>
+          <section className="lg:col-span-3 min-w-0">
+            {renderActiveView()}
+          </section>
         </div>
       </main>
     </div>
@@ -178,7 +187,9 @@ function MiniStat({ icon, label, value }) {
       </div>
       <div className="min-w-0">
         <div className="text-xs text-gray-500 truncate">{label}</div>
-        <div className="text-base font-bold text-gray-900 truncate">{value}</div>
+        <div className="text-base font-bold text-gray-900 truncate">
+          {value}
+        </div>
       </div>
     </div>
   );
@@ -187,36 +198,75 @@ function MiniStat({ icon, label, value }) {
 /* ---------- Keep these two views inline (unchanged functional behavior) ---------- */
 /* You can split them later if you like. */
 
+// Personal Information
 function PersonalInformationView() {
-  const [profile, setProfile] = useState({
-    fullName: "Alex Green",
-    email: "alex.green@example.com",
-    phone: "+1 (555) 123-4567",
-    address: "123 Fitness St, Cairo, Egypt",
-  });
+  const { user, isPending } = useUser();
+  const queryClient = useQueryClient();
   const [isEditing, setIsEditing] = useState(false);
-  const [editData, setEditData] = useState({ ...profile });
+
+  const [profile, setProfile] = useState({
+    firstName: "",
+    lastName: "",
+    phone: "",
+    address: "",
+    email: "",
+  });
+
+  const [editData, setEditData] = useState(profile);
+
+  useEffect(() => {
+    if (user) {
+      const data = {
+        firstName: user.user_metadata?.firstName || "",
+        lastName: user.user_metadata?.lastName || "",
+        phone: user.user_metadata?.phone || "",
+        address: user.user_metadata?.address || "",
+        email: user.email || "",
+      };
+      setProfile(data);
+      setEditData(data);
+    }
+  }, [user]);
+
+  const handleChange = (e) => {
+    setEditData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   const handleEdit = () => {
     setEditData({ ...profile });
     setIsEditing(true);
   };
 
-  const handleSave = () => {
-    setProfile({ ...editData });
+  const handleSave = async () => {
+    try {
+      const updated = {
+        firstName: editData.firstName,
+        lastName: editData.lastName,
+        phone: editData.phone,
+        address: editData.address,
+      };
+      await updateUserMetadata(updated);
+      queryClient.invalidateQueries(["user"]);
+      setProfile(editData);
+      setIsEditing(false);
+    } catch (err) {
+      console.error("Error updating profile:", err.message);
+    }
+  };
+
+  const handleCancel = () => {
+    setEditData({ ...profile });
     setIsEditing(false);
   };
 
-  const handleCancel = () => setIsEditing(false);
-
-  const handleChange = (e) => {
-    setEditData({ ...editData, [e.target.name]: e.target.value });
-  };
+  if (isPending) return <p>Loading...</p>;
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-6 overflow-hidden">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-xl font-bold text-gray-900">Personal Information</h1>
+        <h1 className="text-xl font-bold text-gray-900">
+          Personal Information
+        </h1>
         {!isEditing ? (
           <button
             onClick={handleEdit}
@@ -244,21 +294,24 @@ function PersonalInformationView() {
 
       <div className="space-y-4">
         <FieldBlock
-          label="Full Name"
+          label="First Name"
           isEditing={isEditing}
-          value={editData.fullName}
-          name="fullName"
+          value={editData.firstName}
+          name="firstName"
           onChange={handleChange}
-          as="input"
+        />
+        <FieldBlock
+          label="Last Name"
+          isEditing={isEditing}
+          value={editData.lastName}
+          name="lastName"
+          onChange={handleChange}
         />
         <FieldBlock
           label="Email Address"
-          isEditing={isEditing}
+          isEditing={false} // ❌ Email read-only
           value={editData.email}
           name="email"
-          onChange={handleChange}
-          as="input"
-          type="email"
         />
         <FieldBlock
           label="Phone Number"
@@ -266,8 +319,6 @@ function PersonalInformationView() {
           value={editData.phone}
           name="phone"
           onChange={handleChange}
-          as="input"
-          type="tel"
         />
         <FieldBlock
           label="Address"
@@ -281,35 +332,63 @@ function PersonalInformationView() {
       </div>
     </div>
   );
+}
 
-  function FieldBlock({ label, isEditing, as = "input", ...rest }) {
-    return (
-      <div className="border-b border-gray-100 pb-4">
-        <label className="block text-sm font-medium text-gray-500 mb-1">{label}</label>
-        {isEditing ? (
-          as === "textarea" ? (
-            <textarea
-              {...rest}
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-            />
-          ) : (
-            <input
-              {...rest}
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
-            />
-          )
+function FieldBlock({
+  label,
+  isEditing,
+  as = "input",
+  value,
+  onChange,
+  name,
+  ...rest
+}) {
+  return (
+    <div className="border-b border-gray-100 pb-4">
+      <label className="block text-sm font-medium text-gray-500 mb-1">
+        {label}
+      </label>
+      {isEditing ? (
+        as === "textarea" ? (
+          <textarea
+            name={name}
+            value={value}
+            onChange={onChange}
+            {...rest}
+            className="outline-none w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          />
         ) : (
-          <p className="text-gray-900 break-words whitespace-pre-line">{rest.value}</p>
-        )}
-      </div>
-    );
-  }
+          <input
+            name={name}
+            value={value}
+            onChange={onChange}
+            {...rest}
+            className="outline-none w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          />
+        )
+      ) : (
+        <p className="text-gray-900 break-words whitespace-pre-line">{value}</p>
+      )}
+    </div>
+  );
 }
 
 function PaymentMethodsView() {
   const [cards, setCards] = useState([
-    { id: 1, number: "•••• •••• •••• 4242", type: "Visa", expiry: "12/24", isDefault: true },
-    { id: 2, number: "•••• •••• •••• 5555", type: "Mastercard", expiry: "06/25", isDefault: false },
+    {
+      id: 1,
+      number: "•••• •••• •••• 4242",
+      type: "Visa",
+      expiry: "12/24",
+      isDefault: true,
+    },
+    {
+      id: 2,
+      number: "•••• •••• •••• 5555",
+      type: "Mastercard",
+      expiry: "06/25",
+      isDefault: false,
+    },
   ]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [newCard, setNewCard] = useState({
@@ -358,22 +437,53 @@ function PaymentMethodsView() {
         <div className="mb-6 p-4 border border-gray-200 rounded-lg bg-gray-50">
           <h2 className="text-lg font-semibold mb-4">Add New Card</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Input label="Card Number" placeholder="1234 5678 9012 3456" value={newCard.number} onChange={(e) => setNewCard({ ...newCard, number: e.target.value })} />
+            <Input
+              label="Card Number"
+              placeholder="1234 5678 9012 3456"
+              value={newCard.number}
+              onChange={(e) =>
+                setNewCard({ ...newCard, number: e.target.value })
+              }
+            />
             <Select
               label="Card Type"
               value={newCard.type}
               onChange={(e) => setNewCard({ ...newCard, type: e.target.value })}
               options={["Visa", "Mastercard", "American Express"]}
             />
-            <Input label="Expiry Date" placeholder="MM/YY" value={newCard.expiry} onChange={(e) => setNewCard({ ...newCard, expiry: e.target.value })} />
-            <Input label="CVC" placeholder="123" value={newCard.cvc} onChange={(e) => setNewCard({ ...newCard, cvc: e.target.value })} />
-            <Input className="md:col-span-2" label="Name on Card" placeholder="Alex Green" value={newCard.name} onChange={(e) => setNewCard({ ...newCard, name: e.target.value })} />
+            <Input
+              label="Expiry Date"
+              placeholder="MM/YY"
+              value={newCard.expiry}
+              onChange={(e) =>
+                setNewCard({ ...newCard, expiry: e.target.value })
+              }
+            />
+            <Input
+              label="CVC"
+              placeholder="123"
+              value={newCard.cvc}
+              onChange={(e) => setNewCard({ ...newCard, cvc: e.target.value })}
+            />
+            <Input
+              className="md:col-span-2"
+              label="Name on Card"
+              placeholder="Alex Green"
+              value={newCard.name}
+              onChange={(e) => setNewCard({ ...newCard, name: e.target.value })}
+            />
           </div>
           <div className="flex justify-end gap-2 mt-4">
-            <button onClick={() => setShowAddForm(false)} className="px-3 py-1.5 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition text-sm">
+            <button
+              onClick={() => setShowAddForm(false)}
+              className="px-3 py-1.5 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition text-sm"
+            >
               Cancel
             </button>
-            <button onClick={handleAddCard} className="px-3 py-1.5 rounded-lg bg-green-600 text-white hover:bg-green-700 transition text-sm">
+            <button
+              onClick={handleAddCard}
+              className="px-3 py-1.5 rounded-lg bg-green-600 text-white hover:bg-green-700 transition text-sm"
+            >
               Save Card
             </button>
           </div>
@@ -382,27 +492,42 @@ function PaymentMethodsView() {
 
       <div className="space-y-4">
         {cards.length === 0 ? (
-          <p className="text-gray-500 text-center py-4">No payment methods saved</p>
+          <p className="text-gray-500 text-center py-4">
+            No payment methods saved
+          </p>
         ) : (
           cards.map((card) => (
-            <div key={card.id} className="border border-gray-200 rounded-lg p-4">
+            <div
+              key={card.id}
+              className="border border-gray-200 rounded-lg p-4"
+            >
               <div className="flex justify-between items-start min-w-0">
                 <div className="min-w-0">
                   <div className="flex items-center gap-2 min-w-0">
                     <span className="font-medium">{card.type}</span>
                     <span className="truncate">{card.number}</span>
                   </div>
-                  <div className="text-sm text-gray-600 mt-1">Expires {card.expiry}</div>
+                  <div className="text-sm text-gray-600 mt-1">
+                    Expires {card.expiry}
+                  </div>
                 </div>
                 <div className="flex gap-2">
                   {card.isDefault ? (
-                    <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs">Default</span>
+                    <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs">
+                      Default
+                    </span>
                   ) : (
-                    <button onClick={() => setDefaultCard(card.id)} className="px-2 py-1 text-xs text-gray-600 hover:text-green-600">
+                    <button
+                      onClick={() => setDefaultCard(card.id)}
+                      className="px-2 py-1 text-xs text-gray-600 hover:text-green-600"
+                    >
                       Set as default
                     </button>
                   )}
-                  <button onClick={() => removeCard(card.id)} className="p-1 text-gray-400 hover:text-red-500">
+                  <button
+                    onClick={() => removeCard(card.id)}
+                    className="p-1 text-gray-400 hover:text-red-500"
+                  >
                     <FaTrash size={14} />
                   </button>
                 </div>
@@ -417,7 +542,9 @@ function PaymentMethodsView() {
   function Input({ label, className = "", ...rest }) {
     return (
       <div className={className}>
-        <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          {label}
+        </label>
         <input
           {...rest}
           className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
@@ -428,7 +555,9 @@ function PaymentMethodsView() {
   function Select({ label, options = [], ...rest }) {
     return (
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          {label}
+        </label>
         <select
           {...rest}
           className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"

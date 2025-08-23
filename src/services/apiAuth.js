@@ -13,6 +13,8 @@ export async function signup({ username, email, password }) {
         address: {},
         phoneNumber: "",
         paymentMethods: [],
+        cart: {},
+        wishlist: {},
       },
     },
   });
@@ -53,4 +55,12 @@ export async function logout() {
   if (error) throw new Error(error.message);
 
   return true; // <-- must return something so mutation resolves
+}
+
+export async function updateUserMetadata(updates) {
+  const { data, error } = await supabase.auth.updateUser({
+    data: updates, // ✅ user_metadata
+  });
+  if (error) throw new Error(error.message);
+  return data.user;
 }

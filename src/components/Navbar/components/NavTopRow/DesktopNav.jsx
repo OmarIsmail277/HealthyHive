@@ -16,6 +16,7 @@ function DesktopNav({
   setHideTimeout,
 }) {
   const totalPrice = useSelector((state) => state.cart.totalPrice);
+
   const { user, isPending, isAuthenticated } = useUser();
 
   if (isPending) return null;
@@ -94,8 +95,7 @@ function DesktopNav({
         <NavActionButton
           title={
             <span className="text-sm lg:text-base">
-              {" "}
-              Hello,{" "}
+              Hello,
               {user?.user_metadata?.username || user?.email.split("@")[0]}
             </span>
           }
