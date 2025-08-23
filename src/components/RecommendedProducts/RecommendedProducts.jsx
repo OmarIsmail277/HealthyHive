@@ -65,7 +65,7 @@ function RecommendedProducts({ filterFn, title }) {
           <div className="w-16 h-1 bg-primary rounded-full"></div>
         </div>
       </div>
-      <div className="overflow-x-auto hide-scrollbar py-12" ref={scrollRef} onMouseEnter={stopAutoScroll} onMouseLeave={startAutoScroll}>
+      <div className="healthy__container overflow-x-auto hide-scrollbar py-12" ref={scrollRef} onMouseEnter={stopAutoScroll} onMouseLeave={startAutoScroll}>
         <button onClick={() => handleScroll("left")}
           className="hidden md:block absolute  top-1/2 -translate-y-1/2 -translate-x-12 bg-white/80 hover:bg-white text-black p-2 rounded-full shadow z-10">
           <FaAngleLeft size={20} />

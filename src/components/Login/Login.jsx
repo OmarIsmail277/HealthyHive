@@ -140,17 +140,22 @@ export default function LoginForm() {
       <div className="relative z-10 flex flex-col md:flex-row min-h-screen w-full ">
         <div className="flex-1 flex items-center justify-center p-6">
           <div className="text-center max-w-md">
-<h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-green-700 mb-4 drop-shadow-lg">
-  <span className="relative inline-flex items-center gap-2">
-    <img
-      className="h-12 sm:h-14 md:h-[80px] w-auto"
-      src="/images/logos/green-logo.svg"
-      alt="HealthyHive Logo"
-    />
-    <span className="relative z-10">HealthyHive</span>
-    <span className="absolute -bottom-1 left-0 w-full h-1 sm:h-1.5 md:h-2 bg-yellow-300 opacity-70 rounded-full transform rotate-1"></span>
-  </span>
-</h1>
+
+            <Link
+              to="/"
+            >
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-green-700 mb-4 drop-shadow-lg">
+                <span className="relative inline-flex items-center gap-2">
+                  <img
+                    className="h-12 sm:h-14 md:h-[80px] w-auto"
+                    src="/images/logos/green-logo.svg"
+                    alt="HealthyHive Logo"
+                  />
+                  <span className="relative z-10">HealthyHive</span>
+                  <span className="absolute -bottom-1 left-0 w-full h-1 sm:h-1.5 md:h-2 bg-yellow-300 opacity-70 rounded-full transform rotate-1"></span>
+                </span>
+              </h1>
+            </Link>
 
             <p className="hidden md:block text-lg text-green-800 opacity-90 mb-8">
               Welcome back to your wellness journey
@@ -196,9 +201,8 @@ export default function LoginForm() {
                   type="email"
                   disabled={isPending}
                   {...register("email", { required: "Email is required" })}
-                  className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white/70 ${
-                    errors.email ? "border-red-500" : "border-gray-300"
-                  }`}
+                  className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white/70 ${errors.email ? "border-red-500" : "border-gray-300"
+                    }`}
                 />
                 <p className="text-red-600 text-xs min-h-[1rem] mt-1">
                   {errors.email?.message}
@@ -219,9 +223,8 @@ export default function LoginForm() {
                       message: "Password must be at least 6 characters",
                     },
                   })}
-                  className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white/70 ${
-                    errors.password ? "border-red-500" : "border-gray-300"
-                  }`}
+                  className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white/70 ${errors.password ? "border-red-500" : "border-gray-300"
+                    }`}
                 />
                 <p className="text-red-600 text-xs min-h-[1rem] mt-1">
                   {errors.password?.message}
