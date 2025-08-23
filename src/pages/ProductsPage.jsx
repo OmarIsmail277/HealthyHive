@@ -179,7 +179,7 @@ function ProudctsPage() {
                     value: "drinks",
                     label: "Drinks",
                     subs: [
-                      { value: "milk", label: "Milks" },
+                      { value: "softDrinks", label: "Soft Drinks" },
                       { value: "herbs", label: "Herbs" },
                       { value: "juice", label: "Juice" },
                     ],
@@ -190,7 +190,7 @@ function ProudctsPage() {
                     subs: [
                       { value: "shampoo", label: "Shampoo" },
                       { value: "shower gel", label: "Shower Gel" },
-                      { value: "hand wash", label: "Hand Wash" },
+                      { value: "hand gel", label: "Hand Gel" },
                     ],
                   },
                   {

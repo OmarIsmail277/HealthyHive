@@ -1,4 +1,4 @@
-import { FaHeart } from "react-icons/fa";
+import { FaHeart, FaSnowflake, FaHourglassHalf } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -9,17 +9,15 @@ import toast from "react-hot-toast";
 import { deleteProduct } from "../../../services/apiProducts";
 import AddToCartButton from "../../../Shared/components/AddToCartButton";
 
-
 function RecommendedCard({ product }) {
   const dispatch = useDispatch();
   const wishlist = useSelector((state) => state.wishlist.items);
   const isInWishlist = wishlist.some((item) => item.id === product.id);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleNavigate = () => {
     navigate(`/product/${product.id}`);
   };
-
 
   const renderStars = (rating) => {
     const stars = [];
@@ -49,27 +47,62 @@ function RecommendedCard({ product }) {
     onError: (err) => toast.error(err.message),
   });
 
+  // choose icon + label depending on subCategory
+  const renderSubCategoryIcon = () => {
+    if (product.subCategory?.toLowerCase() === "frozen") {
+      return (
+        <div className="flex items-center gap-1 bg-blue-100 text-blue-600 px-2 py-1 rounded-lg">
+          <FaSnowflake className="text-xl" />
+          <span className="text-sm font-medium">Frozen</span>
+        </div>
+      );
+    }
+    if (product.subCategory?.toLowerCase() === "preorder") {
+      return (
+        <div className="flex items-center gap-1 bg-orange-100 text-orange-600 px-2 py-1 rounded-lg">
+          <FaHourglassHalf className="text-xl" />
+          <span className="text-sm font-medium">Preorder</span>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  // Calculate discount percentage
+  const discountPercentage =
+    product.discount > 0
+      ? Math.round((product.discount / product.price) * 100)
+      : null;
+
   return (
-    <div className="flex flex-col justify-between relative border border-[#64a30d78] w-[370px] p-5 rounded-xl shadow-md bg-white cursor-pointer" onClick={handleNavigate}>
-      {/* Price Tag */}
-      <div className="bg-primary absolute top-4 left-4 rounded-xl px-3 py-1 text-white font-semibold z-10">
-        {product.discount} LE
+    <div
+      className="flex flex-col justify-between relative border border-[#64a30d78] w-[370px] p-5 rounded-xl shadow-md bg-white cursor-pointer"
+      onClick={handleNavigate}
+    >
+      {/* Price Tag + SubCategory Icon */}
+      <div className="flex items-center gap-2 absolute top-4 left-4 z-10">
+        {discountPercentage && (
+          <div className="bg-primary rounded-xl px-3 py-1 text-white font-semibold">
+            -{discountPercentage}%
+          </div>
+        )}
+        {renderSubCategoryIcon()}
       </div>
 
       {/* Wishlist Icon */}
-
       <button
         onClick={(e) => {
-          e.stopPropagation()
-          dispatch(toggleWishlistItem(product))
+          e.stopPropagation();
+          dispatch(toggleWishlistItem(product));
         }}
         className="absolute top-4 right-4 text-3xl cursor-pointer z-20"
       >
         <FaHeart
-          className={`transition-colors duration-300 ${isInWishlist
-            ? "text-primary hover:text-secondary"
-            : "text-gray-400 hover:text-emerald-300"
-            }`}
+          className={`transition-colors duration-300 ${
+            isInWishlist
+              ? "text-primary hover:text-secondary"
+              : "text-gray-400 hover:text-emerald-300"
+          }`}
         />
       </button>
 
@@ -100,11 +133,14 @@ function RecommendedCard({ product }) {
 
       {/* Price */}
       <div className="flex items-center gap-3 mt-3">
-        <p className="text-green-600 font-bold text-xl">{product.price - product.discount} LE</p>
-        {product.discount > 0 &&
+        <p className="text-green-600 font-bold text-xl">
+          {product.price - product.discount} LE
+        </p>
+        {product.discount > 0 && (
           <p className="text-gray-400 font-semibold text-lg line-through">
             {product.price} LE
-          </p>}
+          </p>
+        )}
       </div>
 
       {/* Add to Cart Button */}
