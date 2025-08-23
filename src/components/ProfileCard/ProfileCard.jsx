@@ -351,11 +351,11 @@ function PersonalInformationView() {
                 <span className="font-medium">
                   {profile.subscription.consultations}
                 </span>{" "}
-                consultations & follow-ups/month
+                consultations & follow ups remaining  
               </p>
             </div>
           ) : (
-            <p className="text-gray-500 italic">Not Subscribed</p>
+            <p className="text-gray-500 bold">Not Subscribed</p>
           )}
         </div>
       </div>
