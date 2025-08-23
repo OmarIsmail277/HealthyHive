@@ -10,9 +10,9 @@ export async function signup({ username, email, password }) {
         avatar: "",
         firstName: "",
         lastName: "",
-        address: {},
+        address: "",
         phoneNumber: "",
-        paymentMethods: {},
+        paymentMethods: [],
         cart: {},
         wishlist: {},
         subscription: {

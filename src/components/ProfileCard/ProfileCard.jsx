@@ -15,7 +15,6 @@ import {
   FaEdit,
   FaPlus,
   FaTrash,
-
 } from "react-icons/fa";
 
 // 👉 Import the new components
@@ -162,13 +161,15 @@ function ProfileNavItem({ icon, label, active, onClick }) {
   return (
     <button
       onClick={onClick}
-      className={`w-full flex items-center justify-between p-2.5 rounded-lg transition text-left ${active ? "bg-green-50 text-green-700" : "hover:bg-gray-50 text-gray-700"
-        }`}
+      className={`w-full flex items-center justify-between p-2.5 rounded-lg transition text-left ${
+        active ? "bg-green-50 text-green-700" : "hover:bg-gray-50 text-gray-700"
+      }`}
     >
       <div className="flex items-center gap-3 min-w-0">
         <div
-          className={`w-7 h-7 rounded-full flex items-center justify-center ${active ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-500"
-            }`}
+          className={`w-7 h-7 rounded-full flex items-center justify-center ${
+            active ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-500"
+          }`}
         >
           {icon}
         </div>
@@ -210,7 +211,7 @@ function PersonalInformationView() {
     phone: "",
     address: "",
     email: "",
-    subscription: {},
+    subscription: "",
   });
 
   const [editData, setEditData] = useState(profile);
@@ -401,7 +402,6 @@ function FieldBlock({
   );
 }
 
-
 function PaymentMethodsView() {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -456,7 +456,10 @@ function PaymentMethodsView() {
       const currentDate = new Date();
       const currentMonth = currentDate.getMonth() + 1;
       const currentYear = currentDate.getFullYear() % 100;
-      if (year < currentYear || (year === currentYear && month < currentMonth)) {
+      if (
+        year < currentYear ||
+        (year === currentYear && month < currentMonth)
+      ) {
         newErrors.expiry = "Expiry date must be in the future";
       }
     }
@@ -505,12 +508,12 @@ function PaymentMethodsView() {
     const updatedCards = cards.map((c) =>
       c.id === id
         ? {
-          ...c,
-          ...editData,
-          number: editData.number
-            ? `•••• •••• •••• ${editData.number.slice(-4)}`
-            : c.number,
-        }
+            ...c,
+            ...editData,
+            number: editData.number
+              ? `•••• •••• •••• ${editData.number.slice(-4)}`
+              : c.number,
+          }
         : c
     );
     await updatePaymentMethods(updatedCards);
@@ -545,7 +548,9 @@ function PaymentMethodsView() {
             </div>
 
             {/* Card Number */}
-            <div className="text-xl font-mono tracking-widest mb-4">{card.number}</div>
+            <div className="text-xl font-mono tracking-widest mb-4">
+              {card.number}
+            </div>
 
             {/* Expiry & Actions */}
             <div className="flex justify-between items-center">
@@ -581,7 +586,9 @@ function PaymentMethodsView() {
         </button>
       ) : (
         <div className="mb-6 p-4 border border-gray-200 rounded-lg bg-gray-50">
-          <h2 className="text-lg font-semibold mb-4 text-gray-800">Add New Card</h2>
+          <h2 className="text-lg font-semibold mb-4 text-gray-800">
+            Add New Card
+          </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Card Number */}
@@ -590,11 +597,14 @@ function PaymentMethodsView() {
                 Card Number
               </label>
               <input
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${errors.number ? "border-red-500" : "border-gray-300"
-                  }`}
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${
+                  errors.number ? "border-red-500" : "border-gray-300"
+                }`}
                 placeholder="1234 5678 9012 3456"
                 value={newCard.number}
-                onChange={(e) => setNewCard({ ...newCard, number: e.target.value })}
+                onChange={(e) =>
+                  setNewCard({ ...newCard, number: e.target.value })
+                }
               />
               {errors.number && (
                 <p className="text-red-500 text-sm mt-1">{errors.number}</p>
@@ -607,11 +617,14 @@ function PaymentMethodsView() {
                 Expiry Date
               </label>
               <input
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${errors.expiry ? "border-red-500" : "border-gray-300"
-                  }`}
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${
+                  errors.expiry ? "border-red-500" : "border-gray-300"
+                }`}
                 placeholder="MM/YY"
                 value={newCard.expiry}
-                onChange={(e) => setNewCard({ ...newCard, expiry: e.target.value })}
+                onChange={(e) =>
+                  setNewCard({ ...newCard, expiry: e.target.value })
+                }
               />
               {errors.expiry && (
                 <p className="text-red-500 text-sm mt-1">{errors.expiry}</p>
@@ -624,11 +637,14 @@ function PaymentMethodsView() {
                 CVC
               </label>
               <input
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${errors.cvc ? "border-red-500" : "border-gray-300"
-                  }`}
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${
+                  errors.cvc ? "border-red-500" : "border-gray-300"
+                }`}
                 placeholder="123"
                 value={newCard.cvc}
-                onChange={(e) => setNewCard({ ...newCard, cvc: e.target.value })}
+                onChange={(e) =>
+                  setNewCard({ ...newCard, cvc: e.target.value })
+                }
               />
               {errors.cvc && (
                 <p className="text-red-500 text-sm mt-1">{errors.cvc}</p>
@@ -644,7 +660,9 @@ function PaymentMethodsView() {
                 className="w-full px-3 py-2 border rounded-lg border-gray-300 focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 placeholder="Alex Green"
                 value={newCard.name}
-                onChange={(e) => setNewCard({ ...newCard, name: e.target.value })}
+                onChange={(e) =>
+                  setNewCard({ ...newCard, name: e.target.value })
+                }
               />
             </div>
           </div>
@@ -668,10 +686,7 @@ function PaymentMethodsView() {
             </button>
           </div>
         </div>
-
       )}
     </div>
   );
 }
-
-
