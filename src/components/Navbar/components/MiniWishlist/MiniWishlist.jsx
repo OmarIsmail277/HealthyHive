@@ -66,7 +66,7 @@ function MiniWishlist({ onClose }) {
 
       {/* Footer - Go to Wishlist Button */}
       <div className="p-4 border-t border-gray-300">
-        <Link to="/wishlistPage">
+        <Link to="/wishlist">
           <button className="w-full bg-primary hover:bg-secondary text-white py-2 text-sm font-medium transition mb-3 rounded-sm">
             Go to Wishlist
           </button>

@@ -43,8 +43,8 @@ function Navbar() {
       path: "/products?mainCategory=drinks",
       subLinks: [
         {
-          label: "Milks",
-          path: "/products?mainCategory=drinks&subCategory=milk",
+          label: "Soft Drinks",
+          path: "/products?mainCategory=drinks&subCategory=softDrinks",
         },
         {
           label: "Herbs",
@@ -69,8 +69,8 @@ function Navbar() {
           path: "/products?mainCategory=personal+care&subCategory=shower+gel",
         },
         {
-          label: "Hand Wash",
-          path: "/products?mainCategory=personal+care&subCategory=hand+wash",
+          label: "Hand Gel",
+          path: "/products?mainCategory=personal+care&subCategory=hand+gel",
         },
       ],
     },

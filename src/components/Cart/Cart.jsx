@@ -3,12 +3,12 @@ import CartCheckout from "../Cart/components/CartCheckout/CartCheckout";
 
 function Cart() {
   return (
-    <>
-      <div className="2xl:flex 2xl:gap-8 my-8">
+    <div className="healthy__container py-12">
+      <div className="flex flex-col 2xl:flex-row gap-8">
         <CartProducts />
         <CartCheckout />
       </div>
-    </>
+    </div>
   );
 }
 
