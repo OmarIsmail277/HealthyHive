@@ -40,12 +40,12 @@ export default function AppRoutes() {
         {/* Public Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/" element={<HomePage />} />
 
         {/* Routes with MainLayout */}
         <Route element={<MainLayout />}>
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<HomePage />} />
             <Route path="/services" element={<Services />} />
             <Route path="/products" element={<ProductsPage />} />
             <Route path="/products/:category" element={<ProductCategory />} />

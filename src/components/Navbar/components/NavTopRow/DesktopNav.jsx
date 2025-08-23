@@ -16,6 +16,7 @@ function DesktopNav({
   setHideTimeout,
 }) {
   const totalPrice = useSelector((state) => state.cart.totalPrice);
+
   const { user, isPending, isAuthenticated } = useUser();
 
   if (isPending) return null;
