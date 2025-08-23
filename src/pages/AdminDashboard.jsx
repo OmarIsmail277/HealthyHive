@@ -9,7 +9,6 @@ import {
   FaCheckCircle,
   FaTimesCircle,
   FaSync,
-  FaChartLine,
   FaCog,
   FaHome,
   FaShoppingBag,
@@ -18,10 +17,7 @@ import {
   FaImage,
   FaEdit,
   FaDownload,
-  FaUpload,
   FaArrowUp,
-  FaArrowDown,
-  FaInfoCircle,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
@@ -62,54 +58,77 @@ const currency = (n) =>
   (typeof n === "number" ? n : parseFloat(n || 0)).toFixed(2);
 
 /* =========================================================================
- * Toast Notification System
+ * CSV / Excel helpers (no external libs)
  * ========================================================================= */
-const ToastContext = React.createContext();
+const objectArrayHeaders = (rows) => {
+  const set = new Set();
+  rows.forEach((r) => Object.keys(r || {}).forEach((k) => set.add(k)));
+  return Array.from(set);
+};
 
-function ToastProvider({ children }) {
-  const [toasts, setToasts] = useState([]);
+const escapeCSV = (v) => {
+  if (v === null || v === undefined) return "";
+  const s = String(v).replace(/"/g, '""');
+  return /[",\n]/.test(s) ? `"${s}"` : s;
+};
 
-  const addToast = (message, type = "info") => {
-    const id = uuid();
-    setToasts((prev) => [...prev, { id, message, type }]);
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id));
-    }, 5000);
-  };
+const toCSV = (rows) => {
+  if (!rows || rows.length === 0) return "";
+  const headers = objectArrayHeaders(rows);
+  const lines = [
+    headers.join(","),
+    ...rows.map((r) => headers.map((h) => escapeCSV(r[h])).join(",")),
+  ];
+  return lines.join("\n");
+};
 
-  return (
-    <ToastContext.Provider value={{ addToast }}>
-      {children}
-      <div className="fixed bottom-4 right-4 space-y-2 z-50">
-        {toasts.map((toast) => (
-          <div
-            key={toast.id}
-            className={`px-4 py-3 rounded-lg shadow-lg flex items-center gap-3 ${
-              toast.type === "error"
-                ? "bg-red-100 text-red-800"
-                : toast.type === "success"
-                ? "bg-green-100 text-green-800"
-                : "bg-blue-100 text-blue-800"
-            }`}
-          >
-            {toast.type === "error" ? (
-              <FaTimesCircle className="text-red-500" />
-            ) : toast.type === "success" ? (
-              <FaCheckCircle className="text-green-500" />
-            ) : (
-              <FaInfoCircle className="text-blue-500" />
-            )}
-            <span>{toast.message}</span>
-          </div>
-        ))}
-      </div>
-    </ToastContext.Provider>
-  );
-}
+const toExcelHTML = (rows, sheetName = "Sheet1") => {
+  const headers = objectArrayHeaders(rows);
+  const ths = headers.map((h) => `<th>${String(h)}</th>`).join("");
+  const trs = rows
+    .map(
+      (r) =>
+        `<tr>${headers
+          .map((h) => `<td>${r[h] === undefined ? "" : String(r[h])}</td>`)
+          .join("")}</tr>`
+    )
+    .join("");
 
-function useToast() {
-  return React.useContext(ToastContext);
-}
+  const table = `<table border="1"><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table>`;
+
+  // Old but effective HTML workbook wrapper Excel understands
+  return `
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+      xmlns:x="urn:schemas-microsoft-com:office:excel"
+      xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+  <!--[if gte mso 9]><xml>
+  <x:ExcelWorkbook>
+    <x:ExcelWorksheets>
+      <x:ExcelWorksheet>
+        <x:Name>${sheetName}</x:Name>
+        <x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions>
+      </x:ExcelWorksheet>
+    </x:ExcelWorksheets>
+  </x:ExcelWorkbook>
+  </xml><![endif]-->
+  <meta charset="UTF-8" />
+</head>
+<body>
+${table}
+</body>
+</html>`;
+};
+
+const downloadBlob = (content, mime, filename) => {
+  const blob = new Blob([content], { type: mime });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+};
 
 /* =========================================================================
  * Error Boundary (prevents white blank pages)
@@ -143,8 +162,6 @@ class ErrorBoundary extends React.Component {
 }
 
 function AdminDashboard() {
-  const { addToast } = useToast();
-
   // Navigation
   const [activeTab, setActiveTab] = useState("dashboard");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -342,7 +359,6 @@ function AdminDashboard() {
 
   const addNewProduct = () => {
     if (!newProduct.name || newProduct.price === "") {
-      addToast("Please fill in required fields", "error");
       return;
     }
     const stockNum = Math.max(0, parseInt(newProduct.stock, 10) || 0);
@@ -371,16 +387,13 @@ function AdminDashboard() {
       inStock: true,
     });
     setImagePreview(null);
-    addToast("Product added successfully", "success");
   };
 
   const deleteUser = (userId) => {
     const u = users.find((x) => x.id === userId);
     if (!u) return;
-
     setUsers((prev) => prev.filter((x) => x.id !== userId));
     setSubscriptions((prev) => prev.filter((s) => s.userId !== userId));
-    addToast(`User ${u.name} deleted`, "success");
   };
 
   const renewSubscription = (userId, months = 1) => {
@@ -403,7 +416,6 @@ function AdminDashboard() {
               : s
           )
         );
-        addToast(`Subscription renewed for ${months} month(s)`, "success");
       }
     } else {
       setSubscriptions([
@@ -418,7 +430,6 @@ function AdminDashboard() {
           monthlyPrice: 9.99,
         },
       ]);
-      addToast("New subscription created", "success");
     }
   };
 
@@ -428,7 +439,6 @@ function AdminDashboard() {
         s.userId === userId ? { ...s, plan: "Premium", monthlyPrice: 19.99 } : s
       )
     );
-    addToast("Subscription upgraded to Premium", "success");
   };
 
   const endSubscription = (userId) => {
@@ -443,7 +453,6 @@ function AdminDashboard() {
           : s
       )
     );
-    addToast("Subscription ended", "success");
   };
 
   const updateProductStock = (id, value) => {
@@ -470,20 +479,53 @@ function AdminDashboard() {
       prev.map((p) => (p.id === id ? { ...p, ...productEdit } : p))
     );
     setProductEdit(null);
-    addToast("Product updated successfully", "success");
   };
 
   const deleteProduct = (id) => {
     const pr = products.find((p) => p.id === id);
     if (!pr) return;
     setProducts((prev) => prev.filter((p) => p.id !== id));
-    addToast(`Product ${pr.name} deleted`, "success");
   };
 
   // Filtered views (search removed)
   const filteredUsers = users;
   const filteredProducts = products;
   const filteredSubscriptions = subscriptions;
+
+  // Export helpers (trigger 3 downloads for each format)
+  const exportAllCSV = () => {
+    const date = new Date().toISOString().slice(0, 10);
+    downloadBlob(toCSV(users), "text/csv;charset=utf-8", `users-${date}.csv`);
+    downloadBlob(
+      toCSV(products),
+      "text/csv;charset=utf-8",
+      `products-${date}.csv`
+    );
+    downloadBlob(
+      toCSV(subscriptions),
+      "text/csv;charset=utf-8",
+      `subscriptions-${date}.csv`
+    );
+  };
+
+  const exportAllExcel = () => {
+    const date = new Date().toISOString().slice(0, 10);
+    downloadBlob(
+      toExcelHTML(users, "Users"),
+      "application/vnd.ms-excel",
+      `users-${date}.xls`
+    );
+    downloadBlob(
+      toExcelHTML(products, "Products"),
+      "application/vnd.ms-excel",
+      `products-${date}.xls`
+    );
+    downloadBlob(
+      toExcelHTML(subscriptions, "Subscriptions"),
+      "application/vnd.ms-excel",
+      `subscriptions-${date}.xls`
+    );
+  };
 
   /* =======================================================================
    * UI helpers
@@ -595,62 +637,12 @@ function AdminDashboard() {
               </h1>
 
               <div className="flex items-center gap-3 w-full md:w-auto">
-                <button
-                  className={btnSecondary}
-                  onClick={() => {
-                    const blob = new Blob(
-                      [
-                        JSON.stringify(
-                          {
-                            users,
-                            products,
-                            subscriptions,
-                            exportedAt: new Date().toISOString(),
-                          },
-                          null,
-                          2
-                        ),
-                      ],
-                      { type: "application/json;charset=utf-8" }
-                    );
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement("a");
-                    a.href = url;
-                    a.download = `admin-backup-${new Date()
-                      .toISOString()
-                      .slice(0, 10)}.json`;
-                    a.click();
-                    URL.revokeObjectURL(url);
-                    addToast("Data exported successfully", "success");
-                  }}
-                >
-                  <FaDownload /> Export
+                <button className={btnSecondary} onClick={exportAllCSV}>
+                  <FaDownload /> Export CSV
                 </button>
-
-                <label className={`${btnSecondary} cursor-pointer`}>
-                  <FaUpload /> Import
-                  <input
-                    type="file"
-                    accept="application/json"
-                    className="hidden"
-                    onChange={async (e) => {
-                      const file = e.target.files?.[0];
-                      if (!file) return;
-                      try {
-                        const text = await file.text();
-                        const data = JSON.parse(text);
-                        if (Array.isArray(data.users)) setUsers(data.users);
-                        if (Array.isArray(data.products))
-                          setProducts(data.products);
-                        if (Array.isArray(data.subscriptions))
-                          setSubscriptions(data.subscriptions);
-                        addToast("Data imported successfully", "success");
-                      } catch (err) {
-                        addToast("Failed to import file", err);
-                      }
-                    }}
-                  />
-                </label>
+                <button className={btnSecondary} onClick={exportAllExcel}>
+                  <FaDownload /> Export Excel
+                </button>
               </div>
             </div>
 
@@ -674,9 +666,7 @@ function AdminDashboard() {
                     secondaryValue={`${stats.inStockProducts} in stock`}
                   />
                   <StatCard
-                    icon={
-                      <FaMoneyBillWave className="text-purple-500 text-3xl" />
-                    }
+                    icon={<FaMoneyBillWave className="text-purple-500 text-3xl" />}
                     label="Subscriptions"
                     value={stats.activeSubscriptions}
                     secondaryValue={`LE${currency(stats.monthlyRevenue)}/mo`}
@@ -688,68 +678,6 @@ function AdminDashboard() {
                     secondaryValue={`${stats.lowPct}% of products`}
                   />
                 </div>
-
-                {/* Recent Activity */}
-                <section className={card}>
-                  <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                    <FaChartLine className="text-green-500" /> Recent Activity
-                  </h2>
-                  <div className="space-y-3">
-                    {[
-                      ...users.map((u) => ({
-                        type: "user",
-                        id: u.id,
-                        name: u.name,
-                        date: u.joinDate,
-                      })),
-                      ...products.map((p) => ({
-                        type: "product",
-                        id: p.id,
-                        name: p.name,
-                        date: p.createdAt,
-                      })),
-                    ]
-                      .sort((a, b) => safeDateMs(b.date) - safeDateMs(a.date))
-                      .slice(0, 8)
-                      .map((item) => (
-                        <div
-                          key={`${item.type}-${item.id}`}
-                          className="flex items-center justify-between p-3 rounded-lg bg-gray-50"
-                        >
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
-                              {item.type === "product" ? (
-                                <FaShoppingBag />
-                              ) : (
-                                <FaUserCog />
-                              )}
-                            </div>
-                            <div>
-                              <p className="text-sm font-medium text-gray-900">
-                                {item.type === "product"
-                                  ? `New product: ${item.name}`
-                                  : `New user: ${item.name}`}
-                              </p>
-                              <p className="text-xs text-gray-500">
-                                {item.date
-                                  ? new Date(item.date).toLocaleDateString()
-                                  : "—"}
-                              </p>
-                            </div>
-                          </div>
-                          <span
-                            className={`${pill} ${
-                              item.type === "product"
-                                ? "bg-blue-100 text-blue-800"
-                                : "bg-green-100 text-green-800"
-                            }`}
-                          >
-                            {item.type === "product" ? "Product" : "User"}
-                          </span>
-                        </div>
-                      ))}
-                  </div>
-                </section>
               </div>
             )}
 
@@ -1218,10 +1146,7 @@ function AdminDashboard() {
                         >
                           Cancel
                         </button>
-                        <button
-                          className={btnPrimary}
-                          onClick={saveEditProduct}
-                        >
+                        <button className={btnPrimary} onClick={saveEditProduct}>
                           Save
                         </button>
                       </div>
@@ -1367,37 +1292,20 @@ function AdminDashboard() {
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                           Backup Data
                         </label>
-                        <button
-                          className={`${btnSecondary} text-sm`}
-                          onClick={() => {
-                            const blob = new Blob(
-                              [
-                                JSON.stringify(
-                                  {
-                                    users,
-                                    products,
-                                    subscriptions,
-                                    backedUpAt: new Date().toISOString(),
-                                  },
-                                  null,
-                                  2
-                                ),
-                              ],
-                              { type: "application/json;charset=utf-8" }
-                            );
-                            const url = URL.createObjectURL(blob);
-                            const a = document.createElement("a");
-                            a.href = url;
-                            a.download = `admin-backup-${new Date()
-                              .toISOString()
-                              .slice(0, 10)}.json`;
-                            a.click();
-                            URL.revokeObjectURL(url);
-                            addToast("Backup created successfully", "success");
-                          }}
-                        >
-                          <FaDownload className="mr-2" /> Create Backup
-                        </button>
+                        <div className="flex gap-2 flex-wrap">
+                          <button
+                            className={`${btnSecondary} text-sm`}
+                            onClick={exportAllCSV}
+                          >
+                            <FaDownload className="mr-2" /> Create Backup (CSV)
+                          </button>
+                          <button
+                            className={`${btnSecondary} text-sm`}
+                            onClick={exportAllExcel}
+                          >
+                            <FaDownload className="mr-2" /> Create Backup (Excel)
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1525,10 +1433,5 @@ function Modal({ title, onClose, children }) {
   );
 }
 
-export default function AdminDashboardWithToast() {
-  return (
-    <ToastProvider>
-      <AdminDashboard />
-    </ToastProvider>
-  );
-}
+// Export the dashboard directly (no Toast provider)
+export default AdminDashboard;
