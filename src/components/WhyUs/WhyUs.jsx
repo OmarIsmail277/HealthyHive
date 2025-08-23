@@ -5,43 +5,66 @@ import {
   FaStar,
   FaStore,
   FaBan,
+  FaHandsHelping,
+  FaSmile,
+  FaFlag,
 } from "react-icons/fa";
 
 export default function WhyUs() {
   const points = [
     {
-      title: "Fresh & Natural Products",
+      title: "One-Stop Healthy Gateway",
       description:
-        "We provide only 100% natural, healthy, and eco-friendly products.",
+        "Everything you need for a cleaner, healthier lifestyle — all in one trusted place.",
       icon: <FaLeaf className="w-12 h-12 text-green-500" />,
     },
     {
-      title: "Fast & Free Shipping",
+      title: "Pure & Natural Choices",
       description:
-        "Enjoy quick delivery with free shipping on your first 3 orders.",
+        "No additives, no toxins — only wholesome, natural food and care products.",
+      icon: <FaSmile className="w-12 h-12 text-orange-500" />,
+    },
+    {
+      title: "Support Egyptian Products",
+      description:
+        "We proudly prioritize Egyptian suppliers to strengthen local communities and economy.",
+      icon: <FaFlag className="w-12 h-12 text-red-600" />,
+    },
+    {
+      title: "Fast & Affordable Delivery",
+      description:
+        "Quick delivery across Egypt with low shipping fees and first 3 orders free.",
       icon: <FaShippingFast className="w-12 h-12 text-blue-500" />,
     },
     {
-      title: "Affordable Prices",
-      description: "Premium quality at prices that won't hurt your wallet.",
+      title: "Affordable Quality",
+      description:
+        "High-quality products at fair prices — healthy living made accessible.",
       icon: <FaTags className="w-12 h-12 text-yellow-500" />,
     },
     {
       title: "Trusted by Customers",
       description:
-        "Thousands of happy customers trust us for their daily needs.",
+        "Thousands of customers trust Healthy Hive for their daily essentials.",
       icon: <FaStar className="w-12 h-12 text-purple-500" />,
     },
     {
-      title: "Support Local Products",
+      title: "Friendly Human Support",
       description:
-        "We prioritize local suppliers to strengthen our communities.",
-      icon: <FaStore className="w-12 h-12 text-pink-500" />,
+        "Our caring support team listens, understands, and truly helps you.",
+      icon: <FaHandsHelping className="w-12 h-12 text-teal-500" />,
     },
     {
       title: "Boycott Zionist Products",
-      description: "We stand for justice by boycotting Zionist goods.",
+      description:
+        "We stand for justice by offering alternatives and boycotting Zionist goods.",
       icon: <FaBan className="w-12 h-12 text-red-500" />,
+    },
+    {
+      title: "Healthy Living is Joyful",
+      description:
+        "We believe a healthy lifestyle isn’t just worth it — it’s enjoyable and fulfilling.",
+      icon: <FaStore className="w-12 h-12 text-pink-500" />,
     },
   ];
 
