@@ -4,7 +4,6 @@ import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
 import MiniCart from "../MiniCart/MiniCart";
 import MiniWishlist from "../MiniWishlist/MiniWishlist";
-import ButtonIcon from "../../../ButtonIcon";
 
 import { useNavigate } from "react-router-dom";
 

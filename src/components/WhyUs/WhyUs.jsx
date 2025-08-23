@@ -69,29 +69,27 @@ export default function WhyUs() {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-[#f8faf5] to-[#e8f5e9] dark:from-gray-900 dark:to-gray-800">
+    <section className="py-20 bg-gradient-to-br from-[#f8faf5] to-[#e8f5e9] ">
       <div className="max-w-7xl mx-auto px-6 text-center">
-        <h2 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-14">
+        <h2 className="text-4xl font-extrabold text-gray-900  mb-14">
           Why <span className="text-green-600">HealthyHive?</span>
         </h2>
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
           {points.map((point, idx) => (
             <div
               key={idx}
-              className="group relative p-8 rounded-3xl shadow-lg bg-white dark:bg-gray-900 
-                         hover:shadow-2xl hover:scale-105 transition duration-300 border border-gray-100 dark:border-gray-700"
+              className="group relative p-8 rounded-3xl shadow-lg bg-white 
+                         hover:shadow-2xl hover:scale-105 transition duration-300 border border-gray-100"
             >
               <div className="flex justify-center mb-6">{point.icon}</div>
-              <h3 className="text-xl font-semibold text-gray-800 dark:text-white">
+              <h3 className="text-xl font-semibold text-gray-800 ">
                 {point.title}
               </h3>
-              <p className="mt-3 text-gray-600 dark:text-gray-400">
-                {point.description}
-              </p>
+              <p className="mt-3 text-gray-600 ">{point.description}</p>
 
               {/* subtle glow on hover */}
               <div
-                className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 
+                className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100
                               transition duration-500 bg-gradient-to-br from-green-200/20 to-green-400/10 blur-xl"
               />
             </div>
