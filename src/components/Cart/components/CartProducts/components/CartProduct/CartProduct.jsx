@@ -24,7 +24,7 @@ function CartProduct({ product }) {
                         <img 
                             src={product?.imageURL || test} 
                             alt={product?.Name} 
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-contain"
                         />
                     </div>
                     <div className="ml-4 lg:ml-6 flex-1">
