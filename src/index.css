@@ -33,8 +33,11 @@
 
 body {
   font-family: var(--font-display);
+  overflow-x: hidden;
 }
-
+html {
+  overflow-x: hidden;
+}
 .subTitle {
   @apply text-2xl text-[#000000] font-medium mb-6;
 }

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { toggleWishlistItem } from "../../../store/wishlistSlice";
-import { toggleCartItem } from "../../../store/cartSlice";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { deleteProduct } from "../../../services/apiProducts";
@@ -82,7 +81,7 @@ function RecommendedCard({ product }) {
       {/* Price Tag + SubCategory Icon */}
       <div className="flex items-center gap-2 absolute top-4 left-4 z-10">
         {discountPercentage && (
-          <div className="bg-primary rounded-xl px-3 py-1 text-white font-semibold">
+          <div className="bg-emerald-400 rounded-sm px-3 py-1 text-white font-semibold">
             -{discountPercentage}%
           </div>
         )}

@@ -16,7 +16,7 @@ export default function WhyUs() {
       title: "One-Stop Healthy Gateway",
       description:
         "Everything you need for a cleaner, healthier lifestyle — all in one trusted place.",
-      icon: <FaLeaf className="w-12 h-12 text-green-500" />,
+      icon: <FaLeaf className="w-12 h-12 text-primary" />,
     },
     {
       title: "Pure & Natural Choices",
@@ -69,16 +69,16 @@ export default function WhyUs() {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-[#f8faf5] to-[#e8f5e9] dark:from-gray-900 dark:to-gray-800">
+    <section className="py-20 bg-gradient-to-br from-[#f8faf5] to-[#e8f5e9] ">
       <div className="healthy__container mx-auto px-6 text-center">
-        <h2 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-14">
-          Why <span className="text-green-600">HealthyHive?</span>
+        <h2 className="text-4xl font-extrabold text-gray-900 pb-5 ">
+          Why <span className="text-primary">HealthyHive?</span>
         </h2>
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
           {points.map((point, idx) => (
             <div
               key={idx}
-              className="group relative p-8 rounded-3xl shadow-lg bg-white 
+              className="group relative p-8 rounded-3xl shadow-lg bg-white
                          hover:shadow-2xl hover:scale-105 transition duration-300 border border-gray-100"
             >
               <div className="flex justify-center mb-6">{point.icon}</div>

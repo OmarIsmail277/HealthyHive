@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Carousel() {
   const slides = [
@@ -6,34 +7,40 @@ function Carousel() {
       src: "/images/carousel/carousel1.jpg",
       title: "Delicious, Ready-to-Enjoy",
       description: "Freshly prepared meals for every craving.",
+      path: "/products?mainCategory=meals&subCategory=frozen",
     },
     {
       src: "/images/carousel/carousel2.jpg",
       title: "Refresh Your Day",
       description:
         "From energizing coffee to soothing teas, sip your way to happiness.",
+      path: "/products?mainCategory=drinks",
     },
     {
       src: "/images/carousel/carousel3.jpg",
       title: "Self-Care, Redefined",
       description: "Pamper yourself with premium personal care essentials.",
+      path: "/products?mainCategory=personal+care",
     },
     {
       src: "/images/carousel/carousel4.jpg",
       title: "Expert Advice, Anytime",
       description: "Get professional guidance tailored to your needs.",
+      path: "/services/consultations",
     },
     {
       src: "/images/carousel/carousel5.jpg",
       title: "Freshly Baked Goodness",
       description:
         "From crusty breads to sweet pastries, baked daily to perfection.",
+      path: "/products?mainCategory=bakery",
     },
     {
       src: "/images/carousel/carousel6.jpg",
       title: "Eat Well, Live Well",
       description:
         "Nutritious meals crafted for a balanced, healthy lifestyle.",
+      path: "/products?mainCategory=meals&subCategory=preorder",
     },
   ];
 
@@ -53,10 +60,9 @@ function Carousel() {
   const nextSlide = () => setCurrent((prev) => (prev + 1) % slides.length);
 
   return (
-    <div className="relative  w-full h-full ">
+    <div className="relative w-full h-full">
       {/* Carousel wrapper */}
-
-      <div className="relative min-h-[78vh] overflow-hidden ">
+      <div className="relative min-h-[78vh] overflow-hidden">
         {slides.map((slide, index) => (
           <div
             key={index}
@@ -64,23 +70,25 @@ function Carousel() {
               index === current ? "block" : "hidden"
             }`}
           >
-            {/* Image */}
-            <img
-              src={slide.src}
-              alt={slide.title}
-              className="absolute w-full h-full object-cover scale-110 animate-zoom-out -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
-            />
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-black/40"></div>
-            {/* Text content */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4">
-              <h2 className="text-[20px] mb-1 sm:text-3xl md:text-5xl font-bold md:mb-3">
-                {slide.title}
-              </h2>
-              <p className="max-w-[60%] text-[12px] sm:text-base md:text-lg lg:text-xl">
-                {slide.description}
-              </p>
-            </div>
+            <Link to={slide.path}>
+              {/* Image */}
+              <img
+                src={slide.src}
+                alt={slide.title}
+                className="absolute w-full h-full object-cover scale-110 animate-zoom-out -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2"
+              />
+              {/* Overlay */}
+              <div className="absolute inset-0 bg-black/40"></div>
+              {/* Text content */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-center text-white px-4">
+                <h2 className="text-[20px] mb-1 sm:text-3xl md:text-5xl font-bold md:mb-3">
+                  {slide.title}
+                </h2>
+                <p className="max-w-[60%] text-[12px] sm:text-base md:text-lg lg:text-xl">
+                  {slide.description}
+                </p>
+              </div>
+            </Link>
           </div>
         ))}
       </div>

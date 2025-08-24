@@ -17,7 +17,7 @@ function MiniCart({ onClose }) {
   return (
     <div className="h-full flex flex-col rounded-lg shadow-sm shadow-green-100 bg-white">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b">
+      <div className="flex items-center justify-between p-4 border-b border-gray-300">
         <h2 className="text-lg font-bold">Your Cart</h2>
         <button onClick={onClose} className="lg:hidden">
           <FiX size={20} />
@@ -25,7 +25,7 @@ function MiniCart({ onClose }) {
       </div>
 
       {/* Cart Items */}
-      <div className="p-4 space-y-4 overflow-y-auto overflow-x-hidden flex-1 max-h-[220px] custom-scrollbar">
+      <div className="p-3 space-y-4 overflow-y-auto overflow-x-hidden flex-1 max-h-[220px] custom-scrollbar">
         {items.length === 0 ? (
           <p className="text-gray-500 text-center">Your cart is empty.</p>
         ) : (
@@ -44,7 +44,7 @@ function MiniCart({ onClose }) {
                 <h3 className="font-semibold text-sm truncate whitespace-nowrap max-w-[140px]">
                   {item.Name}
                 </h3>
-                <p className="text-xs text-gray-500">
+                <p className="text-[9px] pb-0.5 text-gray-500">
                   LE {item.price.toFixed(2)} each
                 </p>
 
