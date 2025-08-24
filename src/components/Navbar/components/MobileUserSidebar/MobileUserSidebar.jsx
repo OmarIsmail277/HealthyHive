@@ -1,31 +1,42 @@
 import { useState } from "react";
-import { FaRegUser } from "react-icons/fa";
-import { FiX } from "react-icons/fi";
+import { FiX, FiUser, FiHeart, FiLogOut, FiShoppingCart } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
 import { useLogout } from "../../../../hooks/useUser";
 
-function MobileUserSidebar({ userName, userEmail, userImage = "" }) {
+function MobileUserSidebar({ userName = "User Name", userEmail }) {
   const [isOpen, setIsOpen] = useState(false);
   const { logout, isPending } = useLogout();
 
   const menuItems = [
-    { label: "Profile", to: "/profile" },
-    { label: "Wishlist", to: "/wishlist" },
-    { label: "Log out", onClick: logout },
+    { label: "Profile", to: "/profile", icon: <FiUser /> },
+    { label: "My Cart", to: "/cart", icon: <FiShoppingCart /> },
+    { label: "My Wishlist", to: "/wishlist", icon: <FiHeart /> },
+    { label: "Log out", onClick: logout, icon: <FiLogOut /> },
   ];
+
+  // Generate initials (first + last name)
+  const getInitials = (name) => {
+    if (!name) return "";
+    const parts = name.trim().split(" ");
+    const first = parts[0]?.[0] || "";
+    const last = parts.length > 1 ? parts[parts.length - 1][0] : "";
+    return (first + last).toUpperCase();
+  };
 
   return (
     <div className="lg:hidden">
-      {/* User Icon */}
+      {/* User Icon (opens sidebar) */}
       <button onClick={() => setIsOpen(true)} className="text-2xl text-primary">
-        <FaRegUser />
+        <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-semibold">
+          {getInitials(userName)}
+        </div>
       </button>
 
       {/* Sidebar + Overlay */}
       <>
         {/* Overlay */}
         <div
-          className={`fixed  z-40 transition-opacity duration-500 ${
+          className={`fixed inset-0 bg-black/40 z-40 transition-opacity duration-500 ${
             isOpen ? "opacity-100 visible" : "opacity-0 invisible"
           }`}
           onClick={() => setIsOpen(false)}
@@ -51,16 +62,19 @@ function MobileUserSidebar({ userName, userEmail, userImage = "" }) {
           </div>
 
           {/* User Info */}
-          <div className="p-4 border-b border-gray-300">
+          <div className="p-6 border-b border-gray-300">
             <div className="flex items-center gap-3">
-              <img
-                src={userImage}
-                alt={`user ${userName}`}
-                className="w-12 h-12 rounded-full object-cover"
-              />
+              <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center text-lg font-semibold">
+                {getInitials(userName)}
+              </div>
+              <span className="block text-sm text-gray-500 truncate">
+                {userEmail}
+              </span>
               <div>
-                <p className="text-sm font-medium text-gray-900">{userName}</p>
-                <p className="text-xs text-gray-500">{userEmail}</p>
+                {/* User name has different style (slightly bigger) */}
+                <p className="text-base font-medium text-gray-900">
+                  {userName}
+                </p>
               </div>
             </div>
           </div>
@@ -72,17 +86,19 @@ function MobileUserSidebar({ userName, userEmail, userImage = "" }) {
                 {item.onClick ? (
                   <button
                     onClick={item.onClick}
-                    className="block px-3 py-2 rounded-md text-sm text-gray-700 hover:bg-green-100"
+                    className="flex items-center gap-2 w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-secondary"
                     disabled={isPending}
                   >
+                    <span className="text-lg text-red-600">{item.icon}</span>
                     {item.label}
                   </button>
                 ) : (
                   <NavLink
                     to={item.to}
                     onClick={() => setIsOpen(false)}
-                    className="block px-3 py-2 rounded-md text-sm text-gray-700 hover:bg-green-100"
+                    className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-secondary"
                   >
+                    <span className="text-lg text-primary">{item.icon}</span>
                     {item.label}
                   </NavLink>
                 )}

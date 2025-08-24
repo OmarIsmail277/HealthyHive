@@ -17,21 +17,19 @@ function MobileMenu({
     if (searchQuery.trim()) {
       navigate(`/search/${encodeURIComponent(searchQuery.trim())}`);
       setSearchQuery("");
-      // Close the mobile menu after search
       setMobileDropdownIndex(null);
     }
   };
 
-  if (!isOpen) return null;
-
   return (
     <div
-      className={`w-[90%] mx-auto lg:hidden overflow-hidden transition-all duration-500 ease-in-out 
-      ${
-        isOpen
-          ? "max-h-screen opacity-100 translate-y-0"
-          : "max-h-0 opacity-0 -translate-y-2"
-      }`}
+      className={`w-[90%] mx-auto lg:hidden overflow-hidden transform transition-all duration-500 ease-in-out
+        ${
+          isOpen
+            ? "opacity-100 translate-y-0 max-h-screen"
+            : "opacity-0 -translate-y-4 max-h-0"
+        }
+      `}
     >
       <div className="px-3 py-3 border-t border-gray-200">
         {/* Search mobile */}
@@ -41,7 +39,7 @@ function MobileMenu({
             placeholder="Search for healthy products..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full border border-gray-300 rounded-l-md px-2 py-1 sm:px-3 focus:outline-none focus:ring-2 focus:ring-green-500 text-sm sm:text-base"
+            className="w-full border border-gray-300 rounded-l-md px-2 py-1 sm:px-3 focus:outline-none focus:ring-1 focus:ring-emerald-400 text-sm sm:text-base"
           />
           <button
             type="submit"
@@ -75,18 +73,18 @@ function MobileMenu({
                 {/* Smooth accordion animation for sublinks */}
                 <div
                   className={`pl-4 overflow-hidden transition-all duration-500 ease-in-out
-                  ${
-                    isOpenDropdown
-                      ? "max-h-40 opacity-100 translate-y-0"
-                      : "max-h-0 opacity-0 -translate-y-1"
-                  }`}
+                    ${
+                      isOpenDropdown
+                        ? "max-h-40 opacity-100 translate-y-0"
+                        : "max-h-0 opacity-0 -translate-y-1"
+                    }`}
                 >
                   {item.subLinks.map((sub) => (
                     <NavLink
                       key={`mobile-sub-${sub.path}`}
                       to={sub.path}
                       className="block px-2 py-1 text-gray-600 hover:bg-green-100 rounded-md transition-colors duration-300"
-                      onClick={() => setMobileDropdownIndex(null)} // Close menu when clicking a link
+                      onClick={() => setMobileDropdownIndex(null)}
                     >
                       {sub.label}
                     </NavLink>

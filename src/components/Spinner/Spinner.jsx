@@ -47,7 +47,7 @@ const SpinnerWrapper = styled.div`
 
 const SpinnerCircle = styled.div`
   position: relative;
-  width: 220px;   /* bigger size */
+  width: 220px;
   height: 220px;
   border-radius: 50%;
   background: conic-gradient(
@@ -98,16 +98,36 @@ const SpinnerCircle = styled.div`
     animation: ${rotate} 4s infinite linear;
     z-index: -2;
   }
+
+  @media (max-width: 640px) {
+    width: 150px;
+    height: 150px;
+
+    &::before {
+      width: 180px;
+      height: 180px;
+    }
+
+    &::after {
+      width: 210px;
+      height: 210px;
+    }
+  }
 `;
 
 const Logo = styled.img`
-  width: 140px;   /* larger logo */
+  width: 140px;
   height: 140px;
   object-fit: contain;
   animation: ${pulse} 1.8s infinite ease-in-out;
   filter: drop-shadow(0 0 15px rgba(16, 185, 129, 0.7))
-          drop-shadow(0 0 25px rgba(5, 150, 105, 0.5));
-  z-index: 2; /* ensure it's above the spinner */
+    drop-shadow(0 0 25px rgba(5, 150, 105, 0.5));
+  z-index: 2;
+
+  @media (max-width: 640px) {
+    width: 90px;
+    height: 90px;
+  }
 `;
 
 export default function Spinner() {

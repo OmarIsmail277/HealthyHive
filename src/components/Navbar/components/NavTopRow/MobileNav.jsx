@@ -3,7 +3,8 @@ import { FiMenu, FiX } from "react-icons/fi";
 import TotalCartItems from "../TotalCartItems/TotalCartItems";
 import TotalWishlistItems from "../TotalWishlistItems/TotalWishlistItems";
 import MobileUserSidebar from "../MobileUserSidebar/MobileUserSidebar";
-import { useUser } from "../../../../hooks/useUser";
+import { useUser } from "../../../../features/authentication/useUser";
+import { Link } from "react-router-dom";
 
 function MobileNav({
   isOpen,
@@ -11,7 +12,7 @@ function MobileNav({
   setMobileCartOpen,
   setMobileWishlistOpen,
 }) {
-  const { user, isPending, isAuthenticated } = useUser();
+  const { user, isAuthenticated } = useUser();
 
   return (
     <div className="flex items-center gap-x-5 pt-2 lg:hidden">
@@ -33,13 +34,13 @@ function MobileNav({
       {isAuthenticated ? (
         <MobileUserSidebar
           userName={user?.user_metadata?.username || user?.email.split("@")[0]}
-          userEmail={user?.email}
-          userImage="./images/ProfilePage/profilepic.png"
         />
       ) : (
-        <button className="text-2xl text-primary">
-          <FaRegUser />
-        </button>
+        <Link to="/login">
+          <button className="text-2xl text-primary">
+            <FaRegUser />
+          </button>
+        </Link>
       )}
       {/* Mobile Menu */}
       <button

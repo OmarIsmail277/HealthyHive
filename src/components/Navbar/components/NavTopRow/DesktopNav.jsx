@@ -98,7 +98,6 @@ function DesktopNav({
               user?.user_metadata?.username || user?.email.split("@")[0]
             }
             userEmail={user?.email}
-            userImage="./images/ProfilePage/profilepic.png"
           />
         </div>
       ) : (

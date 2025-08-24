@@ -17,7 +17,7 @@ function MiniWishlist({ onClose }) {
   };
 
   return (
-    <div className="h-full flex flex-col rounded-lg shadow-sm shadow-green-100 bg-white">
+    <div className="h-full flex flex-col rounded-lg shadow-2xl shadow-green-100 bg-white">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-300">
         <h2 className="text-lg font-bold">Your Wishlist</h2>
@@ -27,7 +27,7 @@ function MiniWishlist({ onClose }) {
       </div>
 
       {/* Wishlist Items (limit height to 2 items) */}
-      <div className="p-4 space-y-4 overflow-y-auto flex-1 max-h-[220px] custom-scrollbar">
+      <div className="p-3 space-y-4 overflow-y-auto flex-1 max-h-[220px] custom-scrollbar">
         {wishlistItems.length === 0 ? (
           <p className="text-gray-500 text-center">Your wishlist is empty.</p>
         ) : (
@@ -41,9 +41,11 @@ function MiniWishlist({ onClose }) {
                   className="w-16 h-16 object-cover rounded-md"
                 />
                 <div className="flex-1">
-                  <h3 className="font-semibold text-sm">{item.Name}</h3>
-                  <p className="text-xs text-gray-500">{item.description}</p>
-                  <p className="text-xs text-gray-700 font-medium">
+                  <h3 className="font-semibold text-sm pb-1">{item.Name}</h3>
+                  <p className="text-xs text-gray-500 pb-1">
+                    {item.description}
+                  </p>
+                  <p className="text-xs text-gray-700 font-medium pb-1">
                     LE {item.price.toFixed(2)}
                   </p>
                 </div>

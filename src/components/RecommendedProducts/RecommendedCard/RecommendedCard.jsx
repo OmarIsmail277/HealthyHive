@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 import { toggleWishlistItem } from "../../../store/wishlistSlice";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { deleteProduct } from "../../../services/apiProducts";
 import AddToCartButton from "../../../Shared/components/AddToCartButton";
 
 function RecommendedCard({ product }) {
@@ -33,6 +35,16 @@ function RecommendedCard({ product }) {
   };
 
   const queryClient = useQueryClient();
+
+  const { isLoading: isDeleting, mutate } = useMutation({
+    mutationFn: deleteProduct,
+    onSuccess: () => {
+      toast.success("Product successfully deleted!");
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+
+    onError: (err) => toast.error(err.message),
+  });
 
   // choose icon + label depending on subCategory
   const renderSubCategoryIcon = () => {
@@ -69,7 +81,7 @@ function RecommendedCard({ product }) {
       {/* Price Tag + SubCategory Icon */}
       <div className="flex items-center gap-2 absolute top-4 left-4 z-10">
         {discountPercentage && (
-          <div className="bg-primary rounded-xl px-3 py-1 text-white font-semibold">
+          <div className="bg-emerald-400 rounded-sm px-3 py-1 text-white font-semibold">
             -{discountPercentage}%
           </div>
         )}
