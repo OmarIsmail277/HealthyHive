@@ -90,7 +90,7 @@ export default function ProductDetails({ product }) {
           <div className="flex flex-col gap-4">
             <div className="relative flex justify-between">
               <div className="flex gap-2 items-center justify-center sm:justify-start">
-                <FaLeaf className="text-primary text-[24px]" />
+                <img className="w-[30px] h-[30px]" src="/images/logo.png" alt="" />
                 <h6 className="font-bold text-[22px]">HealthyHive</h6>
               </div>
               <button

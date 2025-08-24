@@ -31,7 +31,7 @@ function ProductCategories() {
   ];
 
   return (
-    <div className=" py-12">
+    <div className=" py-12 healthy__container">
       <div className="text-center">
         <h2 className="text-3xl md:text-4xl text-center font-bold text-gray-800">
           Selected <span className="text-primary">Catageroies</span>

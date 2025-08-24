@@ -163,7 +163,7 @@ function SearchResultsPage() {
           </button>
         </div>
 
-        <div className="healthy__container flex flex-col md:flex-row py-4 md:py-6 px-4 md:px-0">
+        <div className="healthy__container flex flex-col md:flex-row md:gap-8 py-4 md:py-6">
           {/* Filter sidebar - fixed position on mobile when open */}
           {showFilter && (
             <div

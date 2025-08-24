@@ -28,8 +28,8 @@ export default function AnimatedSection({ children, type = "fadeUp" }) {
     <motion.div
       initial={variants[type].initial}
       whileInView={variants[type].whileInView}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.85, ease: "easeOut" }}
+      viewport={{ once: true, amount: 0.05 }}
       className="w-full"
     >
       {children}

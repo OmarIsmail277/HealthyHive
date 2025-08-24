@@ -21,7 +21,7 @@ function HomePage() {
     <>
       <Navbar />
       <Carousel />
-      <AnimatedSection type="zoomIn"><WhyUs /></AnimatedSection>
+      <AnimatedSection ><WhyUs /></AnimatedSection>
       <AnimatedSection><ServiceAds /></AnimatedSection>
       <AnimatedSection type="fadeLeft"><ProductCategories /></AnimatedSection>
       <AnimatedSection ><Featured /></AnimatedSection>
