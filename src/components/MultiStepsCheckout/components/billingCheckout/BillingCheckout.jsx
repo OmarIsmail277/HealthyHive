@@ -1,38 +1,35 @@
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-import { getUser } from "../../../../services/userService";
+import { useUser } from "../../../../hooks/useUser";
 
 function BillingCheckout({ onNext }) {
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
+  const { user, isPending } = useUser();
 
-    const {
-        register,
-        handleSubmit,
-        setValue,
-        formState: { errors },
-    } = useForm();
+  useEffect(() => {
+    if (user) {
+      // Assuming user has fields: firstName, lastName, phone, address
+      setValue(
+        "name",
+        `${user?.user_metadata?.firstName || ""} ${
+          user?.user_metadata?.lastName || ""
+        }`.trim()
+      );
+      setValue("number", user?.user_metadata?.phone || "");
+      setValue("address", user?.user_metadata?.address || "");
+    }
+  }, [user, setValue]);
 
-    useEffect(() => {
-        async function fetchUserData() {
-            try {
-                const user = await getUser();
-
-                // Assuming user has fields: name, phone, address
-                setValue("name", `${user?.user_metadata?.firstName || ""} ${user?.user_metadata?.lastName || ""}`.trim());
-                setValue("number", user?.user_metadata?.phone || "");
-                setValue("address", user?.user_metadata?.address || "");
-            } catch (error) {
-                console.error("Failed to fetch user:", error);
-            }
-        }
-
-        fetchUserData();
-    }, [setValue]);
-
-    const onSubmit = (data) => {
-        console.log(data);
-        onNext();
-    };
-
+  const onSubmit = (data) => {
+    console.log(data);
+    onNext();
+  };
+ 
     return (
         <div>
             <h2 className="text-center lg:text-xl text-md font-bold mb-6">Billing Information</h2>
@@ -114,7 +111,7 @@ function BillingCheckout({ onNext }) {
                 </button>
             </form>
         </div>
-    )
+  );
 }
 
-export default BillingCheckout
+export default BillingCheckout;

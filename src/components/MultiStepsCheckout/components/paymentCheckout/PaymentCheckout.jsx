@@ -1,75 +1,82 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { getUser } from "../../../../services/userService";
+import { useUser } from "../../../../hooks/useUser";
 
 function PaymentCheckout({ onPaymentSubmit }) {
-    const {
-        register,
-        handleSubmit,
-        setValue,
-        watch,
-        formState: { errors },
-    } = useForm({
-        defaultValues: {
-            paymentMethod: "creditCard",
-        },
-    });
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      paymentMethod: "creditCard",
+    },
+  });
 
-    const paymentMethod = watch("paymentMethod");
+  const paymentMethod = watch("paymentMethod");
 
-    const [savedCard, setSavedCard] = useState({ number: "", expiry: "", cvv: "" });
+  const [savedCard, setSavedCard] = useState({
+    number: "",
+    expiry: "",
+    cvv: "",
+  });
 
-    // Fetch user payment data and prefill default card
-    useEffect(() => {
-        async function fetchPaymentData() {
-            try {
-                const user = await getUser();
-                const defaultCard = user?.user_metadata?.paymentMethods?.find(pm => pm.isDefault);
+  const { user, isPending } = useUser();
 
-                if (defaultCard) {
-                    const maskedNumber = defaultCard.number.replace(/\d(?=\d{4})/g, "•");
+  // Fetch user payment data and prefill default card
+  useEffect(() => {
+    async function fetchPaymentData() {
+      try {
+        const defaultCard = user?.user_metadata?.paymentMethods?.find(
+          (pm) => pm.isDefault
+        );
 
-                    const cardData = {
-                        number: maskedNumber,
-                        expiry: defaultCard.expiry || "",
-                        cvv: defaultCard.cvc || "",
-                    };
+        if (defaultCard) {
+          const maskedNumber = defaultCard.number.replace(/\d(?=\d{4})/g, "•");
 
-                    setSavedCard(cardData);
+          const cardData = {
+            number: maskedNumber,
+            expiry: defaultCard.expiry || "",
+            cvv: defaultCard.cvc || "",
+          };
 
-                    setValue("cardNumber", cardData.number);
-                    setValue("expiry", cardData.expiry);
-                    setValue("cvv", cardData.cvv);
-                    setValue("paymentMethod", "creditCard");
-                } else {
-                    setValue("paymentMethod", "paypal");
-                }
-            } catch (error) {
-                console.error("Failed to fetch payment methods:", error);
-            }
-        }
+          setSavedCard(cardData);
 
-        fetchPaymentData();
-    }, [setValue]);
-
-    // Restore credit card data when switching back
-    useEffect(() => {
-        if (paymentMethod === "creditCard") {
-            setValue("cardNumber", savedCard.number);
-            setValue("expiry", savedCard.expiry);
-            setValue("cvv", savedCard.cvv);
+          setValue("cardNumber", cardData.number);
+          setValue("expiry", cardData.expiry);
+          setValue("cvv", cardData.cvv);
+          setValue("paymentMethod", "creditCard");
         } else {
-            // Clear fields when switching to Cash on Delivery
-            setValue("cardNumber", "");
-            setValue("expiry", "");
-            setValue("cvv", "");
+          setValue("paymentMethod", "paypal");
         }
-    }, [paymentMethod, savedCard, setValue]);
+      } catch (error) {
+        console.error("Failed to fetch payment methods:", error);
+      }
+    }
 
-    const onSubmit = (data) => {
-        console.log(data);
-        if (onPaymentSubmit) onPaymentSubmit();
-    };
+    fetchPaymentData();
+  }, [user, setValue]);
+
+  // Restore credit card data when switching back
+  useEffect(() => {
+    if (paymentMethod === "creditCard") {
+      setValue("cardNumber", savedCard.number);
+      setValue("expiry", savedCard.expiry);
+      setValue("cvv", savedCard.cvv);
+    } else {
+      // Clear fields when switching to Cash on Delivery
+      setValue("cardNumber", "");
+      setValue("expiry", "");
+      setValue("cvv", "");
+    }
+  }, [paymentMethod, savedCard, setValue]);
+
+  const onSubmit = (data) => {
+    console.log(data);
+    if (onPaymentSubmit) onPaymentSubmit();
+  };
 
     return (
         <div>
@@ -161,6 +168,11 @@ function PaymentCheckout({ onPaymentSubmit }) {
                         <span className="font-medium lg:text-base text-sm">Cash on Delivery</span>
                     </label>
                 </div>
+              </div>
+            </>
+          )}
+        </div>
+
 
                 <button
                     type="submit"
@@ -169,8 +181,8 @@ function PaymentCheckout({ onPaymentSubmit }) {
                     Submit Payment
                 </button>
             </form>
-        </div>
-    );
+    </div>
+  );
 }
 
 export default PaymentCheckout;

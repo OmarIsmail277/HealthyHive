@@ -19,7 +19,7 @@ export function useUpdateUser() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: userRepository.saveUserMetadata,
+    mutationFn: (updates) => userRepository.saveUserMetadata(updates),
     onSuccess: (updatedUser) => {
       // invalidate and update user Cache
       queryClient.setQueryData([userRepository.queryKey], updatedUser);
@@ -92,7 +92,7 @@ export function useLogout() {
     mutationFn: logoutApi,
     onSuccess: () => {
       // queryClient.removeQueries();
-      queryClient.removeQueries({ queryKey: ["user"] });
+      queryClient.removeQueries({ queryKey: [userRepository.queryKey] });
       navigate("/login", { replace: true });
     },
   });
