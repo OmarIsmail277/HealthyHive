@@ -17,14 +17,14 @@ function MutliStepsCheckout() {
 
   const { items } = useSelector((state) => state.cart);
 
-  const { user, isLoading } = useUser();
+  const { user, isPending } = useUser();
   const [step, setStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState(user?.role ? [1] : []);
   const [showPaymentPopup, setShowPaymentPopup] = useState(false);
 
   // Skip login if user is logged in
   useEffect(() => {
-    if (!isLoading) {
+    if (!isPending) {
       if (user?.role) {
         setStep(2); // skip login
         setCompletedSteps([1]); // login considered done
@@ -33,7 +33,7 @@ function MutliStepsCheckout() {
         setCompletedSteps([]);
       }
     }
-  }, [user, isLoading]);
+  }, [user, isPending]);
 
   const handleNext = () => {
     // If next step is Order or Payment and cart is empty, prevent
@@ -68,7 +68,7 @@ function MutliStepsCheckout() {
   };
 
   // handle loading of login
-  if (isLoading || user === undefined) return <Spinner />;
+  if (isPending || user === undefined) return <Spinner />;
 
   return (
     <div className="w-[80%] mx-auto my-0 py-12">

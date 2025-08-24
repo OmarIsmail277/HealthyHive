@@ -1,176 +1,201 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { getUser } from "../../../../services/userService";
+import { useUser } from "../../../../hooks/useUser";
 
 function PaymentCheckout({ onPaymentSubmit }) {
-    const {
-        register,
-        handleSubmit,
-        setValue,
-        watch,
-        formState: { errors },
-    } = useForm({
-        defaultValues: {
-            paymentMethod: "creditCard",
-        },
-    });
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      paymentMethod: "creditCard",
+    },
+  });
 
-    const paymentMethod = watch("paymentMethod");
+  const paymentMethod = watch("paymentMethod");
 
-    const [savedCard, setSavedCard] = useState({ number: "", expiry: "", cvv: "" });
+  const [savedCard, setSavedCard] = useState({
+    number: "",
+    expiry: "",
+    cvv: "",
+  });
 
-    // Fetch user payment data and prefill default card
-    useEffect(() => {
-        async function fetchPaymentData() {
-            try {
-                const user = await getUser();
-                const defaultCard = user?.user_metadata?.paymentMethods?.find(pm => pm.isDefault);
+  const { user, isPending } = useUser();
 
-                if (defaultCard) {
-                    const maskedNumber = defaultCard.number.replace(/\d(?=\d{4})/g, "•");
+  // Fetch user payment data and prefill default card
+  useEffect(() => {
+    async function fetchPaymentData() {
+      try {
+        const defaultCard = user?.user_metadata?.paymentMethods?.find(
+          (pm) => pm.isDefault
+        );
 
-                    const cardData = {
-                        number: maskedNumber,
-                        expiry: defaultCard.expiry || "",
-                        cvv: defaultCard.cvc || "",
-                    };
+        if (defaultCard) {
+          const maskedNumber = defaultCard.number.replace(/\d(?=\d{4})/g, "•");
 
-                    setSavedCard(cardData);
+          const cardData = {
+            number: maskedNumber,
+            expiry: defaultCard.expiry || "",
+            cvv: defaultCard.cvc || "",
+          };
 
-                    setValue("cardNumber", cardData.number);
-                    setValue("expiry", cardData.expiry);
-                    setValue("cvv", cardData.cvv);
-                    setValue("paymentMethod", "creditCard");
-                } else {
-                    setValue("paymentMethod", "paypal");
-                }
-            } catch (error) {
-                console.error("Failed to fetch payment methods:", error);
-            }
-        }
+          setSavedCard(cardData);
 
-        fetchPaymentData();
-    }, [setValue]);
-
-    // Restore credit card data when switching back
-    useEffect(() => {
-        if (paymentMethod === "creditCard") {
-            setValue("cardNumber", savedCard.number);
-            setValue("expiry", savedCard.expiry);
-            setValue("cvv", savedCard.cvv);
+          setValue("cardNumber", cardData.number);
+          setValue("expiry", cardData.expiry);
+          setValue("cvv", cardData.cvv);
+          setValue("paymentMethod", "creditCard");
         } else {
-            // Clear fields when switching to Cash on Delivery
-            setValue("cardNumber", "");
-            setValue("expiry", "");
-            setValue("cvv", "");
+          setValue("paymentMethod", "paypal");
         }
-    }, [paymentMethod, savedCard, setValue]);
+      } catch (error) {
+        console.error("Failed to fetch payment methods:", error);
+      }
+    }
 
-    const onSubmit = (data) => {
-        console.log(data);
-        if (onPaymentSubmit) onPaymentSubmit();
-    };
+    fetchPaymentData();
+  }, [user, setValue]);
 
-    return (
-        <div>
-            <h2 className="text-center text-xl font-bold mb-6">Payment Method</h2>
+  // Restore credit card data when switching back
+  useEffect(() => {
+    if (paymentMethod === "creditCard") {
+      setValue("cardNumber", savedCard.number);
+      setValue("expiry", savedCard.expiry);
+      setValue("cvv", savedCard.cvv);
+    } else {
+      // Clear fields when switching to Cash on Delivery
+      setValue("cardNumber", "");
+      setValue("expiry", "");
+      setValue("cvv", "");
+    }
+  }, [paymentMethod, savedCard, setValue]);
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-                {/* Credit Card Option */}
-                <div className="border border-gray-200 rounded-lg p-4 mb-3">
-                    <label className="flex items-center space-x-2 mb-3">
-                        <input type="radio" value="creditCard" {...register("paymentMethod")} />
-                        <span className="font-medium">Credit Card</span>
-                    </label>
+  const onSubmit = (data) => {
+    console.log(data);
+    if (onPaymentSubmit) onPaymentSubmit();
+  };
 
-                    {paymentMethod === "creditCard" && (
-                        <>
-                            <div className="mb-3">
-                                <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Card Number
-                                </label>
-                                <input
-                                    type="text"
-                                    placeholder="**** **** **** ****"
-                                    {...register("cardNumber", {
-                                        required: "Card number is required",
-                                        validate: (value) => {
-                                            const digitsOnly = value.replace(/\D/g, "");
-                                            const isPrefilledMasked = value.includes("•");
-                                            return digitsOnly.length === 16 || isPrefilledMasked || "Card number must be 16 digits";
-                                        },
-                                    })}
-                                    className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 ${
-                                        errors.cardNumber ? "border-red-500" : "border-gray-300"
-                                    }`}
-                                />
-                                {errors.cardNumber && <p className="text-red-500 text-sm">{errors.cardNumber.message}</p>}
-                            </div>
+  return (
+    <div>
+      <h2 className="text-center text-xl font-bold mb-6">Payment Method</h2>
 
-                            <div className="grid grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        Expiration Date
-                                    </label>
-                                    <input
-                                        type="text"
-                                        placeholder="MM / YY"
-                                        {...register("expiry", {
-                                            required: "Expiration date is required",
-                                            pattern: {
-                                                value: /^(0[1-9]|1[0-2])\/\d{2}$/,
-                                                message: "Format must be MM/YY",
-                                            },
-                                        })}
-                                        className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 ${
-                                            errors.expiry ? "border-red-500" : "border-gray-300"
-                                        }`}
-                                    />
-                                    {errors.expiry && <p className="text-red-500 text-sm">{errors.expiry.message}</p>}
-                                </div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {/* Credit Card Option */}
+        <div className="border border-gray-200 rounded-lg p-4 mb-3">
+          <label className="flex items-center space-x-2 mb-3">
+            <input
+              type="radio"
+              value="creditCard"
+              {...register("paymentMethod")}
+            />
+            <span className="font-medium">Credit Card</span>
+          </label>
 
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                                        CVV
-                                    </label>
-                                    <input
-                                        type="password"
-                                        placeholder="***"
-                                        {...register("cvv", {
-                                            required: "CVV is required",
-                                            pattern: {
-                                                value: /^\d{3}$/,
-                                                message: "CVV must be 3 digits",
-                                            },
-                                        })}
-                                        className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 ${
-                                            errors.cvv ? "border-red-500" : "border-gray-300"
-                                        }`}
-                                    />
-                                    {errors.cvv && <p className="text-red-500 text-sm">{errors.cvv.message}</p>}
-                                </div>
-                            </div>
-                        </>
-                    )}
+          {paymentMethod === "creditCard" && (
+            <>
+              <div className="mb-3">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Card Number
+                </label>
+                <input
+                  type="text"
+                  placeholder="**** **** **** ****"
+                  {...register("cardNumber", {
+                    required: "Card number is required",
+                    validate: (value) => {
+                      const digitsOnly = value.replace(/\D/g, "");
+                      const isPrefilledMasked = value.includes("•");
+                      return (
+                        digitsOnly.length === 16 ||
+                        isPrefilledMasked ||
+                        "Card number must be 16 digits"
+                      );
+                    },
+                  })}
+                  className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 ${
+                    errors.cardNumber ? "border-red-500" : "border-gray-300"
+                  }`}
+                />
+                {errors.cardNumber && (
+                  <p className="text-red-500 text-sm">
+                    {errors.cardNumber.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Expiration Date
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="MM / YY"
+                    {...register("expiry", {
+                      required: "Expiration date is required",
+                      pattern: {
+                        value: /^(0[1-9]|1[0-2])\/\d{2}$/,
+                        message: "Format must be MM/YY",
+                      },
+                    })}
+                    className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 ${
+                      errors.expiry ? "border-red-500" : "border-gray-300"
+                    }`}
+                  />
+                  {errors.expiry && (
+                    <p className="text-red-500 text-sm">
+                      {errors.expiry.message}
+                    </p>
+                  )}
                 </div>
 
-                {/* Cash on Delivery Option */}
-                <div className="border border-gray-200 rounded-lg p-4 mb-3">
-                    <label className="flex items-center space-x-2">
-                        <input type="radio" value="paypal" {...register("paymentMethod")} />
-                        <span className="font-medium">Cash on Delivery</span>
-                    </label>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    CVV
+                  </label>
+                  <input
+                    type="password"
+                    placeholder="***"
+                    {...register("cvv", {
+                      required: "CVV is required",
+                      pattern: {
+                        value: /^\d{3}$/,
+                        message: "CVV must be 3 digits",
+                      },
+                    })}
+                    className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 ${
+                      errors.cvv ? "border-red-500" : "border-gray-300"
+                    }`}
+                  />
+                  {errors.cvv && (
+                    <p className="text-red-500 text-sm">{errors.cvv.message}</p>
+                  )}
                 </div>
-
-                <button
-                    type="submit"
-                    className="w-full mt-4 bg-button text-white rounded-lg py-3 text-lg hover:bg-button-hover transition"
-                >
-                    Submit Payment
-                </button>
-            </form>
+              </div>
+            </>
+          )}
         </div>
-    );
+
+        {/* Cash on Delivery Option */}
+        <div className="border border-gray-200 rounded-lg p-4 mb-3">
+          <label className="flex items-center space-x-2">
+            <input type="radio" value="paypal" {...register("paymentMethod")} />
+            <span className="font-medium">Cash on Delivery</span>
+          </label>
+        </div>
+
+        <button
+          type="submit"
+          className="w-full mt-4 bg-button text-white rounded-lg py-3 text-lg hover:bg-button-hover transition"
+        >
+          Submit Payment
+        </button>
+      </form>
+    </div>
+  );
 }
 
 export default PaymentCheckout;

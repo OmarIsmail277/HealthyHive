@@ -16,6 +16,14 @@ export function useProductById(id) {
   });
 }
 
+export function useProductBySKUs(SKUs) {
+  return useQuery({
+    queryKey: [productRepository.queryKey, SKUs],
+    queryFn: () => productRepository.getBySKUs(SKUs),
+    enabled: Array.isArray(SKUs) && SKUs.length > 0,
+  });
+}
+
 export function useDeleteProduct() {
   const queryClient = useQueryClient();
   return useMutation({

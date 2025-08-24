@@ -22,9 +22,10 @@ import Dashboard from "../Dashboard/Dashboard";
 import OrderHistory from "../OrderHistory/OrderHistory";
 import { useUser } from "../../hooks/useUser";
 import { useState, useEffect } from "react";
-import { updateUserMetadata } from "../../services/apiAuth";
+import { useUpdateUser } from "../../hooks/useUser";
 import { useQueryClient } from "@tanstack/react-query";
 import supabase from "../../services/supabase";
+import { userRepository } from "../../repositories/userRepository";
 
 // Wrapper page that hosts the layout and switches between views
 export default function ProfileWrapper() {
@@ -203,6 +204,8 @@ function MiniStat({ icon, label, value }) {
 function PersonalInformationView() {
   const { user, isPending } = useUser();
   const queryClient = useQueryClient();
+  const { mutateAsync: updateUser } = useUpdateUser();
+
   const [isEditing, setIsEditing] = useState(false);
 
   const [profile, setProfile] = useState({
@@ -224,7 +227,9 @@ function PersonalInformationView() {
         phone: user.user_metadata?.phone || "",
         address: user.user_metadata?.address || "",
         email: user.email || "",
-        subscription: user.user_metadata?.subscription || "",
+        subscription: user.user_metadata?.subscription || {
+          isSubscribed: false,
+        }, // ✅ always object
       };
       setProfile(data);
       setEditData(data);
@@ -249,8 +254,8 @@ function PersonalInformationView() {
         address: editData.address,
         subscription: editData.subscription,
       };
-      await updateUserMetadata(updated);
-      queryClient.invalidateQueries(["user"]);
+      await updateUser(updated);
+      queryClient.invalidateQueries([userRepository.queryKey]);
       setProfile(editData);
       setIsEditing(false);
     } catch (err) {
