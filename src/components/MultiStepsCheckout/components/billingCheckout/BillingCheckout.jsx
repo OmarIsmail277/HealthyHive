@@ -1,15 +1,38 @@
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { getUser } from "../../../../services/userService";
 
-function BillingCheckout({onNext}) {
+function BillingCheckout({ onNext }) {
 
     const {
         register,
         handleSubmit,
+        setValue,
         formState: { errors },
     } = useForm();
 
+
+
+    useEffect(() => {
+        async function fetchUserData() {
+            try {
+                const user = await getUser();
+
+                // Assuming user has fields: name, phone, address
+                setValue("name", `${user?.user_metadata?.firstName || ""} ${user?.user_metadata?.lastName || ""}`.trim());
+                setValue("number", user?.user_metadata?.phone || "");
+                setValue("address", user?.user_metadata?.address || "");
+            } catch (error) {
+                console.error("Failed to fetch user:", error);
+            }
+        }
+
+        fetchUserData();
+    }, [setValue]);
+
     const onSubmit = (data) => {
         console.log(data);
+        onNext();
     };
 
     return (
@@ -30,11 +53,11 @@ function BillingCheckout({onNext}) {
                                 message: "Name can only contain letters and spaces",
                             },
                         })}
-                        className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 ${errors.email ? "border-red-500" : "border-gray-300"
+                        className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 ${errors.name ? "border-red-500" : "border-gray-300"
                             }`}
                     />
                     {errors.name && (
-                        <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                        <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
                     )}
                 </div>
 
@@ -44,7 +67,7 @@ function BillingCheckout({onNext}) {
                     </label>
                     <input
                         type="number"
-                        placeholder= "Number..." 
+                        placeholder="Number..."
                         {...register("number", {
                             required: "Number is required",
                             pattern: {
@@ -52,12 +75,12 @@ function BillingCheckout({onNext}) {
                                 message: "Phone number must be exactly 11 digits with numbers only",
                             },
                         })}
-                        className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 ${errors.password ? "border-red-500" : "border-gray-300"
+                        className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 ${errors.number ? "border-red-500" : "border-gray-300"
                             }`}
                     />
                     {errors.number && (
                         <p className="text-red-500 text-sm mt-1">
-                            {errors.password.message}
+                            {errors.number.message}
                         </p>
                     )}
                 </div>
@@ -68,7 +91,7 @@ function BillingCheckout({onNext}) {
                     </label>
                     <input
                         type="text"
-                        placeholder= "Address..." 
+                        placeholder="Address..."
                         {...register("address", {
                             required: "Address is required",
                             pattern: {
@@ -76,19 +99,18 @@ function BillingCheckout({onNext}) {
                                 message: "Address can only contain letters, numbers, spaces, commas, periods, and hyphens",
                             },
                         })}
-                        className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 ${errors.password ? "border-red-500" : "border-gray-300"
+                        className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 ${errors.address ? "border-red-500" : "border-gray-300"
                             }`}
                     />
                     {errors.address && (
                         <p className="text-red-500 text-sm mt-1">
-                            {errors.password.message}
+                            {errors.address.message}
                         </p>
                     )}
                 </div>
 
                 <button
                     type="submit"
-                    onClick={onNext}
                     className="w-full mt-2 bg-button text-white rounded-lg py-3 text-lg hover:bg-button-hover transition">
                     Next <span className="ml-2">&rarr;</span>
                 </button>
