@@ -20,7 +20,7 @@ import {
 // 👉 Import the new components
 import Dashboard from "../Dashboard/Dashboard";
 import OrderHistory from "../OrderHistory/OrderHistory";
-import { useUser } from "../../features/authentication/useUser";
+import { useUser } from "../../hooks/useUser";
 import { useState, useEffect } from "react";
 import { updateUserMetadata } from "../../services/apiAuth";
 import { useQueryClient } from "@tanstack/react-query";
@@ -351,7 +351,7 @@ function PersonalInformationView() {
                 <span className="font-medium">
                   {profile.subscription.consultations}
                 </span>{" "}
-                consultations & follow ups remaining  
+                consultations & follow ups remaining
               </p>
             </div>
           ) : (

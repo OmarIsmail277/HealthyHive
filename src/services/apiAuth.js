@@ -14,7 +14,7 @@ export async function signup({ username, email, password }) {
         phoneNumber: "",
         paymentMethods: [],
         cart: {},
-        wishlist: {},
+        wishlist: {}, // key-> id, value -> product
         subscription: {
           isSubscribed: false,
           subscriptionType: "",

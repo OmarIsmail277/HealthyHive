@@ -1,8 +1,8 @@
-import { getProducts } from "../../services/apiProducts";
-import { useQuery } from "@tanstack/react-query";
 import AddToCartButton from "../../Shared/components/AddToCartButton";
 import WishlistToggle from "../../Shared/components/WishlistToggle";
 import { useNavigate } from "react-router-dom";
+import { useMemo } from "react";
+import { useAllProducts } from "../../hooks/useProducts";
 
 export default function Featuredproducts() {
   const navigate = useNavigate();
@@ -11,14 +11,13 @@ export default function Featuredproducts() {
     navigate(`/product/${product.id}`);
   };
 
-  const { isPending, data: Products } = useQuery({
-    queryKey: ["products"],
-    queryFn: getProducts,
-  });
+  const { isPending, data: Products } = useAllProducts();
+
+  const randomThree = useMemo(() => {
+    return Products?.sort(() => 0.5 - Math.random()).slice(0, 3);
+  }, [Products]);
 
   if (isPending) return <p>Loading...</p>;
-
-  const randomThree = Products?.sort(() => 0.5 - Math.random()).slice(0, 3);
 
   return (
     <section className="healthy__container py-12">

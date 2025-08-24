@@ -3,7 +3,7 @@ import { FaRegUser } from "react-icons/fa";
 import MiniCart from "../MiniCart/MiniCart";
 import MiniWishlist from "../MiniWishlist/MiniWishlist";
 import { useSelector } from "react-redux";
-import { useUser } from "../../../../features/authentication/useUser";
+import { useUser } from "../../../../hooks/useUser";
 import TotalCartItems from "../TotalCartItems/TotalCartItems";
 import TotalWishlistItems from "../TotalWishlistItems/TotalWishlistItems";
 import { useState } from "react";

@@ -5,10 +5,9 @@ import Footer from "../components/Footer/Footer";
 import RecommendedCard from "../components/RecommendedProducts/RecommendedCard/RecommendedCard";
 import Filter from "../components/Filter/Filter";
 import AdviceFetch from "../components/FetchAdvice/AdviceFetch";
-import { getProducts } from "../services/apiProducts";
-import { useQuery } from "@tanstack/react-query";
 import Spinner from "../components/Spinner/Spinner";
 import SubIcon from "../components/SubIcon/SubIcon";
+import { useAllProducts } from "../hooks/useProducts";
 
 function SearchResultsPage() {
   const [showFilter, setShowFilter] = useState(false); // Start with filters hidden on mobile
@@ -17,10 +16,7 @@ function SearchResultsPage() {
   const location = useLocation();
   const [searchParams] = useSearchParams();
 
-  const { isLoading, data: products } = useQuery({
-    queryKey: ["products"],
-    queryFn: getProducts,
-  });
+  const { isPending, data: products } = useAllProducts();
 
   const [filters, setFilters] = useState({
     category: searchParams.get("mainCategory") || "",
@@ -55,7 +51,7 @@ function SearchResultsPage() {
     setSearchQuery(searchParam);
   }, [query, location.search]);
 
-  if (isLoading) return <Spinner />;
+  if (isPending) return <Spinner />;
 
   // First filter by search query
   let filteredProducts = products.filter(

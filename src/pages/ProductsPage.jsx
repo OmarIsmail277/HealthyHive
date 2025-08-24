@@ -5,18 +5,14 @@ import RecommendedCard from "../components/RecommendedProducts/RecommendedCard/R
 import Filter from "../components/Filter/Filter";
 import AdviceFetch from "../components/FetchAdvice/AdviceFetch";
 import SubIcon from "../components/SubIcon/SubIcon";
-import { useQuery } from "@tanstack/react-query";
-import { getProducts } from "../services/apiProducts";
 import Spinner from "../components/Spinner/Spinner";
 import { useSearchParams } from "react-router";
+import { useAllProducts } from "../hooks/useProducts";
 
 function ProudctsPage() {
   const [showFilter, setShowFilter] = useState(true);
 
-  const { isPending, data: products } = useQuery({
-    queryKey: ["products"],
-    queryFn: getProducts,
-  });
+  const { isPending, data: products } = useAllProducts();
 
   const [searchParams] = useSearchParams();
 

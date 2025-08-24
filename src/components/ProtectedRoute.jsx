@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useUser } from "../features/authentication/useUser";
+import { useUser } from "../hooks/useUser";
 import Spinner from "./Spinner/Spinner";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 
