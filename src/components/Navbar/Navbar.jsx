@@ -24,10 +24,6 @@ function Navbar() {
           path: "/products?mainCategory=food&subCategory=nuts+spread",
         },
         {
-          label: "Healthy Meals",
-          path: "/products?mainCategory=food&subCategory=healthy+meals",
-        },
-        {
           label: "Sauces",
           path: "/products?mainCategory=food&subCategory=sauces",
         },

@@ -33,7 +33,7 @@ import {
   FaUtensilSpoon,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useLogin } from "../../features/authentication/useLogin";
+import { useLogin } from "../../hooks/useUser";
 import SpinnerMini from "../Spinner/SpinnerMini";
 
 export default function LoginForm() {
@@ -140,10 +140,7 @@ export default function LoginForm() {
       <div className="relative z-10 flex flex-col md:flex-row min-h-screen w-full ">
         <div className="flex-1 flex items-center justify-center p-6">
           <div className="text-center max-w-md">
-
-            <Link
-              to="/"
-            >
+            <Link to="/">
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-green-700 mb-4 drop-shadow-lg">
                 <span className="relative inline-flex items-center gap-2">
                   <img
@@ -201,8 +198,9 @@ export default function LoginForm() {
                   type="email"
                   disabled={isPending}
                   {...register("email", { required: "Email is required" })}
-                  className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white/70 ${errors.email ? "border-red-500" : "border-gray-300"
-                    }`}
+                  className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white/70 ${
+                    errors.email ? "border-red-500" : "border-gray-300"
+                  }`}
                 />
                 <p className="text-red-600 text-xs min-h-[1rem] mt-1">
                   {errors.email?.message}
@@ -223,8 +221,9 @@ export default function LoginForm() {
                       message: "Password must be at least 6 characters",
                     },
                   })}
-                  className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white/70 ${errors.password ? "border-red-500" : "border-gray-300"
-                    }`}
+                  className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white/70 ${
+                    errors.password ? "border-red-500" : "border-gray-300"
+                  }`}
                 />
                 <p className="text-red-600 text-xs min-h-[1rem] mt-1">
                   {errors.password?.message}

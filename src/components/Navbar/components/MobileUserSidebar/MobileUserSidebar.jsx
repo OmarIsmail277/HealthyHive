@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FiX, FiUser, FiHeart, FiLogOut, FiShoppingCart } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
-import { useLogout } from "../../../../features/authentication/useLogout";
+import { useLogout } from "../../../../hooks/useUser";
 
 function MobileUserSidebar({ userName = "User Name", userEmail }) {
   const [isOpen, setIsOpen] = useState(false);

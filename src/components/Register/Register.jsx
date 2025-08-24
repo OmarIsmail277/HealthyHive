@@ -31,7 +31,7 @@ import {
   FaUtensilSpoon,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useSignup } from "../../features/authentication/useSignup";
+import { useSignup } from "../../hooks/useUser";
 import { useMemo } from "react";
 
 export default function Register() {

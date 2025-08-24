@@ -17,7 +17,7 @@ const loadCart = () => {
   const savedCart = sessionStorage.getItem(`cart_${sessionId}`);
   return savedCart
     ? JSON.parse(savedCart)
-    : { items: [], totalQuantity: 0, totalPrice: 0, totalCartItems: 0 };
+    : { items: [], totalQuantity: 0, totalPrice: 0, totalCartItems: 0, shippingMethod: "pickup"};
 };
 
 // Save cart to sessionStorage
@@ -45,6 +45,8 @@ const cartSlice = createSlice({
       state.totalQuantity += 1;
       state.totalPrice = roundToTwo(state.totalPrice + item.price);
 
+      // CheckStockStatus and StockQuantity => AddtoCart, PlaceOrder, Checkout, CartPageCounter
+      //??
       saveCart(state);
     },
 
@@ -54,7 +56,9 @@ const cartSlice = createSlice({
 
       if (item) {
         state.totalQuantity -= item.quantity;
-        state.totalPrice = roundToTwo(state.totalPrice - item.price * item.quantity);
+        state.totalPrice = roundToTwo(
+          state.totalPrice - item.price * item.quantity
+        );
         state.items = state.items.filter((i) => i.id !== itemId);
         state.totalCartItems -= 1;
         saveCart(state);
@@ -85,11 +89,13 @@ const cartSlice = createSlice({
         if (addable > 0) {
           item.quantity += addable;
           state.totalQuantity += addable;
-          state.totalPrice = roundToTwo(state.totalPrice + finalPrice * addable);
+          state.totalPrice = roundToTwo(
+            state.totalPrice + finalPrice * addable
+          );
         }
       } else {
         // new product → increment totalCartItems
-        state.items.push({...product, price: finalPrice, quantity: count });
+        state.items.push({ ...product, price: finalPrice, quantity: count });
         state.totalQuantity += count;
         state.totalPrice = roundToTwo(state.totalPrice + finalPrice * count);
         state.totalCartItems += 1;
@@ -97,8 +103,6 @@ const cartSlice = createSlice({
 
       saveCart(state);
     },
-
-
 
     decreaseQuantity: (state, action) => {
       const item = state.items.find((i) => i.id === action.payload);
@@ -120,10 +124,11 @@ const cartSlice = createSlice({
       const item = state.items.find((i) => i.id === id);
 
       if (item && quantity > 0) {
-
         state.totalQuantity += quantity - item.quantity;
 
-        state.totalPrice = roundToTwo(state.totalPrice + (quantity - item.quantity) * item.price);
+        state.totalPrice = roundToTwo(
+          state.totalPrice + (quantity - item.quantity) * item.price
+        );
 
         item.quantity = quantity;
 
@@ -153,6 +158,11 @@ const cartSlice = createSlice({
       saveCart(state);
     },
 
+    updateShippingMethod(state, action) {
+      state.shippingMethod = action.payload; 
+      saveCart(state);
+    },
+
     clearCart: (state) => {
       state.items = [];
       state.totalQuantity = 0;
@@ -171,6 +181,7 @@ export const {
   updateQuantity,
   toggleCartItem,
   addToCartFromDetail,
+  updateShippingMethod,
   clearCart,
 } = cartSlice.actions;
 

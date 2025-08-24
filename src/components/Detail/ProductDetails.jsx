@@ -8,7 +8,7 @@ import { FaHeart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleWishlistItem } from "../../store/wishlistSlice";
 import { addToCartFromDetail } from "../../store/cartSlice";
-import { getProductBySKUs } from "../../services/apiProducts";
+import { useProductBySKUs } from "../../hooks/useProducts";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function ProductDetails({ product }) {
@@ -29,13 +29,9 @@ export default function ProductDetails({ product }) {
   const [open, setOpen] = useState(true);
   const [count, setCount] = useState(1);
 
-  const [relatedProducts, setRelatedProducts] = useState([]);
-
-  if (product?.SKUs?.length) {
-    getProductBySKUs(product.SKUs).then((res) => {
-      setRelatedProducts(res);
-    });
-  }
+  const { data: relatedProducts = [], isPending } = useProductBySKUs(
+    product?.SKUs
+  );
 
   const increase = () =>
     setCount(
@@ -94,7 +90,7 @@ export default function ProductDetails({ product }) {
           <div className="flex flex-col gap-4">
             <div className="relative flex justify-between">
               <div className="flex gap-2 items-center justify-center sm:justify-start">
-                <FaLeaf className="text-primary text-[24px]" />
+                <img className="w-[30px] h-[30px]" src="/images/logo.png" alt="" />
                 <h6 className="font-bold text-[22px]">HealthyHive</h6>
               </div>
               <button
@@ -145,12 +141,9 @@ export default function ProductDetails({ product }) {
             </p>
 
             {/* SKUs */}
-            <div className="flex gap-1.5">
-              <strong>Related Prodcuts:</strong>
-              <img src="/images/down-arrow.png" alt="" />
-            </div>
             {relatedProducts.length > 0 && (
               <div className="flex gap-3 overflow-hidden">
+                <div className="flex gap-1.5"></div>
                 {relatedProducts.map((p) => (
                   <div
                     key={p.id}

@@ -14,7 +14,7 @@ export async function signup({ username, email, password }) {
         phoneNumber: "",
         paymentMethods: [],
         cart: {},
-        wishlist: {},
+        wishlist: {}, // key-> id, value -> product
         subscription: {
           isSubscribed: false,
           subscriptionType: "",
@@ -42,13 +42,10 @@ export async function login({ email, password }) {
 
 export async function getCurrentUser() {
   const { data: session } = await supabase.auth.getSession();
-  console.log("hey");
 
   if (!session.session) return null;
 
   const { data, error } = await supabase.auth.getUser();
-
-  console.log(data);
 
   if (error) throw new Error(error.message);
 

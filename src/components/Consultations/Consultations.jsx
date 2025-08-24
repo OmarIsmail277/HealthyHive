@@ -1,3 +1,4 @@
+import { toast } from "react-hot-toast";
 import { useState, useEffect } from "react";
 import { FaWhatsapp, FaEnvelope, FaPhone } from "react-icons/fa";
 import Navbar from "../Navbar/Navbar";
@@ -85,63 +86,64 @@ export default function ServiceForm() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
 
-    if (!validate()) return;
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    setSubmitting(true);
+  if (!validate()) return;
 
-    try {
-      // Decrement consultation count
-      const currentConsultations =
-        user.user_metadata.subscription.consultations;
-      const updatedConsultations = currentConsultations - 1;
+  setSubmitting(true);
 
-      const { error } = await supabase.auth.updateUser({
-        data: {
-          subscription: {
-            ...user.user_metadata.subscription,
-            consultations: updatedConsultations,
-          },
+  try {
+    // Decrement consultation count
+    const currentConsultations = user.user_metadata.subscription.consultations;
+    const updatedConsultations = currentConsultations - 1;
+
+    const { error } = await supabase.auth.updateUser({
+      data: {
+        subscription: {
+          ...user.user_metadata.subscription,
+          consultations: updatedConsultations,
         },
-      });
+      },
+    });
 
-      if (error) throw error;
+    if (error) throw error;
 
-      // Update local user state
-      setUser({
-        ...user,
-        user_metadata: {
-          ...user.user_metadata,
-          subscription: {
-            ...user.user_metadata.subscription,
-            consultations: updatedConsultations,
-          },
+    // Update local user state
+    setUser({
+      ...user,
+      user_metadata: {
+        ...user.user_metadata,
+        subscription: {
+          ...user.user_metadata.subscription,
+          consultations: updatedConsultations,
         },
-      });
+      },
+    });
 
-      // Reset form (but keep user data)
-      setFormData({
-        fullName: `${user.user_metadata?.firstName || ""} ${
-          user.user_metadata?.lastName || ""
-        }`.trim(),
-        phone: user.user_metadata?.phone || "",
-        email: user.email || "",
-        serviceType: "",
-        description: "",
-        preferredContact: "",
-      });
-      setErrors({});
+    // Reset form (but keep user data)
+    setFormData({
+      fullName: `${user.user_metadata?.firstName || ""} ${
+        user.user_metadata?.lastName || ""
+      }`.trim(),
+      phone: user.user_metadata?.phone || "",
+      email: user.email || "",
+      serviceType: "",
+      description: "",
+      preferredContact: "",
+    });
+    setErrors({});
 
-      alert("Appointment booked successfully!");
-    } catch (error) {
-      console.error("Error updating consultation count:", error);
-      alert("Failed to book appointment. Please try again.");
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    toast.success("Appointment booked successfully!");
+  } catch (error) {
+    console.error("Error updating consultation count:", error);
+    toast.error("Failed to book appointment. Please try again.");
+  } finally {
+    setSubmitting(false);
+  }
+};
+
 
   const handleSubscribeClick = () => {
     navigate("/subscription");

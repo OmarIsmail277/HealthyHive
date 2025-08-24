@@ -1,3 +1,4 @@
+import { toast } from "react-hot-toast";
 import React, { useState, useEffect } from "react";
 import {
   FaCheck,
@@ -7,17 +8,19 @@ import {
   FaStar,
   FaCreditCard,
 } from "react-icons/fa";
-import { getCurrentUser, updateUserMetadata } from "../../services/apiAuth";
+import { useUser, useUpdateUser } from "../../hooks/useUser";
 import { useQueryClient } from "@tanstack/react-query";
+import { userRepository } from "../../repositories/userRepository";
 
 const SubscriptionForm = () => {
-  const [user, setUser] = useState(null);
   const [selectedPlan, setSelectedPlan] = useState("basic");
   const [cards, setCards] = useState([]);
   const [selectedCard, setSelectedCard] = useState("");
   const [duration, setDuration] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const queryClient = useQueryClient();
+  const { user, isPending, isAuthenticated } = useUser();
+  const { mutateAsync: updateUser } = useUpdateUser();
 
   const plans = {
     basic: {
@@ -47,24 +50,21 @@ const SubscriptionForm = () => {
 
   // Fetch current user & saved cards
   useEffect(() => {
-    async function fetchUser() {
-      const currentUser = await getCurrentUser();
-      setUser(currentUser);
-
-      // Use the correct path to cards
-      const savedCards = currentUser?.user_metadata?.paymentMethods || [];
+    if (user) {
+      const savedCards = user?.user_metadata?.paymentMethods || [];
       setCards(savedCards);
 
       if (savedCards.length > 0) setSelectedCard(savedCards[0].id);
     }
-    fetchUser();
-  }, []);
+  }, [user]);
 
   // Handle subscription submission
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!user) return alert("User not logged in");
-    if (!selectedCard) return alert("Please select a payment card");
+
+    if (!user) return toast.error("User not logged in");
+    if (!selectedCard) return toast.error("Please select a payment card");
 
     setIsSubmitting(true);
 
@@ -78,18 +78,25 @@ const SubscriptionForm = () => {
         },
       };
 
-      await updateUserMetadata(subscriptionData);
-      queryClient.invalidateQueries(["user"]);
+      await updateUser(subscriptionData);
+      queryClient.invalidateQueries([userRepository.queryKey]);
 
-      alert(`Subscribed successfully to ${plans[selectedPlan].name} plan!`);
-      window.location.href = "/profile";
+      toast.success(
+        `Subscribed successfully to ${plans[selectedPlan].name} plan!`
+      );
+
+      // Delay navigation so the toast can be seen
+      setTimeout(() => {
+        window.location.href = "/profile";
+      }, 1000);
     } catch (error) {
       console.error("Subscription error:", error);
-      alert("Error while subscribing. Please try again.");
+      toast.error("Error while subscribing. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
   };
+
   const isAlreadySubscribed =
     user && user.user_metadata?.subscription?.isSubscribed === true;
 

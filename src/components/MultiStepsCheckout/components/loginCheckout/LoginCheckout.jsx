@@ -1,46 +1,45 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import { useCheckoutLogin } from "../../../../features/authentication/useCheckoutLogin";
+import { useCheckoutLogin } from "../../../../hooks/useUser";
 import SpinnerMini from "../../../Spinner/SpinnerMini";
 
 function LoginCheckout({ onNext }) {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm();
+  const { login, isPending } = useCheckoutLogin();
 
-    const { login, isPending } = useCheckoutLogin();
+  const onSubmit = (data) => {
+    console.log(data);
+    const { email, password } = data;
 
-    const onSubmit = (data) => {
-        console.log(data);
-        const { email, password } = data;
+    if (!email || !password) return;
 
-        if (!email || !password) return;
-
-        login(
-            { email, password },
-            {
-                onSuccess: () => {
-                    onNext(); // proceed to next step only after successful login
-                },
-                onSettled: () => {
-                    // 👇 clears the form inputs after login attempt (success or error)
-                    reset({ email: "", password: "" });
-                },
-            }
-        );
-    };
+    login(
+      { email, password },
+      {
+        onSuccess: () => {
+          onNext(); // proceed to next step only after successful login
+        },
+        onSettled: () => {
+          // 👇 clears the form inputs after login attempt (success or error)
+          reset({ email: "", password: "" });
+        },
+      }
+    );
+  };
 
     return (
         <div>
-            <h2 className="text-center text-xl font-bold mb-6">Log in to your account</h2>
+            <h2 className="text-center lg:text-xl text-md font-bold mb-6">Log in to your account</h2>
 
             <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block lg:text-sm text-xs font-medium text-gray-700 mb-1">
                         Email
                     </label>
                     <input
@@ -54,16 +53,16 @@ function LoginCheckout({ onNext }) {
                                 message: "Invalid email format",
                             },
                         })}
-                        className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 ${errors.email ? "border-red-500" : "border-gray-300"
+                        className={`w-full border lg:text-base text-xs rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 ${errors.email ? "border-red-500" : "border-gray-300"
                             }`}
                     />
                     {errors.email && (
-                        <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                        <p className="text-red-500 lg:text-sm text-xs mt-1">{errors.email.message}</p>
                     )}
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block lg:text-sm text-xs font-medium text-gray-700 mb-1">
                         Password
                     </label>
                     <input
@@ -75,11 +74,11 @@ function LoginCheckout({ onNext }) {
                                 message: "Password must be at least 6 characters",
                             },
                         })}
-                        className={`w-full border rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 ${errors.password ? "border-red-500" : "border-gray-300"
+                        className={`w-full border lg:text-base text-xs rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 ${errors.password ? "border-red-500" : "border-gray-300"
                             }`}
                     />
                     {errors.password && (
-                        <p className="text-red-500 text-sm mt-1">
+                        <p className="text-red-500 lg:text-sm text-xs mt-1">
                             {errors.password.message}
                         </p>
                     )}
@@ -88,7 +87,7 @@ function LoginCheckout({ onNext }) {
                 <button
                     type="submit"
                     disabled={isPending}
-                    className="w-full bg-blue-500 text-white rounded-lg py-3 text-lg hover:bg-blue-600 transition">
+                    className="w-full bg-blue-500 text-white rounded-lg lg:py-3 py-2  lg:text-lg text-sm hover:bg-blue-600 transition">
                     {isPending ? (
                         <div className="flex items-center justify-center gap-2">
                             Logging in...
@@ -100,11 +99,11 @@ function LoginCheckout({ onNext }) {
                 </button>
             </form>
 
-            <p className="text-center text-m text-gray-700 mt-6">
+            <p className="text-center lg:text-base text-xs text-gray-700 mt-6">
                 Not a user?{" "}
                 <Link
                     to="/register"
-                    className="text-xl hover:!underline font-medium">
+                    className="lg:text-xl text-sm hover:!underline font-medium">
                     Register here
                 </Link>
             </p>
@@ -112,4 +111,4 @@ function LoginCheckout({ onNext }) {
     )
 }
 
-export default LoginCheckout
+export default LoginCheckout;
