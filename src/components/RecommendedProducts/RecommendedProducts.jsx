@@ -67,7 +67,7 @@ function RecommendedProducts({ filterFn, title }) {
       >
         <button
           onClick={() => handleScroll("left")}
-          className="hidden md:block absolute  top-1/2 -translate-y-1/2 -translate-x-12 bg-white/80 hover:bg-white text-black p-2 rounded-full shadow z-10"
+          className="hidden md:flex items-center justify-center absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-black p-2 rounded-full shadow z-10"
         >
           <FaAngleLeft size={20} />
         </button>
@@ -78,7 +78,7 @@ function RecommendedProducts({ filterFn, title }) {
         </div>
         <button
           onClick={() => handleScroll("right")}
-          className="hidden md:block absolute right-20 top-1/2 -translate-y-1/2 translate-x-12 bg-white/80 hover:bg-white text-black p-2 rounded-full shadow"
+          className="hidden md:flex items-center justify-center absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-black p-2 rounded-full shadow"
         >
           <FaAngleRight size={20} />
         </button>
