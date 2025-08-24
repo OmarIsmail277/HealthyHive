@@ -71,8 +71,8 @@ function MutliStepsCheckout() {
   if (isPending || user === undefined) return <Spinner />;
 
   return (
-    <div className="w-[80%] mx-auto my-0 py-12">
-      <div className="w-[45%] bg-[#f8faf4] mx-auto my-0 shadow-lg rounded-xl py-4 px-8">
+    <div className='w-[80%] mx-auto my-0 py-12'>
+      <div className='lg:w-[50%] sm:w-[65%] md:w-[55%] w-[95%] bg-[#f8faf4] mx-auto my-0 shadow-lg rounded-xl py-4 px-8'>
         <NavCheckout currentStep={step} onStepChange={handleStepChange} />
 
         {step === 1 && <LoginCheckout onNext={handleNext} />}

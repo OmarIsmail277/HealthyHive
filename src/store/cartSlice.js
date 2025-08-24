@@ -17,7 +17,7 @@ const loadCart = () => {
   const savedCart = sessionStorage.getItem(`cart_${sessionId}`);
   return savedCart
     ? JSON.parse(savedCart)
-    : { items: [], totalQuantity: 0, totalPrice: 0, totalCartItems: 0 };
+    : { items: [], totalQuantity: 0, totalPrice: 0, totalCartItems: 0, shippingMethod: "pickup"};
 };
 
 // Save cart to sessionStorage
@@ -158,6 +158,11 @@ const cartSlice = createSlice({
       saveCart(state);
     },
 
+    updateShippingMethod(state, action) {
+      state.shippingMethod = action.payload; 
+      saveCart(state);
+    },
+
     clearCart: (state) => {
       state.items = [];
       state.totalQuantity = 0;
@@ -176,6 +181,7 @@ export const {
   updateQuantity,
   toggleCartItem,
   addToCartFromDetail,
+  updateShippingMethod,
   clearCart,
 } = cartSlice.actions;
 

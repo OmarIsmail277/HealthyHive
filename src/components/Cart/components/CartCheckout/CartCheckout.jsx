@@ -1,16 +1,14 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { FaTruckFast, FaHouse } from "react-icons/fa6";
+import { updateShippingMethod } from "../../../../store/cartSlice";
+import { Link } from "react-router-dom";
 
 function CartCheckout() {
-  const { totalPrice } = useSelector((state) => state.cart);
-  const [shippingMethod, setShippingMethod] = useState("pickup");
+  const { totalPrice, shippingMethod } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
   const deliveryCost = shippingMethod === "delivery" ? 20 : 0;
-
-  const handleShippingChange = (value) => {
-    setShippingMethod(value);
-  };
 
   return (
     <div className="2xl:w-[28%] w-full border border-green-100 bg-white rounded-xl shadow-md p-6 h-fit">
@@ -41,7 +39,7 @@ function CartCheckout() {
               name="shipping"
               value="pickup"
               checked={shippingMethod === "pickup"}
-              onChange={(e) => handleShippingChange(e.target.value)}
+              onChange={() => dispatch(updateShippingMethod("pickup"))}
             />
             <FaHouse className="text-xl text-green-600" />
             <div>
@@ -65,7 +63,7 @@ function CartCheckout() {
               name="shipping"
               value="delivery"
               checked={shippingMethod === "delivery"}
-              onChange={(e) => handleShippingChange(e.target.value)}
+              onChange={() => dispatch(updateShippingMethod("delivery"))}
             />
             <FaTruckFast className="text-xl text-green-600" />
             <div>
@@ -89,9 +87,11 @@ function CartCheckout() {
       </div>
 
       {/* Checkout button */}
-      <button className="w-full text-center bg-green-600 text-white py-3 rounded-lg mt-5 hover:bg-green-700 transition font-medium">
+      <Link to="/checkout">
+      <button className="w-full text-center bg-primary text-white py-3 rounded-lg mt-5 hover:bg-secondary transition font-medium">
         Proceed to Checkout
       </button>
+      </Link>
     </div>
   );
 }

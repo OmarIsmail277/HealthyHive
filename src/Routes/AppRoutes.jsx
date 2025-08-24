@@ -63,9 +63,9 @@ export default function AppRoutes() {
           <Route path="/about" element={<AboutUs />} />
           <Route path="/tracking" element={<TrackingPage />} />
           {/* Protected Routes */}
-          <Route element={<ProtectedRoute />}>
+          {/* <Route element={<ProtectedRoute />}> */}
             <Route path="/profile" element={<Profile />} />
-          </Route>
+          {/* </Route> */}
 
           {/* Fallback */}
           <Route path="*" element={<NotFound />} />
