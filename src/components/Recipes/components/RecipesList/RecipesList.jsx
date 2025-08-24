@@ -5,7 +5,7 @@ import healthyRecipes from '../RecipesData/RecipesData'
 function RecipesList() {
 
   return (
-    <div className="bg-gradient-to-br from-green-50 via-white to-green-100 min-h-screen">
+    <div className="min-h-screen">
       <div className="healthy__container p-6 mx-auto max-w-7xl">
         <h1 className="text-4xl font-extrabold text-green-700 mb-6 text-center">
           🍽 Recipes

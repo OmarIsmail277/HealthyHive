@@ -192,7 +192,6 @@ function SearchResultsPage() {
                     subs: [
                       { value: "dairy", label: "Dairy" },
                       { value: "nuts spread", label: "Nuts Spread" },
-                      { value: "healthy meals", label: "Healthy Meals" },
                       { value: "sauces", label: "Sauces" },
                       { value: "snacks", label: "Snacks" },
                     ],

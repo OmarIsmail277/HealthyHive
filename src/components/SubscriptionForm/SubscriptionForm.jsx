@@ -1,3 +1,4 @@
+import { toast } from "react-hot-toast";
 import React, { useState, useEffect } from "react";
 import {
   FaCheck,
@@ -61,35 +62,43 @@ const SubscriptionForm = () => {
   }, []);
 
   // Handle subscription submission
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!user) return alert("User not logged in");
-    if (!selectedCard) return alert("Please select a payment card");
 
-    setIsSubmitting(true);
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    try {
-      const subscriptionData = {
-        subscription: {
-          isSubscribed: true,
-          subscriptionType: selectedPlan,
-          consultations: plans[selectedPlan].consultations,
-          cardUsed: selectedCard,
-        },
-      };
+  if (!user) return toast.error("User not logged in");
+  if (!selectedCard) return toast.error("Please select a payment card");
 
-      await updateUserMetadata(subscriptionData);
-      queryClient.invalidateQueries(["user"]);
+  setIsSubmitting(true);
 
-      alert(`Subscribed successfully to ${plans[selectedPlan].name} plan!`);
+  try {
+    const subscriptionData = {
+      subscription: {
+        isSubscribed: true,
+        subscriptionType: selectedPlan,
+        consultations: plans[selectedPlan].consultations,
+        cardUsed: selectedCard,
+      },
+    };
+
+    await updateUserMetadata(subscriptionData);
+    queryClient.invalidateQueries(["user"]);
+
+    toast.success(`Subscribed successfully to ${plans[selectedPlan].name} plan!`);
+
+    // Delay navigation so the toast can be seen
+    setTimeout(() => {
       window.location.href = "/profile";
-    } catch (error) {
-      console.error("Subscription error:", error);
-      alert("Error while subscribing. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+    }, 1000);
+
+  } catch (error) {
+    console.error("Subscription error:", error);
+    toast.error("Error while subscribing. Please try again.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
   const isAlreadySubscribed =
     user && user.user_metadata?.subscription?.isSubscribed === true;
 
