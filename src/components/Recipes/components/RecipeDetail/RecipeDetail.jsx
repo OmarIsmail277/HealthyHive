@@ -16,7 +16,7 @@ function RecipeDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-100 py-12 px-6">
+    <div className="min-h-screen py-12 px-6">
       <div className="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl overflow-hidden">
 
         <div className="relative">
@@ -32,18 +32,12 @@ function RecipeDetail() {
 
         <div className="p-8">
           <div className="flex items-center justify-between mb-6">
-            <p className="text-gray-700 font-medium">
-              👨‍🍳Publisher: {" "}
-              <span className="text-green-600 font-semibold">
-                {recipe.publisher}
-              </span>
-            </p>
             <a
-              href={recipe.source_url}
+              href={"/recipes"}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:bg-gradient-to-r hover:from-emerald-600 hover:to-teal-600 !text-white px-5 py-2 rounded-lg font-medium transition">
-              View Some Recipes
+              View All Recipes
             </a>
           </div>
 
