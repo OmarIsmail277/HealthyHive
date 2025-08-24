@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FaRegUser } from "react-icons/fa";
 import { FiX } from "react-icons/fi";
 import { NavLink } from "react-router-dom";
-import { useLogout } from "../../../../features/authentication/useLogout";
+import { useLogout } from "../../../../hooks/useUser";
 
 function MobileUserSidebar({ userName, userEmail, userImage = "" }) {
   const [isOpen, setIsOpen] = useState(false);

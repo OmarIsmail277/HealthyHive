@@ -31,7 +31,7 @@ import {
   FaUtensilSpoon,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { useSignup } from "../../features/authentication/useSignup";
+import { useSignup } from "../../hooks/useUser";
 import { useMemo } from "react";
 
 export default function Register() {
@@ -112,28 +112,41 @@ export default function Register() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_#d1fae5_0%,_transparent_70%)] opacity-50" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_#bbf7d0_0%,_transparent_70%)] opacity-50" />
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#10b981_1px,transparent_1px)] bg-[length:20px_20px]" />
-        {floatingIcons.map(({ id, Icon, top, left, size, opacity, floatDuration, spinDuration, floatDelay, spinDelay }) => (
-          <span
-            key={id}
-            className="absolute icon-float"
-            style={{
-              top,
-              left,
-              "--float-duration": floatDuration,
-              "--float-delay": floatDelay,
-            }}
-          >
-            <Icon
-              className="icon-spin text-green-700"
+        {floatingIcons.map(
+          ({
+            id,
+            Icon,
+            top,
+            left,
+            size,
+            opacity,
+            floatDuration,
+            spinDuration,
+            floatDelay,
+            spinDelay,
+          }) => (
+            <span
+              key={id}
+              className="absolute icon-float"
               style={{
-                fontSize: size,
-                opacity,
-                "--spin-duration": spinDuration,
-                "--spin-delay": spinDelay,
+                top,
+                left,
+                "--float-duration": floatDuration,
+                "--float-delay": floatDelay,
               }}
-            />
-          </span>
-        ))}
+            >
+              <Icon
+                className="icon-spin text-green-700"
+                style={{
+                  fontSize: size,
+                  opacity,
+                  "--spin-duration": spinDuration,
+                  "--spin-delay": spinDelay,
+                }}
+              />
+            </span>
+          )
+        )}
       </div>
 
       <div className="relative z-10 flex flex-col md:flex-row min-h-screen w-full">

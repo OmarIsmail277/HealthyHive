@@ -3,7 +3,7 @@ import { FiMenu, FiX } from "react-icons/fi";
 import TotalCartItems from "../TotalCartItems/TotalCartItems";
 import TotalWishlistItems from "../TotalWishlistItems/TotalWishlistItems";
 import MobileUserSidebar from "../MobileUserSidebar/MobileUserSidebar";
-import { useUser } from "../../../../features/authentication/useUser";
+import { useUser } from "../../../../hooks/useUser";
 
 function MobileNav({
   isOpen,

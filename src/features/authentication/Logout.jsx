@@ -1,6 +1,6 @@
 import ButtonIcon from "../../components/ButtonIcon";
 import { CiLogout } from "react-icons/ci";
-import { useLogout } from "./useLogout";
+import { useLogout } from "../../hooks/useUser";
 import SpinnerMini from "../../components/Spinner/SpinnerMini";
 
 function Logout() {

@@ -1,6 +1,5 @@
 // import { useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getProducts } from "../services/apiProducts";
+import { useAllProducts } from "../hooks/useProducts";
 import Spinner from "../components/Spinner/Spinner";
 
 import ProductCard from "../components/ProductCard";
@@ -12,12 +11,9 @@ function TestProducts() {
 
   // ReactQuery will do that work, instead of doing it manually
 
-  const { isLoading, data: products } = useQuery({
-    queryKey: ["products"],
-    queryFn: getProducts,
-  });
+  const { isPending, data: products } = useAllProducts();
 
-  if (isLoading) return <Spinner />;
+  if (isPending) return <Spinner />;
 
   return (
     <div className="flex flex-wrap justify-center gap-6 p-6">

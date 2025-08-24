@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import { ImUserCheck } from "react-icons/im";
-import { useLogout } from "../../../../features/authentication/useLogout";
+import { useLogout } from "../../../../hooks/useUser";
 
 function UserLogedIn({
   userName = "User Name",

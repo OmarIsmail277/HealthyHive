@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { clearCart } from "../../store/cartSlice";
-import BillingCheckout from './components/billingCheckout/BillingCheckout';
-import LoginCheckout from './components/loginCheckout/LoginCheckout';
-import NavCheckout from './components/navCheckout/NavCheckout';
-import OrderCheckout from './components/orderCheckout/OrderCheckout';
-import PaymentCheckout from './components/paymentCheckout/PaymentCheckout';
-import { useUser } from "../../features/authentication/useUser";
-import Spinner from '../Spinner/Spinner'
+import BillingCheckout from "./components/billingCheckout/BillingCheckout";
+import LoginCheckout from "./components/loginCheckout/LoginCheckout";
+import NavCheckout from "./components/navCheckout/NavCheckout";
+import OrderCheckout from "./components/orderCheckout/OrderCheckout";
+import PaymentCheckout from "./components/paymentCheckout/PaymentCheckout";
+import { useUser } from "../../hooks/useUser";
+import Spinner from "../Spinner/Spinner";
 import toast from "react-hot-toast";
 
 function MutliStepsCheckout() {
@@ -36,7 +36,6 @@ function MutliStepsCheckout() {
   }, [user, isLoading]);
 
   const handleNext = () => {
-
     // If next step is Order or Payment and cart is empty, prevent
     if ((step === 3 || step === 4) && items.length === 0) {
       toast.error("Your cart is empty. Please add items before proceeding.");
@@ -72,14 +71,16 @@ function MutliStepsCheckout() {
   if (isLoading || user === undefined) return <Spinner />;
 
   return (
-    <div className='w-[80%] mx-auto my-0 py-12'>
-      <div className='w-[45%] bg-[#f8faf4] mx-auto my-0 shadow-lg rounded-xl py-4 px-8'>
+    <div className="w-[80%] mx-auto my-0 py-12">
+      <div className="w-[45%] bg-[#f8faf4] mx-auto my-0 shadow-lg rounded-xl py-4 px-8">
         <NavCheckout currentStep={step} onStepChange={handleStepChange} />
 
         {step === 1 && <LoginCheckout onNext={handleNext} />}
         {step === 2 && <BillingCheckout onNext={handleNext} />}
         {step === 3 && <OrderCheckout onNext={handleNext} />}
-        {step === 4 && <PaymentCheckout onPaymentSubmit={() => setShowPaymentPopup(true)} />}
+        {step === 4 && (
+          <PaymentCheckout onPaymentSubmit={() => setShowPaymentPopup(true)} />
+        )}
       </div>
       {showPaymentPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
