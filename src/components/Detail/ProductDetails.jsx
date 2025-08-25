@@ -183,23 +183,28 @@ export default function ProductDetails({ product }) {
                     className="px-5 pb-5"
                   >
                     {/* <p className="font-bold text-lg mb-2">Serving Size: 50g</p> */}
-                    <p className="font-bold text-2xl mb-4">
-                      Calories {product?.nutritionFacts?.calories}
-                    </p>
-                    <ul className="divide-y divide-gray-300 text-gray-800">
-                      <li className="flex justify-between py-2">
-                        <span>Total Fat</span>{" "}
-                        <span>{product?.nutritionFacts?.fats} g</span>
-                      </li>
-                      <li className="flex justify-between py-2">
-                        <span>Protein</span>{" "}
-                        <span>{product?.nutritionFacts?.protein} g</span>
-                      </li>
-                      <li className="flex justify-between py-2">
-                        <span>Carbohydrates</span>{" "}
-                        <span>{product?.nutritionFacts?.carbs} g</span>
-                      </li>
-                    </ul>
+                    {product?.nutritionFacts&& (
+                      <div>
+                        <p className="font-bold text-2xl mb-4">
+                          Calories {product?.nutritionFacts?.calories}
+                        </p>
+                        <ul className="divide-y divide-gray-300 text-gray-800">
+                          <li className="flex justify-between py-2">
+                            <span>Total Fat</span>{" "}
+                            <span>{product?.nutritionFacts?.fats} g</span>
+                          </li>
+                          <li className="flex justify-between py-2">
+                            <span>Protein</span>{" "}
+                            <span>{product?.nutritionFacts?.protein} g</span>
+                          </li>
+                          <li className="flex justify-between py-2">
+                            <span>Carbohydrates</span>{" "}
+                            <span>{product?.nutritionFacts?.carbs} g</span>
+                          </li>
+                        </ul>
+                      </div>
+
+                    )}
                     <p className="font-bold text-2xl mb-3 mt-2">Ingredients</p>
                     <div className="">
                       {ingredients?.map((item) => (
