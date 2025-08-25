@@ -16,7 +16,7 @@ function BillingCheckout({ onNext }) {
       // Assuming user has fields: firstName, lastName, phone, address
       setValue(
         "name",
-        `${user?.user_metadata?.firstName || ""} ${
+        `${user?.user_metadata?.firstName ||user?.user_metadata?.full_name  || ""} ${
           user?.user_metadata?.lastName || ""
         }`.trim()
       );
