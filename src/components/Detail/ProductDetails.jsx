@@ -43,6 +43,7 @@ export default function ProductDetails({ product }) {
     dispatch(addToCartFromDetail({ id: product.id, count, product }));
   };
 
+
   const renderStars = (rating) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -100,11 +101,10 @@ export default function ProductDetails({ product }) {
                 className="absolute right-4 text-3xl cursor-pointer z-20"
               >
                 <FaHeart
-                  className={`transition-colors duration-300 ${
-                    isInWishlist
-                      ? "text-primary hover:text-secondary"
-                      : "text-gray-400 hover:text-emerald-300"
-                  }`}
+                  className={`transition-colors duration-300 ${isInWishlist
+                    ? "text-primary hover:text-secondary"
+                    : "text-gray-400 hover:text-emerald-300"
+                    }`}
                 />
               </button>
             </div>
@@ -161,59 +161,63 @@ export default function ProductDetails({ product }) {
             )}
 
             {/* Accordion Nutrition Info */}
-            <div className="border border-secondary rounded-xl">
-              <button
-                onClick={() => setOpen(!open)}
-                className="w-full flex justify-between items-center p-4 font-semibold text-lg"
-              >
-                Nutritional Information
-                <MdKeyboardArrowDown
-                  className={`w-5 h-5 transition-transform ${
-                    open ? "rotate-180" : ""
-                  }`}
-                />
-              </button>
-
-              {open && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.4 }}
-                  className="px-5 pb-5"
+            {product?.mainCategory !== "personal care" && (
+              <div className="border border-secondary rounded-xl">
+                <button
+                  onClick={() => setOpen(!open)}
+                  className="w-full flex justify-between items-center p-4 font-semibold text-lg"
                 >
-                  {/* <p className="font-bold text-lg mb-2">Serving Size: 50g</p> */}
-                  <p className="font-bold text-2xl mb-4">
-                    Calories {product?.nutritionFacts?.calories}
-                  </p>
-                  <ul className="divide-y divide-gray-300 text-gray-800">
-                    <li className="flex justify-between py-2">
-                      <span>Total Fat</span>{" "}
-                      <span>{product?.nutritionFacts?.fats} g</span>
-                    </li>
-                    <li className="flex justify-between py-2">
-                      <span>Protein</span>{" "}
-                      <span>{product?.nutritionFacts?.protein} g</span>
-                    </li>
-                    <li className="flex justify-between py-2">
-                      <span>Carbohydrates</span>{" "}
-                      <span>{product?.nutritionFacts?.carbs} g</span>
-                    </li>
-                  </ul>
-                  <p className="font-bold text-2xl mb-3 mt-2">Ingredients</p>
-                  <div className="">
-                    {ingredients?.map((item) => (
-                      <div className="" key={item}>
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                  <p className="text-sm text-gray-500 mt-3">
-                    * % Daily Value based on a 2,000 calorie diet.
-                  </p>
-                </motion.div>
-              )}
-            </div>
+                  Nutritional Information
+                  <MdKeyboardArrowDown
+                    className={`w-5 h-5 transition-transform ${open ? "rotate-180" : ""
+                      }`}
+                  />
+                </button>
+
+                {open && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.4 }}
+                    className="px-5 pb-5"
+                  >
+                    {/* <p className="font-bold text-lg mb-2">Serving Size: 50g</p> */}
+                    <p className="font-bold text-2xl mb-4">
+                      Calories {product?.nutritionFacts?.calories}
+                    </p>
+                    <ul className="divide-y divide-gray-300 text-gray-800">
+                      <li className="flex justify-between py-2">
+                        <span>Total Fat</span>{" "}
+                        <span>{product?.nutritionFacts?.fats} g</span>
+                      </li>
+                      <li className="flex justify-between py-2">
+                        <span>Protein</span>{" "}
+                        <span>{product?.nutritionFacts?.protein} g</span>
+                      </li>
+                      <li className="flex justify-between py-2">
+                        <span>Carbohydrates</span>{" "}
+                        <span>{product?.nutritionFacts?.carbs} g</span>
+                      </li>
+                    </ul>
+                    <p className="font-bold text-2xl mb-3 mt-2">Ingredients</p>
+                    <div className="">
+                      {ingredients?.map((item) => (
+                        <div className="" key={item}>
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-sm text-gray-500 mt-3">
+                      * % Daily Value based on a 2,000 calorie diet.
+                    </p>
+                  </motion.div>
+                )}
+              </div>
+            )}
+
+
+
           </div>
 
           {/* Quantity Selector */}
