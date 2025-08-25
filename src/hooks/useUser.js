@@ -4,7 +4,9 @@ import { userRepository } from "../repositories/userRepository.js";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { clearCart, setCart } from "../store/cartSlice.js";
-import { getUserCart } from "../selectors.js";
+import { getUserCart, getUserWishlist } from "../selectors.js";
+import { setWishlist } from "../store/wishlistSlice.js";
+import { orderRepository } from "../repositories/orderRepository";
 
 export function useUser() {
   const { isPending, data: user } = useQuery({
@@ -42,12 +44,13 @@ export function useLogin() {
       const user = await userRepository.getCurrentUser();
 
       const cart = await getUserCart(user);
-      console.log(user);
-      console.log(cart);
+      const wishlist = await getUserWishlist(user);
 
       const plainCart = JSON.parse(JSON.stringify(cart));
+      const plainWishlist = JSON.parse(JSON.stringify(wishlist));
 
       dispatch(setCart(plainCart));
+      dispatch(setWishlist(plainWishlist));
 
       navigate("/", { replace: true });
     },
@@ -116,4 +119,44 @@ export function useLogout() {
   });
 
   return { logout, isPending };
+}
+
+export function useCheckout() {
+  const dispatch = useDispatch();
+
+  return useMutation({
+    mutationFn: orderRepository.insertOrder,
+
+    onSuccess: async () => {
+      // 1. clear local cart
+      dispatch(clearCart());
+
+      //2. clear server cart
+      await userRepository.saveUserMetadata({ cart: {} });
+
+      // 3. success toast
+      toast.success("Processing order..", { duration: 2000 });
+    },
+    onError: (err) => {
+      toast.error(`Order failed : ${err.message}`);
+    },
+  });
+}
+
+export function useOrders() {
+  const { user } = useUser();
+
+  return useQuery({
+    queryKey: ["orders", user?.id],
+    queryFn: () => orderRepository.getUserOrders(user?.id),
+    enabled: !!user?.id,
+  });
+}
+
+export function useOrder(orderId) {
+  return useQuery({
+    queryKey: ["order", orderId],
+    queryFn: () => orderRepository.getOrderById(orderId),
+    enabled: !!orderId,
+  });
 }

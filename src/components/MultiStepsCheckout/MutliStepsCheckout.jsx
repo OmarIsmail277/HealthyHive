@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { clearCart } from "../../store/cartSlice";
+
 import BillingCheckout from "./components/billingCheckout/BillingCheckout";
 import LoginCheckout from "./components/loginCheckout/LoginCheckout";
 import NavCheckout from "./components/navCheckout/NavCheckout";
@@ -12,15 +12,14 @@ import Spinner from "../Spinner/Spinner";
 import toast from "react-hot-toast";
 
 function MutliStepsCheckout() {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
   const { items } = useSelector((state) => state.cart);
 
   const { user, isPending } = useUser();
   const [step, setStep] = useState(1);
   const [completedSteps, setCompletedSteps] = useState(user?.role ? [1] : []);
   const [showPaymentPopup, setShowPaymentPopup] = useState(false);
+
+  const navigate = useNavigate();
 
   // Skip login if user is logged in
   useEffect(() => {
@@ -64,7 +63,6 @@ function MutliStepsCheckout() {
 
   const handleClosePopup = () => {
     setShowPaymentPopup(false);
-    dispatch(clearCart());
     navigate("/");
   };
 

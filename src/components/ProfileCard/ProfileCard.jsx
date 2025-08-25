@@ -166,15 +166,13 @@ function ProfileNavItem({ icon, label, active, onClick }) {
   return (
     <button
       onClick={onClick}
-      className={`w-full flex items-center justify-between p-2.5 rounded-lg transition text-left ${
-        active ? "bg-green-50 text-green-700" : "hover:bg-gray-50 text-gray-700"
-      }`}
+      className={`w-full flex items-center justify-between p-2.5 rounded-lg transition text-left ${active ? "bg-green-50 text-green-700" : "hover:bg-gray-50 text-gray-700"
+        }`}
     >
       <div className="flex items-center gap-3 min-w-0">
         <div
-          className={`w-7 h-7 rounded-full flex items-center justify-center ${
-            active ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-500"
-          }`}
+          className={`w-7 h-7 rounded-full flex items-center justify-center ${active ? "bg-green-100 text-green-600" : "bg-gray-100 text-gray-500"
+            }`}
         >
           {icon}
         </div>
@@ -227,20 +225,33 @@ function PersonalInformationView() {
 
   useEffect(() => {
     if (user) {
+      let firstName = "";
+      let lastName = "";
+
+      if (user.user_metadata.full_name) {
+        const [f, ...rest] = user.user_metadata.full_name.split(" ");
+        firstName = f;
+        lastName = rest.join(" ");
+      } else {
+        firstName = user.user_metadata.firstName || "";
+        lastName = user.user_metadata.lastName || "";
+      }
+
       const data = {
-        firstName: user.user_metadata?.firstName || "",
-        lastName: user.user_metadata?.lastName || "",
-        phone: user.user_metadata?.phone || "",
-        address: user.user_metadata?.address || "",
+        firstName,
+        lastName,
+        phone: user.user_metadata.phone || user.user_metadata.phoneNumber || "",
+        address: user.user_metadata.address || "",
         email: user.email || "",
-        subscription: user.user_metadata?.subscription || {
-          isSubscribed: false,
-        }, // ✅ always object
+        subscription: user.user_metadata.subscription || { isSubscribed: false },
+        avatar: user.user_metadata.avatar || user.user_metadata.avatar_url || user.user_metadata.picture || "",
       };
+
       setProfile(data);
       setEditData(data);
     }
   }, [user]);
+
 
   const handleChange = (e) => {
     setEditData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -519,12 +530,12 @@ function PaymentMethodsView() {
     const updatedCards = cards.map((c) =>
       c.id === id
         ? {
-            ...c,
-            ...editData,
-            number: editData.number
-              ? `•••• •••• •••• ${editData.number.slice(-4)}`
-              : c.number,
-          }
+          ...c,
+          ...editData,
+          number: editData.number
+            ? `•••• •••• •••• ${editData.number.slice(-4)}`
+            : c.number,
+        }
         : c
     );
     await updatePaymentMethods(updatedCards);
@@ -608,9 +619,8 @@ function PaymentMethodsView() {
                 Card Number
               </label>
               <input
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-                  errors.number ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${errors.number ? "border-red-500" : "border-gray-300"
+                  }`}
                 placeholder="1234 5678 9012 3456"
                 value={newCard.number}
                 onChange={(e) =>
@@ -628,9 +638,8 @@ function PaymentMethodsView() {
                 Expiry Date
               </label>
               <input
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-                  errors.expiry ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${errors.expiry ? "border-red-500" : "border-gray-300"
+                  }`}
                 placeholder="MM/YY"
                 value={newCard.expiry}
                 onChange={(e) =>
@@ -648,9 +657,8 @@ function PaymentMethodsView() {
                 CVC
               </label>
               <input
-                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${
-                  errors.cvc ? "border-red-500" : "border-gray-300"
-                }`}
+                className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent ${errors.cvc ? "border-red-500" : "border-gray-300"
+                  }`}
                 placeholder="123"
                 value={newCard.cvc}
                 onChange={(e) =>
