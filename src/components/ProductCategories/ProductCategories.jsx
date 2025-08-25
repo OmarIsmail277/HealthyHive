@@ -42,7 +42,7 @@ function ProductCategories() {
       </div>
       <div
         className="healthy__container py-12 grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] 
-                gap-4 sm:gap-6 lg:gap-8 justify-items-between"
+                gap-4 sm:gap-6 lg:gap-8 justify-items-center"
       >
         {categories.map((item, index) => (
           <CategoriesCard
