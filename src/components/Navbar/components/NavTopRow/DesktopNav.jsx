@@ -21,8 +21,8 @@ function DesktopNav({
   console.log("user from desktop nav", user);
 
 
-  const cart = getUserCart(user);
-  console.log("-> test ->", cart);
+  // ?  const cart = getUserCart(user);
+  // console.log("-> test ->", cart);
 
   if (isPending) return null;
 

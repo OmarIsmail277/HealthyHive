@@ -64,10 +64,10 @@ export default function AppRoutes() {
           <Route path="/recipeDetail/:id" element={<RecipeDetail />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/about" element={<AboutUs />} />
-          <Route path="/tracking" element={<TrackingPage />} />
+          <Route path="/tracking/:order" element={<TrackingPage />} />
           {/* Protected Routes */}
           {/* <Route element={<ProtectedRoute />}> */}
-            <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<Profile />} />
           {/* </Route> */}
 
           {/* Fallback */}
