@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useProductById } from "../hooks/useProducts";
 import Spinner from "../components/Spinner/Spinner";
+import AdviceFetch from "../components/FetchAdvice/AdviceFetch";
+import SubIcon from "../components/SubIcon/SubIcon";
 
 function ProductDetail() {
   const { id } = useParams();
@@ -31,6 +33,8 @@ function ProductDetail() {
         }
       />
       <Footer />
+      <AdviceFetch />
+      <SubIcon />
     </div>
   );
 }
