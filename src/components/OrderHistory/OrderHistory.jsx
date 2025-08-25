@@ -16,6 +16,16 @@ export default function OrderHistory() {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedOrders = orders.slice(startIndex, startIndex + itemsPerPage);
   const totalPages = Math.ceil(orders.length / itemsPerPage);
+  const statusColors = {
+    confirmed: "bg-blue-600",
+    processing: "bg-yellow-500",
+    packaging: "bg-orange-500",
+    delivering: "bg-green-500",
+    delivered: "bg-emerald-600",
+    cancelled: "bg-red-600",
+  };
+
+
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-6 space-y-6 overflow-hidden">
@@ -35,8 +45,7 @@ export default function OrderHistory() {
         ?.filter((o) => o.status !== "delivered" && o.status !== "cancelled")
         .map((order) => {
           const expectedDelivery = new Date(order.created_at);
-          expectedDelivery.setHours(expectedDelivery.getHours() + 1);
-
+          expectedDelivery.setHours(expectedDelivery.getHours() -2);
           return (
             <div
               key={order.order_id}
@@ -50,7 +59,6 @@ export default function OrderHistory() {
                 <p className="text-sm text-gray-600">Expected Delivery</p>
                 <p className="font-semibold">
                   {expectedDelivery.toLocaleString()}{" "}
-                  {/* يعرض التاريخ والوقت */}
                 </p>
               </div>
               <Link to={`/tracking/${order.order_id}`}>
@@ -73,40 +81,45 @@ export default function OrderHistory() {
                 <th className="py-3 px-4 font-medium text-sm">DATE</th>
                 <th className="py-3 px-4 font-medium text-sm">TOTAL</th>
                 <th className="py-3 px-4 font-medium text-sm">STATUS</th>
-                <th className="py-3 px-4 font-medium text-sm">ACTIONS</th>
+                <th className="py-3 px-4 font-medium text-sm">TIME</th>
               </tr>
             </thead>
             <tbody>
-              {paginatedOrders.map((order) => (
-                <tr
-                  key={order.order_id}
-                  className="border-t border-gray-100 hover:bg-gray-50"
-                >
-                  <td className="py-3 px-4 font-medium text-sm">
-                    {order.order_id}
-                  </td>
-                  <td className="py-3 px-4 text-green-600 text-sm">
-                    {new Date(order.created_at).toLocaleDateString()}
-                  </td>
-                  <td className="py-3 px-4 text-sm">{order.total}</td>
-                  <td className="py-3 px-4">
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs ${
-                        order.status === "Delivered"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-600"
-                      }`}
-                    >
-                      {order.status}
-                    </span>
-                  </td>
-                  <td className="py-3 px-4">
-                    <button className="text-green-600 hover:text-green-800 text-sm hover:underline">
-                      View Details
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {paginatedOrders.map((order) => {
+                const date = new Date(order.created_at);
+
+                // subtract 3 hours
+                date.setHours(date.getHours() - 3);
+                const orderDateTime = date.toLocaleString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: true, // change to true for AM/PM
+                });
+
+                return (
+                  <tr
+                    key={order.order_id}
+                    className="border-t border-gray-100 hover:bg-gray-50"
+                  >
+                    <td className="py-3 px-4 font-medium text-sm">{order.order_id}</td>
+                    <td className="py-3 px-4 text-green-600 text-sm">
+                      {new Date(order.created_at).toLocaleDateString()}
+                    </td>
+                    <td className="py-3 px-4 text-sm">{order.total}</td>
+                    <td className="py-3 px-4">
+                      <span
+                        className={`${statusColors[order.status]} px-2 py-1 rounded-full text-xs text-white`}
+                      >
+                        {order.status}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4">
+                      <p className="text-green-600 text-sm">{orderDateTime}</p>
+                    </td>
+                  </tr>
+                );
+              })}
+
             </tbody>
           </table>
         </div>

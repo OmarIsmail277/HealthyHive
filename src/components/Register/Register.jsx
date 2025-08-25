@@ -294,7 +294,7 @@ export default function Register() {
                 <button
                   type="submit"
                   disabled={isPending}
-                  className="w-full bg-green-600 text-white py-2.5 rounded-lg shadow-md hover:bg-green-700 transform hover:scale-[1.01] transition-all duration-200 font-medium"
+                  className="w-full bg-primary text-white py-2.5 rounded-lg shadow-md hover:bg-secondary transform hover:scale-[1.01] transition-all duration-200 font-medium"
                 >
                   Get Started
                 </button>

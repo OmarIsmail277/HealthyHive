@@ -35,21 +35,21 @@ function OrderCheckout({onNext}) {
           ))}
         </div>
 
-        <div className='flex justify-between items-center py-4 pl-7 pr-4 bg-gray-100'>
-          <h4 className='font-semibold lg:text-base text-sm'>SubTotal</h4>
-          <h4 className='font-semibold lg:text-base text-sm'>{subtotal}&nbsp;LE</h4>
+        <div className='flex justify-between items-center py-3 px-4 bg-gray-100'>
+          <h4 className='font-semibold lg:text-base text-xs'>SubTotal</h4>
+          <h4 className='font-semibold lg:text-base text-xs'>{subtotal}&nbsp;LE</h4>
         </div>
 
-        <div className="flex justify-between items-center py-2 pl-7 pr-4 bg-gray-100">
-          <h4 className="font-semibold lg:text-base text-sm">Shipping</h4>
-          <h4 className="font-semibold lg:text-base text-sm">
+        <div className="flex justify-between items-center py-2 px-4 bg-gray-100">
+          <h4 className="font-semibold lg:text-base text-xs">Shipping</h4>
+          <h4 className="font-semibold lg:text-base text-xs">
             {deliveryCost > 0 ? `${deliveryCost} LE` : "Free"}
           </h4>
         </div>
 
-        <div className='flex justify-between items-center py-4 pl-7 pr-4 bg-gray-100'>
-          <h4 className='font-bold lg:text-base text-sm'>Total</h4>
-          <h4 className='font-bold lg:text-base text-sm'>{total}&nbsp;LE</h4>
+        <div className='flex justify-between items-center py-3 px-4 bg-gray-100'>
+          <h4 className='font-bold lg:text-base text-xs'>Total</h4>
+          <h4 className='font-bold lg:text-base text-xs'>{total}&nbsp;LE</h4>
         </div>
 
       </div>

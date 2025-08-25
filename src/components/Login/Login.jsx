@@ -234,23 +234,13 @@ export default function LoginForm() {
                 </p>
               </div>
 
-              <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="remember"
-                    className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
-                  />
-                </div>
-              </div>
-
               <div className="mt-2">
                 <button
                   type="submit"
                   disabled={isPending}
-                  className="w-full bg-green-600 text-white py-2.5 rounded-lg shadow-md 
+                  className="w-full bg-primary text-white py-2.5 rounded-lg shadow-md 
              font-medium transition-all duration-200
-             hover:bg-green-700 hover:scale-[1.01]
+             hover:bg-secondary hover:scale-[1.01]
              disabled:bg-gray-400 disabled:!cursor-not-allowed 
              disabled:hover:bg-gray-400 disabled:hover:scale-100"
                 >

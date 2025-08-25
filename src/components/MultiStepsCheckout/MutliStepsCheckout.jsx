@@ -78,12 +78,13 @@ function MutliStepsCheckout() {
         {step === 2 && <BillingCheckout onNext={handleNext} />}
         {step === 3 && <OrderCheckout onNext={handleNext} />}
         {step === 4 && (
-          <PaymentCheckout onPaymentSubmit={() => setShowPaymentPopup(true)} />
+          <PaymentCheckout onPaymentSubmit={() => {setTimeout(() => {setShowPaymentPopup(true);}, 3000);
+          }} />
         )}
       </div>
       {showPaymentPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
-          <div className="bg-white rounded-xl p-8 w-[400px] text-center relative">
+          <div className="bg-white rounded-xl p-8 w-[320px] h-[250px] sm:w-[400px] sm:h-[250px] text-center relative">
             <button
               className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
               onClick={handleClosePopup}
@@ -91,15 +92,15 @@ function MutliStepsCheckout() {
               ✕
             </button>
             <div className="flex flex-col items-center">
-              <div className="bg-green-100 text-green-600 w-16 h-16 rounded-full flex items-center justify-center text-3xl mb-4">
+              <div className="bg-green-100 text-green-600 sm:w-16 sm:h-16 w-12 h-12 rounded-full flex items-center justify-center text-3xl mb-4">
                 ✓
               </div>
-              <h2 className="text-xl font-bold mb-2">Payment Successful!</h2>
-              <p className="text-gray-700 mb-4">
+              <h2 className="sm:text-xl text-lg font-bold mb-2">Payment Successful!</h2>
+              <p className="text-gray-700 mb-4 text-md sm:text-base">
                 Your order has been placed successfully.
               </p>
               <button
-                className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition"
+                className="bg-primary text-white sm:px-6 sm:py-2 px-4 py-1.5 rounded-lg hover:bg-secondary transition"
                 onClick={handleClosePopup}
               >
                 Close
