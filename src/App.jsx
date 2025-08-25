@@ -3,6 +3,7 @@ import AppRoutes from "./Routes/AppRoutes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";
+import { useLoadUserData } from "./hooks/useLoadUserData";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -12,27 +13,23 @@ const queryClient = new QueryClient({
   },
 });
 
-// In the next lecture, we will start fetching some data.
-// And so then that will show up right there in the Dev Tools. And this data will then be available because we provided it here using this,"QueryClientProvider." So again, just like we did with Redux and with the context API before. So a similar idea of having the data in one place and then providing it to the whole component tree.
+function AppContent() {
+  // hydrate cart + wishlist from supabase on mount
+  useLoadUserData();
 
-function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
+    <>
       <BrowserRouter>
         <AppRoutes />
       </BrowserRouter>
+
       <Toaster
         position="top-center"
         gutter={12}
         containerStyle={{ margin: "8px" }}
         toastOptions={{
-          success: {
-            duration: 3000,
-          },
-          error: {
-            duration: 5000,
-          },
+          success: { duration: 3000 },
+          error: { duration: 5000 },
           style: {
             fontSize: "16px",
             maxWidth: "500px",
@@ -42,7 +39,17 @@ function App() {
           },
         }}
       />
+    </>
+  );
+}
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+      <AppContent />
     </QueryClientProvider>
   );
 }
+
 export default App;

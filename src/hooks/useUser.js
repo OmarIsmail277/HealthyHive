@@ -4,7 +4,8 @@ import { userRepository } from "../repositories/userRepository.js";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import { clearCart, setCart } from "../store/cartSlice.js";
-import { getUserCart } from "../selectors.js";
+import { getUserCart, getUserWishlist } from "../selectors.js";
+import { setWishlist } from "../store/wishlistSlice.js";
 import { orderRepository } from "../repositories/orderRepository";
 
 export function useUser() {
@@ -43,10 +44,13 @@ export function useLogin() {
       const user = await userRepository.getCurrentUser();
 
       const cart = await getUserCart(user);
+      const wishlist = await getUserWishlist(user);
 
       const plainCart = JSON.parse(JSON.stringify(cart));
+      const plainWishlist = JSON.parse(JSON.stringify(wishlist));
 
       dispatch(setCart(plainCart));
+      dispatch(setWishlist(plainWishlist));
 
       navigate("/", { replace: true });
     },
