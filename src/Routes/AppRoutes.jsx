@@ -6,6 +6,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import MainLayout from "../components/MainLayout";
 import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
 import TrackingPage from "../pages/TrackingPage";
+import AuthCallback from "../pages/AuthCallback";
 
 const Login = lazy(() => import("../pages/LoginPage"));
 const Register = lazy(() => import("../pages/RegisterPage"));
@@ -39,6 +40,8 @@ export default function AppRoutes() {
         <Route path="/register" element={<Register />} />
         {/* Routes with MainLayout */}
         <Route element={<MainLayout />}>
+              <Route path="/auth/callback" element={<AuthCallback />} />
+
           <Route path="/" element={<HomePage />} />
 
           <Route path="/services" element={<Services />} />

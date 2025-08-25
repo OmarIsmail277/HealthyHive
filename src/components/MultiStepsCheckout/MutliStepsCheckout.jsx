@@ -48,7 +48,7 @@ function MutliStepsCheckout() {
       return newSteps;
     });
     setStep((prev) => Math.min(prev + 1, 4));
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleStepChange = (newStep) => {
