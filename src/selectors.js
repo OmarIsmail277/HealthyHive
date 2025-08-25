@@ -7,3 +7,6 @@ export const getUserMetadata = (user) => {
 export const getUserCart = (user) => {
   return getUserMetadata(user)?.cart || {};
 };
+export const getUserWishlist = (user) => {
+  return getUserMetadata(user)?.wishlist || {};
+};
