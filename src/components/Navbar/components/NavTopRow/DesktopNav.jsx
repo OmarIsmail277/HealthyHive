@@ -18,6 +18,8 @@ function DesktopNav({
   const totalPrice = useSelector((state) => state.cart.totalPrice);
 
   const { user, isPending, isAuthenticated } = useUser();
+  console.log("user from desktop nav", user);
+
 
   const cart = getUserCart(user);
   console.log("-> test ->", cart);
@@ -49,11 +51,10 @@ function DesktopNav({
         <div
           className={`absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg z-50 
     transform transition-all duration-300 ease-out
-    ${
-      hoverIndex === "wishlist"
-        ? "opacity-100 translate-y-0 scale-100"
-        : "opacity-0 -translate-y-2 scale-95 pointer-events-none"
-    }`}
+    ${hoverIndex === "wishlist"
+              ? "opacity-100 translate-y-0 scale-100"
+              : "opacity-0 -translate-y-2 scale-95 pointer-events-none"
+            }`}
         >
           <MiniWishlist onClose={() => setHoverIndex(null)} />
         </div>
@@ -84,11 +85,10 @@ function DesktopNav({
         <div
           className={`absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg z-50
     transform transition-all duration-300 ease-out
-    ${
-      hoverIndex === "cart"
-        ? "opacity-100 translate-y-0 scale-100"
-        : "opacity-0 -translate-y-2 scale-95 pointer-events-none"
-    }`}
+    ${hoverIndex === "cart"
+              ? "opacity-100 translate-y-0 scale-100"
+              : "opacity-0 -translate-y-2 scale-95 pointer-events-none"
+            }`}
         >
           <MiniCart onClose={() => setHoverIndex(null)} />
         </div>
@@ -98,7 +98,7 @@ function DesktopNav({
         <div className="flex items-center justify-center w-10 h-10 rounded-full border-0 lg:border lg:border-emerald-500">
           <UserLogedIn
             userName={
-              user?.user_metadata?.username || user?.email.split("@")[0]
+              user?.user_metadata?.username || user?.user_metadata?.full_name
             }
             userEmail={user?.email}
           />
