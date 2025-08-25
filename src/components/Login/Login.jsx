@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { userRepository } from "../../repositories/userRepository";
+
 import {
   FaGoogle,
   FaFacebook,
@@ -93,6 +95,8 @@ export default function LoginForm() {
     FaBath,
   ];
 
+
+
   return (
     <div className="relative min-h-screen w-full bg-gradient-to-br from-white-50 to-emerald-100 overflow-hidden">
       {/* Floating Background Elements */}
@@ -111,6 +115,8 @@ export default function LoginForm() {
           const spinDuration = `${10 + Math.random() * 30}s`;
           const floatDelay = `${Math.random() * 10}s`;
           const spinDelay = `${Math.random() * 10}s`;
+
+
 
           return (
             <span
@@ -198,9 +204,8 @@ export default function LoginForm() {
                   type="email"
                   disabled={isPending}
                   {...register("email", { required: "Email is required" })}
-                  className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white/70 ${
-                    errors.email ? "border-red-500" : "border-gray-300"
-                  }`}
+                  className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white/70 ${errors.email ? "border-red-500" : "border-gray-300"
+                    }`}
                 />
                 <p className="text-red-600 text-xs min-h-[1rem] mt-1">
                   {errors.email?.message}
@@ -221,9 +226,8 @@ export default function LoginForm() {
                       message: "Password must be at least 6 characters",
                     },
                   })}
-                  className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white/70 ${
-                    errors.password ? "border-red-500" : "border-gray-300"
-                  }`}
+                  className={`w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent bg-white/70 ${errors.password ? "border-red-500" : "border-gray-300"
+                    }`}
                 />
                 <p className="text-red-600 text-xs min-h-[1rem] mt-1">
                   {errors.password?.message}
@@ -269,9 +273,10 @@ export default function LoginForm() {
                 <div className="flex-grow h-px bg-gray-300"></div>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 gap-3">
                 <div>
                   <button
+                    onClick={userRepository.signInWithGoogle}
                     type="button"
                     className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-50 transition text-xs font-medium"
                   >

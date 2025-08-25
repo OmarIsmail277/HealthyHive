@@ -76,6 +76,47 @@ export const userRepository = {
     return data;
   },
 
+  async signInWithGoogle() {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+        skipBrowserRedirect: true, // ⛔ Prevent redirect in the current tab
+      },
+    });
+
+    if (error) {
+      console.error(error.message);
+    } else if (data?.url) {
+      // 👇 Open a centered popup window for Google login
+      const width = 500;
+      const height = 600;
+      const left = window.screenX + (window.outerWidth - width) / 2;
+      const top = window.screenY + (window.outerHeight - height) / 2;
+
+      const popup = window.open(
+        data.url,
+        "googleLogin",
+        `width=${width},height=${height},left=${left},top=${top}`
+      );
+
+      if (popup) popup.focus();
+
+      // 👂 Listen for the message sent from AuthCallback
+      window.addEventListener("message", (event) => {
+        if (event.origin !== window.location.origin) return;
+
+        if (event.data.type === "oauth-success") {
+          console.log("✅ Logged in:", event.data.session);
+          popup.close();
+          window.location.href = "/"; // Redirect to home after login
+        }
+      });
+    }
+  }
+
+  ,
+
   // ✅ Logout
   async logoutUser() {
     const { error } = await supabase.auth.signOut();
