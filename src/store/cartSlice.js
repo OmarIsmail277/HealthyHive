@@ -280,3 +280,6 @@ export const {
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
+
+export const isInCart = (state, productId) =>
+  state.cart.items.some((item) => item.id === productId);

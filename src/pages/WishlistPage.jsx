@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import { addToCart } from "../store/cartSlice";
 import { removeFromWishlist } from "../store/wishlistSlice";
-
+import { Link } from "react-router-dom";
 function WishlistPage() {
   const dispatch = useDispatch();
   const wishlistItems = useSelector((state) => state.wishlist.items);
@@ -24,13 +24,17 @@ function WishlistPage() {
   return (
     <>
       <Navbar />
-      <div className="healthy__container mx-auto py-12 px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold mb-8 text-green-700">My Wishlist</h1>
+      <div className="healthy__container mx-auto py-8 px-3 sm:px-6 lg:px-8">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-primary">
+          My Wishlist
+        </h1>
 
         {wishlistItems.length === 0 ? (
-          <p className="text-gray-500 text-lg">Your wishlist is empty.</p>
+          <p className="text-gray-500 text-base sm:text-lg">
+            Your wishlist is empty.
+          </p>
         ) : (
-          <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-8">
             {wishlistItems.map((item) => {
               const isAdded = cartItems.some(
                 (cartItem) => cartItem.id === item.id
@@ -38,85 +42,63 @@ function WishlistPage() {
               return (
                 <div
                   key={item.id}
-                  className="flex flex-col sm:flex-row gap-6 bg-white rounded-xl shadow-md p-5 hover:shadow-lg transition"
+                  className="flex flex-col xl:flex-row gap-4 xl:gap-6 bg-white rounded-xl shadow-md p-4 sm:p-5 hover:shadow-lg transition h-full"
                 >
                   {/* Product Image */}
-                  <img
-                    src={item.imageURL}
-                    alt={item.Name}
-                    className="w-full sm:w-32 h-32 object-contain rounded-lg bg-gray-50 p-2"
-                  />
+                  <Link to={`/product/${item.id}`}>
+                    <img
+                      src={item.imageURL}
+                      alt={item.Name}
+                      className="w-full xl:w-32 h-32 object-contain rounded-lg bg-gray-50 p-2"
+                    />
+                  </Link>
 
-                  {/* Details */}
-                  <div className="flex-1 flex flex-col justify-between text-center sm:text-left">
+                  {/* Details + Actions */}
+                  <div className="flex flex-col justify-between text-center xl:text-left flex-1">
                     <div>
-                      <h3 className="font-semibold text-lg text-gray-900">
+                      <h3 className="font-semibold text-base sm:text-lg text-gray-900">
                         {item.Name}
                       </h3>
-                      <p className="text-sm text-gray-500 mt-1 line-clamp-2">
+                      <p className="text-xs sm:text-sm text-gray-500 mt-1 line-clamp-2">
                         {item.description}
                       </p>
                     </div>
-                    <p className="text-green-700 font-bold text-xl mt-3">
-                      ${item.price.toFixed(2)}
+
+                    <p className="text-primary font-bold text-lg sm:text-xl mt-2 sm:mt-3">
+                      LE {item.price.toFixed(2)}
                     </p>
 
-                    {/* Mobile: Add + Delete (Full Width) */}
-                    <div className="flex gap-3 mt-4 sm:hidden">
+                    {/* Actions */}
+                    <div className="flex gap-3 mt-3 xl:mt-4 justify-center xl:justify-end">
+                      {/* Add to Cart */}
                       <button
                         onClick={() => handleAddToCart(item)}
                         disabled={isAdded}
-                        className={`flex-1 px-4 py-2 rounded-lg transition flex items-center justify-center gap-2 text-sm font-medium ${
+                        className={`w-1/2 xl:w-auto px-3 py-2 rounded-lg transition flex items-center justify-center gap-2 text-xs sm:text-sm font-medium ${
                           isAdded
                             ? "bg-green-100 text-green-700 border border-green-600"
-                            : "bg-green-600 text-white hover:bg-green-700"
+                            : "bg-primary text-white hover:bg-secondary"
                         }`}
                       >
                         {isAdded ? (
                           <>
-                            <FiCheck size={18} /> Added
+                            <FiCheck size={16} /> Added
                           </>
                         ) : (
                           "Add to Cart"
                         )}
                       </button>
+
+                      {/* Remove */}
                       <button
                         onClick={() => handleRemove(item.id)}
-                        className="px-4 py-2 rounded-lg bg-red-100 text-red-500 hover:bg-red-200 transition flex items-center justify-center"
+                        className="px-3 py-2 rounded-lg bg-red-100 text-red-500 hover:bg-red-200 transition flex items-center justify-center xl:px-4 xl:bg-transparent xl:text-red-500 xl:hover:text-red-700 xl:hover:bg-transparent"
                         title="Remove from wishlist"
                       >
-                        <FiTrash2 size={20} />
+                        <FiTrash2 size={18} className="xl:mr-1" />
+                        <span className="hidden xl:inline">Remove</span>
                       </button>
                     </div>
-                  </div>
-
-                  {/* Desktop: Actions */}
-                  <div className="hidden sm:flex flex-col items-end justify-between">
-                    <button
-                      onClick={() => handleAddToCart(item)}
-                      disabled={isAdded}
-                      className={`px-5 py-2 rounded-lg transition flex items-center justify-center gap-2 text-sm font-medium ${
-                        isAdded
-                          ? "bg-green-100 text-green-700 border border-green-600"
-                          : "bg-green-600 text-white hover:bg-green-700"
-                      }`}
-                    >
-                      {isAdded ? (
-                        <>
-                          <FiCheck size={18} /> Added
-                        </>
-                      ) : (
-                        "Add to Cart"
-                      )}
-                    </button>
-
-                    <button
-                      onClick={() => handleRemove(item.id)}
-                      className="mt-3 text-red-500 hover:text-red-700 transition flex items-center gap-1 text-sm font-medium"
-                      title="Remove from wishlist"
-                    >
-                      <FiTrash2 size={18} /> Remove
-                    </button>
                   </div>
                 </div>
               );

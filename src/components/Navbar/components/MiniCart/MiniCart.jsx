@@ -1,21 +1,20 @@
 import { FiX } from "react-icons/fi";
-import { IoAdd, IoRemove } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  increaseQuantity,
-  decreaseQuantity,
-  removeFromCart,
-} from "../../../../store/cartSlice";
+import { removeFromCart } from "../../../../store/cartSlice";
 import { TiDelete } from "react-icons/ti";
 import { Link } from "react-router-dom";
 import QuantitySelector from "../../../../Shared/components/QuantitySelector";
+import { useState } from "react";
 
 function MiniCart({ onClose }) {
   const dispatch = useDispatch();
   const { items, totalPrice } = useSelector((state) => state.cart);
 
+  // state to track which item is hovered
+  const [hoveredItem, setHoveredItem] = useState(null);
+
   return (
-    <div className="h-full flex flex-col rounded-lg shadow-sm shadow-green-100 bg-white">
+    <div className="h-full flex flex-col rounded-lg shadow-sm shadow-green-100 bg-white relative">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-300">
         <h2 className="text-lg font-bold">Your Cart</h2>
@@ -39,11 +38,25 @@ function MiniCart({ onClose }) {
                 alt={item.name}
                 className="w-16 h-16 object-cover rounded-md"
               />
+
               <div className="flex-1 min-w-0">
-                {/* Title (truncate long text) */}
-                <h3 className="font-semibold text-sm truncate whitespace-nowrap max-w-[140px]">
-                  {item.Name}
-                </h3>
+                {/* Title with tooltip */}
+                <div className="relative group inline-block">
+                  <h3 className="font-semibold text-sm truncate whitespace-nowrap max-w-[140px]">
+                    {item.Name}
+                  </h3>
+
+                  {/* Tooltip centered under the title */}
+                  <span
+                    className="absolute left-1/2 -translate-x-1/2 top-full mt-1
+                       hidden group-hover:block bg-emerald-50 text-black z-50
+                       text-xs rounded-sm px-3 py-1 whitespace-normal w-max max-w-[220px]
+                           shadow-md"
+                  >
+                    {item.Name}
+                  </span>
+                </div>
+
                 <p className="text-[9px] pb-0.5 text-gray-500">
                   LE {item.price.toFixed(2)} each
                 </p>
@@ -52,7 +65,7 @@ function MiniCart({ onClose }) {
                 <QuantitySelector productId={item.id} variant="circle" />
               </div>
 
-              {/* Price + Delete button (one line) */}
+              {/* Price + Delete button */}
               <div className="flex items-center gap-2">
                 <span className="font-semibold text-sm whitespace-nowrap">
                   LE {(item.price * item.quantity).toFixed(2)}
@@ -68,6 +81,13 @@ function MiniCart({ onClose }) {
           ))
         )}
       </div>
+
+      {/* Tooltip centered inside MiniCart */}
+      {hoveredItem && (
+        <div className="absolute left-1/2 -translate-x-1/2 bottom-24 bg-emerald-100 text-black z-50 text-xs rounded px-3 py-1 whitespace-normal w-max max-w-[300px] shadow-md">
+          {hoveredItem}
+        </div>
+      )}
 
       {/* Footer */}
       <div className="p-4 border-t">

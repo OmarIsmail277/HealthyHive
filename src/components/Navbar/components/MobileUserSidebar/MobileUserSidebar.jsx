@@ -27,7 +27,7 @@ function MobileUserSidebar({ userName = "User Name", userEmail }) {
     <div className="lg:hidden">
       {/* User Icon (opens sidebar) */}
       <button onClick={() => setIsOpen(true)} className="text-2xl text-primary">
-        <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-semibold">
+        <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-semibold text-xs sm:text-sm md:text-base">
           {getInitials(userName)}
         </div>
       </button>
