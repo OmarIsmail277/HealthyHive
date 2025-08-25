@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleWishlistItem } from "../../../store/wishlistSlice";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import toast from "react-hot-toast";
-import { deleteProduct } from "../../../services/apiProducts";
+
 import AddToCartButton from "../../../Shared/components/AddToCartButton";
 
 function RecommendedCard({ product }) {
@@ -35,16 +34,6 @@ function RecommendedCard({ product }) {
   };
 
   const queryClient = useQueryClient();
-
-  const { isLoading: isDeleting, mutate } = useMutation({
-    mutationFn: deleteProduct,
-    onSuccess: () => {
-      toast.success("Product successfully deleted!");
-      queryClient.invalidateQueries({ queryKey: ["products"] });
-    },
-
-    onError: (err) => toast.error(err.message),
-  });
 
   // choose icon + label depending on subCategory
   const renderSubCategoryIcon = () => {

@@ -1,8 +1,7 @@
 import { useState, useRef } from "react";
 import { NavLink } from "react-router-dom";
-import { ImUserCheck } from "react-icons/im";
 import { FiUser, FiShoppingCart, FiHeart, FiLogOut } from "react-icons/fi";
-import { useLogout } from "../../../../features/authentication/useLogout";
+import { useLogout } from "../../../../hooks/useUser";
 
 function UserLogedIn({ userName = "User Name", userEmail }) {
   const [isOpen, setIsOpen] = useState(false);
