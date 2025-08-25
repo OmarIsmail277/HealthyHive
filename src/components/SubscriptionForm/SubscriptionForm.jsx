@@ -40,7 +40,6 @@ const SubscriptionForm = () => {
       features: [
         "3 medical consultations per month",
         "Priority customer support",
-        "Free delivery",
       ],
       consultations: 3,
       color: "purple",
