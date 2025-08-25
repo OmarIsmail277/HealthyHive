@@ -9,7 +9,7 @@ import {
   FaHistory,
   FaQuestionCircle,
   FaChevronRight,
-  FaFire,
+  FaUtensils,
   FaDumbbell,
   FaHeartbeat,
   FaEdit,
@@ -123,24 +123,28 @@ export default function ProfileWrapper() {
             {activeView === "dashboard" && (
               <div className="bg-white rounded-xl shadow-sm p-4 overflow-hidden">
                 <h2 className="text-md font-semibold text-gray-900 mb-3">
-                  Quick Stats
+                  Fitness Tips
                 </h2>
-                <div className="space-y-2">
-                  <MiniStat
-                    icon={<FaFire className="text-orange-500" />}
-                    label="Current Streak"
-                    value="3 days"
-                  />
-                  <MiniStat
-                    icon={<FaDumbbell className="text-blue-500" />}
-                    label="Weekly Workouts"
-                    value="4/5"
-                  />
-                  <MiniStat
-                    icon={<FaHeartbeat className="text-red-500" />}
-                    label="Avg. Daily Calories"
-                    value="2,150"
-                  />
+                <div className="space-y-3 text-sm text-gray-700">
+                  <div className="p-3 rounded-lg bg-gray-50">
+                    🏃‍♂️ Aim for at least{" "}
+                    <span className="font-semibold">150 min</span> of exercise
+                    weekly
+                  </div>
+                  <div className="p-3 rounded-lg bg-gray-50">
+                    💧 Drink{" "}
+                    <span className="font-semibold">8 glasses of water</span>{" "}
+                    daily
+                  </div>
+                  <div className="p-3 rounded-lg bg-gray-50">
+                    🍎 Include{" "}
+                    <span className="font-semibold">fruits & veggies</span> in
+                    every meal
+                  </div>
+                  <div className="p-3 rounded-lg bg-gray-50">
+                    😴 Sleep <span className="font-semibold">7–8 hours</span>{" "}
+                    each night
+                  </div>
                 </div>
               </div>
             )}
@@ -196,6 +200,8 @@ function MiniStat({ icon, label, value }) {
     </div>
   );
 }
+
+/* ---------- Personal Information & Payment Methods remain unchanged ---------- */
 
 /* ---------- Keep these two views inline (unchanged functional behavior) ---------- */
 /* You can split them later if you like. */

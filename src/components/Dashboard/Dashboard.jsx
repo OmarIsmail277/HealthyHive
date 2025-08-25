@@ -18,11 +18,6 @@ import {
   FaBolt,
 } from "react-icons/fa";
 
-/** Dashboard (previously ProfileDashboard)
- *  - Fixed overflow in scrollable lists (added overflow-y-auto, min-w-0, pr-1)
- *  - Prevented horizontal scrolling (overflow-hidden on cards, min-w-0 on flex items)
- *  - Clamped/truncated long text safely
- */
 export default function Dashboard() {
   // ---------- LocalStorage helpers ----------
   const getLS = (k, fallback) => {
@@ -71,13 +66,7 @@ export default function Dashboard() {
   useEffect(() => setLS("hh_profile", profile), [profile]);
 
   // ---------- Weight logs ----------
-  const [weights, setWeights] = useState(
-    getLS("hh_weights", [
-      { id: "w1", dateISO: addDays(todayISO(), -6), weightKg: 76.8 },
-      { id: "w2", dateISO: addDays(todayISO(), -3), weightKg: 76.1 },
-      { id: "w3", dateISO: todayISO(), weightKg: 76.0 },
-    ])
-  );
+  const [weights, setWeights] = useState(getLS("hh_weights", []));
   useEffect(() => setLS("hh_weights", weights), [weights]);
 
   // ---------- Workouts ----------
@@ -88,9 +77,11 @@ export default function Dashboard() {
   const [hydration, setHydration] = useState(
     getLS("hh_hydration", { goalGlasses: 8, byDate: {} })
   );
+  useEffect(() => setLS("hh_hydration", hydration), [hydration]);
 
   // ---------- Nutrition ----------
   const [meals, setMeals] = useState(getLS("hh_meals", []));
+  useEffect(() => setLS("hh_meals", meals), [meals]);
 
   // ---------- Habits ----------
   const [habits, setHabits] = useState(
@@ -104,15 +95,8 @@ export default function Dashboard() {
       byDate: {},
     })
   );
-
+  useEffect(() => setLS("hh_habits", habits), [habits]);
   // Reset all daily trackers when log day changes
-  useEffect(() => {
-    setWorkouts([]);
-    setHydration((h) => ({ ...h, byDate: {} }));
-    setMeals([]);
-    setHabits((h) => ({ ...h, byDate: {} }));
-  }, [workoutLogDay]);
-
   useEffect(() => setLS("hh_hydration", hydration), [hydration]);
   useEffect(() => setLS("hh_meals", meals), [meals]);
   useEffect(() => setLS("hh_habits", habits), [habits]);
@@ -697,15 +681,15 @@ export default function Dashboard() {
 
               {/* 4 nutrient inputs in 2 rows */}
               <div className="grid grid-cols-2 gap-2">
-                  <input
-                    type="number"
-                    className={`${input} text-sm`}
-                    placeholder="Protein"
-                    value={mealDraft.protein}
-                    onChange={(e) =>
-                      setMealDraft((d) => ({ ...d, protein: e.target.value }))
-                    }
-                  />
+                <input
+                  type="number"
+                  className={`${input} text-sm`}
+                  placeholder="Protein"
+                  value={mealDraft.protein}
+                  onChange={(e) =>
+                    setMealDraft((d) => ({ ...d, protein: e.target.value }))
+                  }
+                />
                 <input
                   type="number"
                   className={`${input} text-sm`}
@@ -713,7 +697,7 @@ export default function Dashboard() {
                   value={mealDraft.carbs}
                   onChange={(e) =>
                     setMealDraft((d) => ({ ...d, carbs: e.target.value }))
-                }
+                  }
                 />
                 <input
                   type="number"
@@ -722,7 +706,7 @@ export default function Dashboard() {
                   value={mealDraft.fat}
                   onChange={(e) =>
                     setMealDraft((d) => ({ ...d, fat: e.target.value }))
-                }
+                  }
                 />
                 <input
                   type="number"
