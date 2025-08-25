@@ -40,9 +40,9 @@ function Footer() {
               children, and anyone seeking a natural, healthy lifestyle.
             </p>
             <div className="flex gap-2 mt-2">
-              <span className="bg-primary/10 text-primary text-s px-3 py-1 rounded-full">Organic</span>
-              <span className="bg-primary/10 text-primary text-s px-3 py-1 rounded-full">Non-GMO</span>
-              <span className="bg-primary/10 text-primary text-s px-3 py-1 rounded-full">Eco-Friendly</span>
+              <span className="bg-primary/10 text-primary text-xs sm:text-sm p-2 flex items-center rounded-full">Organic</span>
+              <span className="bg-primary/10 text-primary text-xs sm:text-sm p-2 flex items-center rounded-full">Non-GMO</span>
+              <span className="bg-primary/10 text-primary text-xs sm:text-sm p-2 flex items-center rounded-full">Eco-Friendly</span>
             </div>
           </div>
 

@@ -4,34 +4,36 @@ import { useCheckoutLogin } from "../../../../hooks/useUser";
 import SpinnerMini from "../../../Spinner/SpinnerMini";
 
 function LoginCheckout({ onNext }) {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm();
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm();
 
-  const { login, isPending } = useCheckoutLogin();
+    const { login, isPending } = useCheckoutLogin();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    const { email, password } = data;
+    const onSubmit = (data) => {
+        console.log(data);
+        const { email, password } = data;
 
-    if (!email || !password) return;
+        if (!email || !password) return;
 
-    login(
-      { email, password },
-      {
-        onSuccess: () => {
-          onNext(); // proceed to next step only after successful login
-        },
-        onSettled: () => {
-          // 👇 clears the form inputs after login attempt (success or error)
-          reset({ email: "", password: "" });
-        },
-      }
-    );
-  };
+        login(
+            { email, password },
+            {
+                onSuccess: () => {
+                    onNext(); // proceed to next step only after successful login
+                       window.location.reload();
+
+                },
+                onSettled: () => {
+                    // 👇 clears the form inputs after login attempt (success or error)
+                    reset({ email: "", password: "" });
+                },
+            }
+        );
+    };
 
     return (
         <div>

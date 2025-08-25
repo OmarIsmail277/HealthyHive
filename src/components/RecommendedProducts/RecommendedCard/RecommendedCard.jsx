@@ -64,7 +64,7 @@ function RecommendedCard({ product }) {
 
   return (
     <div
-      className="flex flex-col justify-between relative border border-[#64a30d78] w-[370px] p-5 rounded-xl shadow-md bg-white cursor-pointer"
+      className="flex flex-col justify-between relative border border-[#64a30d78] h-full w-full p-5 rounded-xl shadow-md bg-white cursor-pointer"
       onClick={handleNavigate}
     >
       {/* Price Tag + SubCategory Icon */}
