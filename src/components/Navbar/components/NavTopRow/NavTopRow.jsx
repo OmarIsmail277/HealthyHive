@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import DesktopNav from "./DesktopNav";
 import MobileNav from "./MobileNav";
@@ -14,6 +14,17 @@ function NavTopRow({ isOpen, setIsOpen }) {
   const [mobileWishlistOpen, setMobileWishlistOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const handlelogo = (e) => {
+    if (location.pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      navigate("/");
+    }
+  };
+
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -27,7 +38,9 @@ function NavTopRow({ isOpen, setIsOpen }) {
     <div className="healthy__container py-2 sm:py-1">
       <div className="container mx-auto flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-1 sm:gap-2">
+        <Link
+          onClick={handlelogo}
+          to="/" className="flex items-center gap-1 sm:gap-2">
           <img
             src="/images/logos/green-logo.svg"
             alt="Logo"
@@ -79,19 +92,17 @@ function NavTopRow({ isOpen, setIsOpen }) {
       <div className="lg:hidden fixed inset-0 z-40 pointer-events-none">
         <div
           className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ease-in-out 
-            ${
-              mobileWishlistOpen
-                ? "opacity-100 pointer-events-auto"
-                : "opacity-0"
+            ${mobileWishlistOpen
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0"
             }`}
           onClick={() => setMobileWishlistOpen(false)}
         ></div>
         <div
           className={`absolute top-0 right-0 h-full w-80 bg-white shadow-lg z-50 transform transition-transform duration-500 ease-in-out
-            ${
-              mobileWishlistOpen
-                ? "translate-x-0 pointer-events-auto"
-                : "translate-x-full"
+            ${mobileWishlistOpen
+              ? "translate-x-0 pointer-events-auto"
+              : "translate-x-full"
             }`}
         >
           <MiniWishlist onClose={() => setMobileWishlistOpen(false)} />
@@ -101,17 +112,15 @@ function NavTopRow({ isOpen, setIsOpen }) {
       <div className="lg:hidden fixed inset-0 z-40 pointer-events-none">
         <div
           className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ease-in-out 
-            ${
-              mobileCartOpen ? "opacity-100 pointer-events-auto" : "opacity-0"
+            ${mobileCartOpen ? "opacity-100 pointer-events-auto" : "opacity-0"
             }`}
           onClick={() => setMobileCartOpen(false)}
         ></div>
         <div
           className={`absolute top-0 right-0 h-full w-80 bg-white shadow-lg z-50 transform transition-transform duration-500 ease-in-out
-            ${
-              mobileCartOpen
-                ? "translate-x-0 pointer-events-auto"
-                : "translate-x-full"
+            ${mobileCartOpen
+              ? "translate-x-0 pointer-events-auto"
+              : "translate-x-full"
             }`}
         >
           <MiniCart onClose={() => setMobileCartOpen(false)} />

@@ -9,11 +9,22 @@ import {
 import { FaQuestionCircle } from "react-icons/fa"; // instead of fa6
 
 import { FiInstagram } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import footerimg from "/images/Footer.jpg";
 
 
 function Footer() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const handlelogo = (e) => {
+    if (location.pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      navigate("/");
+    }
+  };
+
   return (
     <footer
       className="relative w-full text-white bg-gray-900 bg-cover bg-center  overflow-hidden"
@@ -27,7 +38,9 @@ function Footer() {
         <div className="flex flex-col gap-10 lg:w-2/5">
           <div className="space-y-4">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-1 sm:gap-2 w-fit">
+            <Link
+              onClick={handlelogo}
+              to="/" className="flex items-center gap-1 sm:gap-2 w-fit">
               <img className="h-[80px] w-[80px] " src="/images/logos/white-logo.svg" />
               <span className="font-bold text-base sm:text-lg lg:text-3xl">
                 HealthyHive
