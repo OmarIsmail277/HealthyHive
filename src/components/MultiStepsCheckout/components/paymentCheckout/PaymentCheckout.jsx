@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { useUser } from "../../../../hooks/useUser";
+import { useDispatch, useSelector } from "react-redux";
+import { useUser, useCheckout } from "../../../../hooks/useUser";
+import { clearCart } from "../../../../store/cartSlice";
 
 function PaymentCheckout({ onPaymentSubmit }) {
   const {
@@ -14,6 +16,12 @@ function PaymentCheckout({ onPaymentSubmit }) {
       paymentMethod: "creditCard",
     },
   });
+
+  const dispatch = useDispatch();
+
+  const { mutate: checkout, isPending: isProcessing } = useCheckout();
+
+  const totalPrice = useSelector((state) => state.cart.totalPrice);
 
   const paymentMethod = watch("paymentMethod");
 
@@ -73,8 +81,14 @@ function PaymentCheckout({ onPaymentSubmit }) {
     }
   }, [paymentMethod, savedCard, setValue]);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = () => {
+    const orderData = {
+      status: "confirmed",
+      total: totalPrice,
+      user_id: user.id,
+    };
+    checkout(orderData);
+
     if (onPaymentSubmit) onPaymentSubmit();
   };
 

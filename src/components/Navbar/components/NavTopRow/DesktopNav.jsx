@@ -19,8 +19,8 @@ function DesktopNav({
 
   const { user, isPending, isAuthenticated } = useUser();
 
-  const cart = getUserCart(user);
-  console.log("-> test ->", cart);
+  // ?  const cart = getUserCart(user);
+  // console.log("-> test ->", cart);
 
   if (isPending) return null;
 
