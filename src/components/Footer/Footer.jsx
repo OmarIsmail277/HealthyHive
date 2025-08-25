@@ -104,21 +104,21 @@ function Footer() {
             </h2>
             <div className="flex gap-5 text-3xl">
               <Link
-                to="https://www.facebook.com/"
+                to="https://www.facebook.com/profile.php?id=61579902388687"
                 className="text-gray-400 hover:text-[#1877F2] hover:scale-110 transition-all duration-300"
                 aria-label="Facebook"
               >
                 <FaFacebook />
               </Link>
               <Link
-                to="https://www.instagram.com/"
+                to="https://www.instagram.com/healthyhiveeg/"
                 className="text-gray-400 hover:text-[#E1306C] hover:scale-110 transition-all duration-300"
                 aria-label="Instagram"
               >
                 <FiInstagram />
               </Link>
               <Link
-                to="https://twitter.com/"
+                to="https://x.com/HelathyHive"
                 className="text-gray-400 hover:text-[#1DA1F2] hover:scale-110 transition-all duration-300"
                 aria-label="Twitter"
               >
