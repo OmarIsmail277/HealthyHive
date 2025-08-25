@@ -16,7 +16,7 @@ const faqs = [
   {
     question: "How can I track my order?",
     answer:
-      "Once your order ships, we’ll send you a tracking number via email so you can follow your package every step of the way in real-time.",
+      "Once your order ships, we’ll give you a tracking number that you can follow your package status with it.",
   },
   {
     question: "Do you offer international shipping?",
@@ -36,7 +36,7 @@ const faqs = [
   {
     question: "Can I change or cancel my order?",
     answer:
-      "Orders can be modified or canceled within 2 hours of placement. Please contact customer service as soon as possible to make changes before the order is processed.",
+      "Orders can be modified or canceled as long as they are not out for delievery.",
   },
   {
     question: "Are your products organic and natural?",
@@ -46,13 +46,15 @@ const faqs = [
   {
     question: "How long does delivery take?",
     answer:
-      "Delivery typically takes 2-4 business days within Egypt. You will receive notifications and tracking updates so you always know when to expect your order.",
+      "Delivery typically takes one hour. You will receive notifications and tracking updates so you always know when to expect your order.",
   },
   {
-    question: "Do you have a loyalty or rewards program?",
-    answer:
-      "Yes, we offer a loyalty program that rewards you with points for every purchase which you can redeem for discounts on future orders. Sign up today to start earning!",
+   question: "Who is your delivery service courier provider?",
+answer: "Our delivery service is handled by Full Speed Services for Delivery, based in Alexandria.",
   },
+  {question: "Who cooks your bakery and meals?",
+answer: "We work with a professional cloud kitchen based in Alexandria, ensuring that every item meets our high quality and safety standards.",
+}
 ];
 
 function highlightMatch(text, query) {
