@@ -48,11 +48,13 @@ const FlashyBanner = () => {
           <span className="text-xs sm:text-sm font-medium text-gray-800 whitespace-nowrap leading-tight">
             Use code:
           </span>
-          <span className="relative font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-green-600 text-shadow px-1 animate-pulse-flashy text-sm sm:text-base leading-tight">
-            WELCOME3
-            <span className="absolute inset-0 bg-white opacity-30 animate-sweep rounded-md"></span>
-          </span>
-          <FaGift className="text-emerald-600 text-sm sm:text-base animate-bounce" />
+          <div className="flex gap-x-1.5">
+            <span className="relative font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-green-600 text-shadow px-1 animate-pulse-flashy text-sm sm:text-base leading-tight">
+              WELCOME3
+              <span className="absolute inset-0 bg-white opacity-30 animate-sweep rounded-md"></span>
+            </span>
+            <FaGift className="text-emerald-600 text-sm sm:text-base animate-bounce" />
+          </div>
         </div>
       ),
     },

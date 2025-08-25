@@ -37,7 +37,7 @@ function MobileNav({
         />
       ) : (
         <Link to="/login">
-          <button className="text-2xl text-primary">
+          <button className="text-xl text-primary">
             <FaRegUser />
           </button>
         </Link>

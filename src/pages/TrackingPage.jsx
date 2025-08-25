@@ -19,6 +19,15 @@ const statusAnimations = {
   cancelled: cancelledAnim,
 };
 
+const statusColors = {
+  confirmed: "text-blue-600",
+  processing: "text-yellow-500",
+  packaging: "text-orange-500",
+  delivering: "text-green-500",
+  delivered: "text-emerald-600",
+  cancelled: "text-red-600",
+};
+
 export default function TrackingPage() {
   const { order: orderIdParam } = useParams();
 
@@ -42,7 +51,8 @@ export default function TrackingPage() {
     <div className="flex flex-col items-center p-8 text-center">
       <h2 className="text-2xl font-semibold capitalize">
         Your Order is currently{" "}
-        <span className="text-indigo-600">{status}</span>!
+          <span className={statusColors[status] || "text-gray-600"}>
+          {status}</span>!
       </h2>
 
       <p className="mt-2 text-gray-600">

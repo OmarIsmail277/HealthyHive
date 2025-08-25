@@ -47,7 +47,7 @@ function NavTopRow({ isOpen, setIsOpen }) {
             className="h-12 w-12 sm:h-14 sm:w-14 md:h-13 md:w-13 lg:h-16 lg:w-16 "
           />
 
-          <span className="font-bold text-base sm:text-lg lg:text-3xl">
+          <span className="font-bold text-base sm:text-lg lg:text-3xl text-[#1d233cee]">
             HealthyHive
           </span>
         </Link>

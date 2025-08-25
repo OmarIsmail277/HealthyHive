@@ -119,7 +119,7 @@ function RecommendedCard({ product }) {
 
       {/* Price */}
       <div className="flex items-center gap-3 mt-3">
-        <p className="text-green-600 font-bold text-xl">
+        <p className="text-green-600 font-bold text-xl pb-2 sm:pb-0">
           {product.price - product.discount} LE
         </p>
         {product.discount > 0 && (

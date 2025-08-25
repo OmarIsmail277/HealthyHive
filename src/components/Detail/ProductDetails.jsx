@@ -113,7 +113,7 @@ export default function ProductDetails({ product }) {
               <h1 className="text-4xl font-extrabold text-gray-900 leading-tight xl:w-[80%]">
                 {product?.Name}
               </h1>
-              <div className="bg-detail-price-green rounded-4xl px-3 h-fit w-fit py-1 text-white flex items-center">
+              <div className="bg-detail-price-green rounded-4xl px-3 h-fit w-fit py-1 mt-3 xl:mt-0 text-white flex items-center">
                 in stock
               </div>
             </div>
