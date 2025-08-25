@@ -69,7 +69,7 @@ function RecommendedCard({ product }) {
       <div className="flex items-center gap-2 absolute top-4 left-4 z-10">
         {discountPercentage && (
           <div className="bg-emerald-400 rounded-sm px-3 py-1 text-white font-semibold">
-            -{discountPercentage}%
+            {discountPercentage}%
           </div>
         )}
         {renderSubCategoryIcon()}

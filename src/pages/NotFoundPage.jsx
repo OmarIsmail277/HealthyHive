@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer/Footer";
 import Navbar from "../components/Navbar/Navbar";
+import AdviceFetch from "../components/FetchAdvice/AdviceFetch";
+import SubIcon from "../components/SubIcon/SubIcon"
 
 export default function NotFoundPage() {
   return (
@@ -33,6 +35,8 @@ export default function NotFoundPage() {
       </Link>
     </div>
     <Footer/>
+    <AdviceFetch/>
+    <SubIcon/>
         </div>
   );
 }

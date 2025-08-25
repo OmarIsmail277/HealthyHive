@@ -1,5 +1,5 @@
-import { lazy } from "react";
-import { Routes, Route } from "react-router-dom";
+import { lazy, useEffect, useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import History from "../pages/History";
 import WishlistPage from "../pages/WishlistPage";
 import ProtectedRoute from "../components/ProtectedRoute";
@@ -7,7 +7,7 @@ import MainLayout from "../components/MainLayout";
 import ScrollToTop from "../components/ScrollToTop/ScrollToTop";
 import TrackingPage from "../pages/TrackingPage";
 import AuthCallback from "../pages/AuthCallback";
-
+import { userRepository } from "../repositories/userRepository";
 const Login = lazy(() => import("../pages/LoginPage"));
 const Register = lazy(() => import("../pages/RegisterPage"));
 const Services = lazy(() => import("../pages/ServicesPage"));
@@ -30,6 +30,31 @@ const Subscription = lazy(() => import("../pages/Subscription"));
 const AboutUs = lazy(() => import("../pages/AboutUs"));
 const Cart = lazy(() => import("../pages/CartPage"));
 
+// AdminRoute Component (Integrated Here)
+function AdminRoute({ children }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const allowedEmail = "camilis880@namestal.com"; // <-- Change to your admin email
+
+  useEffect(() => {
+    async function fetchUser() {
+      const currentUser = await userRepository.getCurrentUser();
+      setUser(currentUser);
+      setLoading(false);
+    }
+    fetchUser();
+  }, []);
+
+  if (loading) return null; // or show a spinner while loading
+
+  if (!user || user?.user_metadata?.email !== allowedEmail) {
+    return <Navigate to="*" replace />; // redirect to NotFound
+  }
+
+  return children;
+}
+
 export default function AppRoutes() {
   return (
     <>
@@ -38,16 +63,25 @@ export default function AppRoutes() {
         {/* Public Routes */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+
         {/* Routes with MainLayout */}
         <Route element={<MainLayout />}>
-              <Route path="/auth/callback" element={<AuthCallback />} />
-
+          <Route path="/auth/callback" element={<AuthCallback />} />
           <Route path="/" element={<HomePage />} />
 
           <Route path="/services" element={<Services />} />
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/products/:category" element={<ProductCategory />} />
-          <Route path="/admin" element={<AdminDashboard />} />
+
+          <Route
+            path="/admin"
+            element={
+              <AdminRoute>
+                <AdminDashboard />
+              </AdminRoute>
+            }
+          />
+
           <Route
             path="/services/calorie-calculator"
             element={<CalorieCalculator />}
@@ -64,11 +98,14 @@ export default function AppRoutes() {
           <Route path="/recipeDetail/:id" element={<RecipeDetail />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/about" element={<AboutUs />} />
+
           <Route path="/tracking/:order" element={<TrackingPage />} />
+
           {/* Protected Routes */}
-          {/* <Route element={<ProtectedRoute />}> */}
+          <Route element={<ProtectedRoute />}>
           <Route path="/profile" element={<Profile />} />
-          {/* </Route> */}
+          </Route>
+
 
           {/* Fallback */}
           <Route path="*" element={<NotFound />} />
