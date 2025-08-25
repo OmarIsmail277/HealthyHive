@@ -2,19 +2,20 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { userRepository } from "../repositories/userRepository.js";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { login as loginApi } from "../services/apiAuth.js";
-import { signup as signupApi } from "../services/apiAuth.js";
-import { logout as logoutApi } from "../services/apiAuth.js";
+import { useDispatch } from "react-redux";
+import { clearCart, setCart } from "../store/cartSlice.js";
+import { getUserCart } from "../selectors.js";
 
 export function useUser() {
   const { isPending, data: user } = useQuery({
     queryKey: [userRepository.queryKey],
-    queryFn: userRepository.fetchCurrentUser,
+    queryFn: userRepository.getCurrentUser,
   });
 
   return { isPending, user, isAuthenticated: user?.role === "authenticated" };
 }
 
+// update user info
 export function useUpdateUser() {
   const queryClient = useQueryClient();
 
@@ -30,12 +31,24 @@ export function useUpdateUser() {
 export function useLogin() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
 
   const { mutate: login, isPending } = useMutation({
-    mutationFn: ({ email, password }) => loginApi({ email, password }),
-    onSuccess: () => {
+    mutationFn: ({ email, password }) =>
+      userRepository.loginUser({ email, password }),
+    onSuccess: async () => {
       // queryClient.setQueryData(["user"], user.user);
-      queryClient.invalidateQueries({ queryKey: ["user"] });
+      queryClient.invalidateQueries({ queryKey: [userRepository.queryKey] });
+      const user = await userRepository.getCurrentUser();
+
+      const cart = await getUserCart(user);
+      console.log(user);
+      console.log(cart);
+
+      const plainCart = JSON.parse(JSON.stringify(cart));
+
+      dispatch(setCart(plainCart));
+
       navigate("/", { replace: true });
     },
 
@@ -52,7 +65,7 @@ export function useSignup() {
   const queryClient = useQueryClient();
 
   const { mutate: signup, isPending } = useMutation({
-    mutationFn: signupApi,
+    mutationFn: userRepository.signupUser,
     onSuccess: () => {
       toast.success(
         "Account Successfully created! Please verify your email address"
@@ -70,7 +83,8 @@ export function useCheckoutLogin() {
   const queryClient = useQueryClient();
 
   const { mutate: login, isPending } = useMutation({
-    mutationFn: ({ email, password }) => loginApi({ email, password }),
+    mutationFn: ({ email, password }) =>
+      userRepository.loginUser({ email, password }),
     onSuccess: () => {
       // Invalidate user query so data stays up-to-date
       queryClient.invalidateQueries({ queryKey: userRepository.queryKey }); // refresh user
@@ -87,12 +101,16 @@ export function useCheckoutLogin() {
 export function useLogout() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
 
   const { mutate: logout, isPending } = useMutation({
-    mutationFn: logoutApi,
+    mutationFn: userRepository.logoutUser,
     onSuccess: () => {
       // queryClient.removeQueries();
       queryClient.removeQueries({ queryKey: [userRepository.queryKey] });
+
+      dispatch(clearCart());
+
       navigate("/login", { replace: true });
     },
   });

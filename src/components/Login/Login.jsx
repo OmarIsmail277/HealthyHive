@@ -237,19 +237,7 @@ export default function LoginForm() {
                     id="remember"
                     className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
                   />
-                  <label
-                    htmlFor="remember"
-                    className="ml-2 block text-xs text-gray-700"
-                  >
-                    Remember me
-                  </label>
                 </div>
-                <Link
-                  to="/forgot-password"
-                  className="text-xs text-green-700 hover:!underline"
-                >
-                  Forgot password?
-                </Link>
               </div>
 
               <div className="mt-2">
@@ -291,15 +279,7 @@ export default function LoginForm() {
                     Google
                   </button>
                 </div>
-                <div>
-                  <button
-                    type="button"
-                    className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-50 transition text-xs font-medium"
-                  >
-                    <FaFacebook className="text-blue-600" size={14} />
-                    Facebook
-                  </button>
-                </div>
+                <div></div>
               </div>
 
               <div className="text-center text-xs text-gray-700 mt-4">
