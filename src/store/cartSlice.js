@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { current } from "@reduxjs/toolkit";
+import { userRepository } from "../repositories/userRepository";
 
 // get sessionId or create one for guest
 const getSessionId = () => {
@@ -17,12 +19,31 @@ const loadCart = () => {
   const savedCart = sessionStorage.getItem(`cart_${sessionId}`);
   return savedCart
     ? JSON.parse(savedCart)
-    : { items: [], totalQuantity: 0, totalPrice: 0, totalCartItems: 0, shippingMethod: "pickup"};
+    : {
+        items: [],
+        totalQuantity: 0,
+        totalPrice: 0,
+        totalCartItems: 0,
+        shippingMethod: "pickup",
+      };
 };
 
 // Save cart to sessionStorage
 const saveCart = (state) => {
   sessionStorage.setItem(`cart_${sessionId}`, JSON.stringify(state));
+};
+
+const saveCartToServer = async (cart) => {
+  try {
+    const user = await userRepository.getCurrentUser();
+    if (!user) return;
+
+    const plainCart = JSON.parse(JSON.stringify(cart));
+
+    await userRepository.saveUserMetadata({ cart: plainCart });
+  } catch (err) {
+    console.error("Failed to sync cart:", err.message);
+  }
 };
 
 const roundToTwo = (num) => parseFloat(num.toFixed(2));
@@ -31,6 +52,18 @@ const cartSlice = createSlice({
   name: "cart",
   initialState: loadCart(),
   reducers: {
+    setCart: (state, action) => {
+      const cart = action.payload;
+
+      state.items = cart.items || [];
+      state.totalQuantity = cart.totalQuantity || 0;
+      state.totalPrice = cart.totalPrice || 0;
+      state.totalCartItems = cart.totalCartItems || 0;
+
+      // save locally
+      saveCart(state);
+    },
+
     addToCart: (state, action) => {
       const item = action.payload;
       const existingItem = state.items.find((i) => i.id === item.id);
@@ -46,8 +79,19 @@ const cartSlice = createSlice({
       state.totalPrice = roundToTwo(state.totalPrice + item.price);
 
       // CheckStockStatus and StockQuantity => AddtoCart, PlaceOrder, Checkout, CartPageCounter
-      //??
+
+      // save locally
       saveCart(state);
+
+      // save to supabase
+      // saveCartToServer(
+      //   state.items.reduce((acc, item) => {
+      //     acc[item.id] = { quantity: item.quantity };
+      //     return acc;
+      //   }, {})
+      // );
+
+      saveCartToServer(current(state));
     },
 
     removeFromCart: (state, action) => {
@@ -62,6 +106,13 @@ const cartSlice = createSlice({
         state.items = state.items.filter((i) => i.id !== itemId);
         state.totalCartItems -= 1;
         saveCart(state);
+        // saveCartToServer(
+        //   state.items.reduce((acc, item) => {
+        //     acc[item.id] = { quantity: item.quantity };
+        //     return acc;
+        //   }, {})
+        // );
+        saveCartToServer(current(state));
       }
     },
 
@@ -73,6 +124,13 @@ const cartSlice = createSlice({
           state.totalQuantity += 1;
           state.totalPrice = roundToTwo(state.totalPrice + item.price);
           saveCart(state);
+          // saveCartToServer(
+          //   state.items.reduce((acc, item) => {
+          //     acc[item.id] = { quantity: item.quantity };
+          //     return acc;
+          //   }, {})
+          // );
+          saveCartToServer(current(state));
         }
       }
     },
@@ -102,6 +160,13 @@ const cartSlice = createSlice({
       }
 
       saveCart(state);
+      // saveCartToServer(
+      //   state.items.reduce((acc, item) => {
+      //     acc[item.id] = { quantity: item.quantity };
+      //     return acc;
+      //   }, {})
+      // );
+      saveCartToServer(current(state));
     },
 
     decreaseQuantity: (state, action) => {
@@ -117,6 +182,13 @@ const cartSlice = createSlice({
         state.totalCartItems -= 1;
       }
       saveCart(state);
+      // saveCartToServer(
+      //   state.items.reduce((acc, item) => {
+      //     acc[item.id] = { quantity: item.quantity };
+      //     return acc;
+      //   }, {})
+      // );
+      saveCartToServer(current(state));
     },
 
     updateQuantity: (state, action) => {
@@ -133,6 +205,13 @@ const cartSlice = createSlice({
         item.quantity = quantity;
 
         saveCart(state);
+        // saveCartToServer(
+        //   state.items.reduce((acc, item) => {
+        //     acc[item.id] = { quantity: item.quantity };
+        //     return acc;
+        //   }, {})
+        // );
+        saveCartToServer(current(state));
       }
     },
 
@@ -156,10 +235,17 @@ const cartSlice = createSlice({
         state.totalCartItems += 1;
       }
       saveCart(state);
+      // saveCartToServer(
+      //   state.items.reduce((acc, item) => {
+      //     acc[item.id] = { quantity: item.quantity };
+      //     return acc;
+      //   }, {})
+      // );
+      saveCartToServer(current(state));
     },
 
     updateShippingMethod(state, action) {
-      state.shippingMethod = action.payload; 
+      state.shippingMethod = action.payload;
       saveCart(state);
     },
 
@@ -169,6 +255,13 @@ const cartSlice = createSlice({
       state.totalPrice = 0;
       state.totalCartItems = 0;
       saveCart(state);
+      // saveCartToServer(
+      //   state.items.reduce((acc, item) => {
+      //     acc[item.id] = { quantity: item.quantity };
+      //     return acc;
+      //   }, {})
+      // );
+      saveCartToServer(current(state));
     },
   },
 });
@@ -183,6 +276,7 @@ export const {
   addToCartFromDetail,
   updateShippingMethod,
   clearCart,
+  setCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

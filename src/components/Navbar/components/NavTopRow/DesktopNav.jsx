@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import { useUser } from "../../../../hooks/useUser";
 import TotalCartItems from "../TotalCartItems/TotalCartItems";
 import TotalWishlistItems from "../TotalWishlistItems/TotalWishlistItems";
-import { useState } from "react";
 import UserLogedIn from "../UserLogedIn/UserLogedIn";
+import { getUserCart } from "../../../../selectors";
 
 function DesktopNav({
   hoverIndex,
@@ -18,6 +18,9 @@ function DesktopNav({
   const totalPrice = useSelector((state) => state.cart.totalPrice);
 
   const { user, isPending, isAuthenticated } = useUser();
+
+  const cart = getUserCart(user);
+  console.log("-> test ->", cart);
 
   if (isPending) return null;
 
