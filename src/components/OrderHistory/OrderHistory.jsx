@@ -25,8 +25,6 @@ export default function OrderHistory() {
     cancelled: "bg-red-600",
   };
 
-
-
   return (
     <div className="bg-white rounded-xl shadow-sm p-6 space-y-6 overflow-hidden">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -45,7 +43,7 @@ export default function OrderHistory() {
         ?.filter((o) => o.status !== "delivered" && o.status !== "cancelled")
         .map((order) => {
           const expectedDelivery = new Date(order.created_at);
-          expectedDelivery.setHours(expectedDelivery.getHours() -2);
+          expectedDelivery.setHours(expectedDelivery.getHours() - 2);
           return (
             <div
               key={order.order_id}
@@ -62,7 +60,7 @@ export default function OrderHistory() {
                 </p>
               </div>
               <Link to={`/tracking/${order.order_id}`}>
-                <button className="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 transition">
+                <button className="px-4 py-2 rounded-lg bg-primary text-white hover:bg-secondary transition">
                   Track Order
                 </button>
               </Link>
@@ -101,14 +99,18 @@ export default function OrderHistory() {
                     key={order.order_id}
                     className="border-t border-gray-100 hover:bg-gray-50"
                   >
-                    <td className="py-3 px-4 font-medium text-sm">{order.order_id}</td>
+                    <td className="py-3 px-4 font-medium text-sm">
+                      {order.order_id}
+                    </td>
                     <td className="py-3 px-4 text-green-600 text-sm">
                       {new Date(order.created_at).toLocaleDateString()}
                     </td>
                     <td className="py-3 px-4 text-sm">{order.total}</td>
                     <td className="py-3 px-4">
                       <span
-                        className={`${statusColors[order.status]} px-2 py-1 rounded-full text-xs text-white`}
+                        className={`${
+                          statusColors[order.status]
+                        } px-2 py-1 rounded-full text-xs text-white`}
                       >
                         {order.status}
                       </span>
@@ -119,7 +121,6 @@ export default function OrderHistory() {
                   </tr>
                 );
               })}
-
             </tbody>
           </table>
         </div>

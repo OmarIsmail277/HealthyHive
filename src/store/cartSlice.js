@@ -1,8 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { current } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import { userRepository } from "../repositories/userRepository";
 
-// get sessionId or create one for guest
+// ------------------- Helpers -------------------
 const getSessionId = () => {
   let sessionId = sessionStorage.getItem("sessionId");
   if (!sessionId) {
@@ -14,7 +13,6 @@ const getSessionId = () => {
 
 const sessionId = getSessionId();
 
-// Load cart from sessionStorage
 const loadCart = () => {
   const savedCart = sessionStorage.getItem(`cart_${sessionId}`);
   return savedCart
@@ -28,7 +26,6 @@ const loadCart = () => {
       };
 };
 
-// Save cart to sessionStorage
 const saveCart = (state) => {
   sessionStorage.setItem(`cart_${sessionId}`, JSON.stringify(state));
 };
@@ -37,10 +34,7 @@ const saveCartToServer = async (cart) => {
   try {
     const user = await userRepository.getCurrentUser();
     if (!user) return;
-
-    const plainCart = JSON.parse(JSON.stringify(cart));
-
-    await userRepository.saveUserMetadata({ cart: plainCart });
+    await userRepository.saveUserMetadata({ cart });
   } catch (err) {
     console.error("Failed to sync cart:", err.message);
   }
@@ -48,93 +42,85 @@ const saveCartToServer = async (cart) => {
 
 const roundToTwo = (num) => parseFloat(num.toFixed(2));
 
+const recalcTotals = (items) => {
+  const totalQuantity = items.reduce((acc, i) => acc + i.quantity, 0);
+  const totalPrice = items.reduce((acc, i) => acc + i.price * i.quantity, 0);
+  const totalCartItems = items.length;
+  return { totalQuantity, totalPrice: roundToTwo(totalPrice), totalCartItems };
+};
+
+// ------------------- Slice -------------------
 const cartSlice = createSlice({
   name: "cart",
   initialState: loadCart(),
   reducers: {
     setCart: (state, action) => {
       const cart = action.payload;
-
       state.items = cart.items || [];
-      state.totalQuantity = cart.totalQuantity || 0;
-      state.totalPrice = cart.totalPrice || 0;
-      state.totalCartItems = cart.totalCartItems || 0;
-
-      // save locally
+      const totals = recalcTotals(state.items);
+      state.totalQuantity = totals.totalQuantity;
+      state.totalPrice = totals.totalPrice;
+      state.totalCartItems = totals.totalCartItems;
+      state.shippingMethod = cart.shippingMethod || "pickup";
       saveCart(state);
+    },
+
+    mergeCart: (state, action) => {
+      // payload: { items: [] }
+      const newItems = action.payload.items || [];
+      const allItems = [...state.items, ...newItems];
+
+      // dedupe by id
+      const seen = new Map();
+      const mergedItems = [];
+      for (const item of allItems) {
+        if (!item) continue;
+        if (seen.has(item.id)) {
+          // sum quantity if duplicate
+          seen.get(item.id).quantity += item.quantity;
+        } else {
+          seen.set(item.id, { ...item });
+          mergedItems.push(seen.get(item.id));
+        }
+      }
+
+      state.items = mergedItems;
+      const totals = recalcTotals(mergedItems);
+      state.totalQuantity = totals.totalQuantity;
+      state.totalPrice = totals.totalPrice;
+      state.totalCartItems = totals.totalCartItems;
+
+      saveCart(state);
+      saveCartToServer(current(state));
     },
 
     addToCart: (state, action) => {
       const item = action.payload;
       const existingItem = state.items.find((i) => i.id === item.id);
 
-      if (existingItem) {
-        existingItem.quantity += 1;
-      } else {
-        state.items.push({ ...item, quantity: 1 });
-        state.totalCartItems += 1;
-      }
+      if (existingItem) existingItem.quantity += 1;
+      else state.items.push({ ...item, quantity: 1 });
 
-      state.totalQuantity += 1;
-      state.totalPrice = roundToTwo(state.totalPrice + item.price);
+      const totals = recalcTotals(state.items);
+      state.totalQuantity = totals.totalQuantity;
+      state.totalPrice = totals.totalPrice;
+      state.totalCartItems = totals.totalCartItems;
 
-      // CheckStockStatus and StockQuantity => AddtoCart, PlaceOrder, Checkout, CartPageCounter
-
-      // save locally
       saveCart(state);
-
-      // save to supabase
-      // saveCartToServer(
-      //   state.items.reduce((acc, item) => {
-      //     acc[item.id] = { quantity: item.quantity };
-      //     return acc;
-      //   }, {})
-      // );
-
       saveCartToServer(current(state));
     },
 
     removeFromCart: (state, action) => {
       const itemId = action.payload;
-      const item = state.items.find((i) => i.id === itemId);
+      state.items = state.items.filter((i) => i.id !== itemId);
+      const totals = recalcTotals(state.items);
+      state.totalQuantity = totals.totalQuantity;
+      state.totalPrice = totals.totalPrice;
+      state.totalCartItems = totals.totalCartItems;
 
-      if (item) {
-        state.totalQuantity -= item.quantity;
-        state.totalPrice = roundToTwo(
-          state.totalPrice - item.price * item.quantity
-        );
-        state.items = state.items.filter((i) => i.id !== itemId);
-        state.totalCartItems -= 1;
-        saveCart(state);
-        // saveCartToServer(
-        //   state.items.reduce((acc, item) => {
-        //     acc[item.id] = { quantity: item.quantity };
-        //     return acc;
-        //   }, {})
-        // );
-        saveCartToServer(current(state));
-      }
+      saveCart(state);
+      saveCartToServer(current(state));
     },
-
-    increaseQuantity: (state, action) => {
-      const item = state.items.find((i) => i.id === action.payload);
-      if (item) {
-        if (item.quantity < item.stockQuantity) {
-          item.quantity += 1;
-          state.totalQuantity += 1;
-          state.totalPrice = roundToTwo(state.totalPrice + item.price);
-          saveCart(state);
-          // saveCartToServer(
-          //   state.items.reduce((acc, item) => {
-          //     acc[item.id] = { quantity: item.quantity };
-          //     return acc;
-          //   }, {})
-          // );
-          saveCartToServer(current(state));
-        }
-      }
-    },
-
     addToCartFromDetail: (state, action) => {
       const { id, count, product } = action.payload;
       const item = state.items.find((i) => i.id === id);
@@ -168,85 +154,53 @@ const cartSlice = createSlice({
       // );
       saveCartToServer(current(state));
     },
+    updateShippingMethod(state, action) {
+      state.shippingMethod = action.payload;
+      saveCart(state);
+    },
+
+    increaseQuantity: (state, action) => {
+      const item = state.items.find((i) => i.id === action.payload);
+      if (item && (!item.stockQuantity || item.quantity < item.stockQuantity)) {
+        item.quantity += 1;
+      }
+      const totals = recalcTotals(state.items);
+      state.totalQuantity = totals.totalQuantity;
+      state.totalPrice = totals.totalPrice;
+      state.totalCartItems = totals.totalCartItems;
+
+      saveCart(state);
+      saveCartToServer(current(state));
+    },
 
     decreaseQuantity: (state, action) => {
       const item = state.items.find((i) => i.id === action.payload);
-      if (item && item.quantity > 1) {
-        item.quantity -= 1;
-        state.totalQuantity -= 1;
-        state.totalPrice = roundToTwo(state.totalPrice - item.price);
-      } else if (item && item.quantity === 1) {
-        state.items = state.items.filter((i) => i.id !== action.payload);
-        state.totalQuantity -= 1;
-        state.totalPrice = roundToTwo(state.totalPrice - item.price);
-        state.totalCartItems -= 1;
-      }
+      if (!item) return;
+      if (item.quantity > 1) item.quantity -= 1;
+      else state.items = state.items.filter((i) => i.id !== action.payload);
+
+      const totals = recalcTotals(state.items);
+      state.totalQuantity = totals.totalQuantity;
+      state.totalPrice = totals.totalPrice;
+      state.totalCartItems = totals.totalCartItems;
+
       saveCart(state);
-      // saveCartToServer(
-      //   state.items.reduce((acc, item) => {
-      //     acc[item.id] = { quantity: item.quantity };
-      //     return acc;
-      //   }, {})
-      // );
       saveCartToServer(current(state));
     },
 
     updateQuantity: (state, action) => {
       const { id, quantity } = action.payload;
       const item = state.items.find((i) => i.id === id);
+      if (!item || quantity <= 0) return;
 
-      if (item && quantity > 0) {
-        state.totalQuantity += quantity - item.quantity;
+      item.quantity = quantity;
+      const totals = recalcTotals(state.items);
+      state.totalQuantity = totals.totalQuantity;
+      state.totalPrice = totals.totalPrice;
+      state.totalCartItems = totals.totalCartItems;
 
-        state.totalPrice = roundToTwo(
-          state.totalPrice + (quantity - item.quantity) * item.price
-        );
-
-        item.quantity = quantity;
-
-        saveCart(state);
-        // saveCartToServer(
-        //   state.items.reduce((acc, item) => {
-        //     acc[item.id] = { quantity: item.quantity };
-        //     return acc;
-        //   }, {})
-        // );
-        saveCartToServer(current(state));
-      }
-    },
-
-    toggleCartItem: (state, action) => {
-      const item = action.payload;
-      const existingItem = state.items.find((i) => i.id === item.id);
-
-      if (existingItem) {
-        // remove
-        state.totalQuantity -= existingItem.quantity;
-        state.totalPrice = roundToTwo(
-          state.totalPrice - existingItem.price * existingItem.quantity
-        );
-        state.items = state.items.filter((i) => i.id !== item.id);
-        state.totalCartItems -= 1;
-      } else {
-        // add
-        state.items.push({ ...item, quantity: 1 });
-        state.totalQuantity += 1;
-        state.totalPrice = roundToTwo(state.totalPrice + item.price);
-        state.totalCartItems += 1;
-      }
       saveCart(state);
-      // saveCartToServer(
-      //   state.items.reduce((acc, item) => {
-      //     acc[item.id] = { quantity: item.quantity };
-      //     return acc;
-      //   }, {})
-      // );
       saveCartToServer(current(state));
-    },
-
-    updateShippingMethod(state, action) {
-      state.shippingMethod = action.payload;
-      saveCart(state);
     },
 
     clearCart: (state) => {
@@ -255,31 +209,26 @@ const cartSlice = createSlice({
       state.totalPrice = 0;
       state.totalCartItems = 0;
       saveCart(state);
-      // saveCartToServer(
-      //   state.items.reduce((acc, item) => {
-      //     acc[item.id] = { quantity: item.quantity };
-      //     return acc;
-      //   }, {})
-      // );
       saveCartToServer(current(state));
     },
   },
 });
 
 export const {
+  setCart,
+  mergeCart,
   addToCart,
+  addToCartFromDetail,
   removeFromCart,
   increaseQuantity,
   decreaseQuantity,
   updateQuantity,
-  toggleCartItem,
-  addToCartFromDetail,
   updateShippingMethod,
   clearCart,
-  setCart,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
 
+// Selector
 export const isInCart = (state, productId) =>
   state.cart.items.some((item) => item.id === productId);
