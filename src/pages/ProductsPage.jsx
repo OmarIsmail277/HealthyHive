@@ -10,7 +10,7 @@ import { useSearchParams } from "react-router";
 import { useAllProducts } from "../hooks/useProducts";
 
 function ProudctsPage() {
-  const [showFilter, setShowFilter] = useState(true);
+  const [showFilter, setShowFilter] = useState(false);
 
   const { isPending, data: products } = useAllProducts();
 

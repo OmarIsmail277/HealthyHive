@@ -1,13 +1,12 @@
-import { Link } from 'react-router-dom';
-import RecipeCard from '../RecipeCard/RecipeCard';
-import healthyRecipes from '../RecipesData/RecipesData'
+import { Link } from "react-router-dom";
+import RecipeCard from "../RecipeCard/RecipeCard";
+import healthyRecipes from "../RecipesData/RecipesData";
 
 function RecipesList() {
-
   return (
     <div className="min-h-screen">
       <div className="healthy__container p-6 mx-auto max-w-7xl">
-        <h1 className="text-4xl font-extrabold text-green-700 mb-6 text-center">
+        <h1 className="text-4xl font-extrabold text-primary mb-6 text-center">
           🍽 Recipes
         </h1>
 
@@ -18,11 +17,9 @@ function RecipesList() {
             </Link>
           ))}
         </div>
-
       </div>
     </div>
   );
 }
 
 export default RecipesList;
-

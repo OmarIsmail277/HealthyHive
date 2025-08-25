@@ -33,8 +33,6 @@ function RecommendedCard({ product }) {
     return stars;
   };
 
-  const queryClient = useQueryClient();
-
   // choose icon + label depending on subCategory
   const renderSubCategoryIcon = () => {
     if (product.subCategory?.toLowerCase() === "frozen") {
