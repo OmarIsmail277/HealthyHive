@@ -60,7 +60,7 @@ function RecommendedProducts({ filterFn, title }) {
         </div>
       </div>
       <div
-        className="healthy__container overflow-x-auto hide-scrollbar py-12"
+        className="sm:w-[90%] sm:m-auto  overflow-x-auto hide-scrollbar py-12"
         ref={scrollRef}
         onMouseEnter={stopAutoScroll}
         onMouseLeave={startAutoScroll}
@@ -71,9 +71,14 @@ function RecommendedProducts({ filterFn, title }) {
         >
           <FaAngleLeft size={20} />
         </button>
-        <div className="flex justify-between shrink gap-4 w-max px-2">
+        <div className="flex justify-between  shrink gap-4 w-max px-2">
           {filterProducts?.map((product) => (
-            <RecommendedCard product={product} key={product.id} />
+            <div
+            key={product.id}
+            className="w-[300px] sm:w-[370px]">
+
+              <RecommendedCard product={product}  />
+            </div>
           ))}
         </div>
         <button
