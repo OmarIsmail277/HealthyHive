@@ -1,38 +1,160 @@
-HealthyHive – E-commerce Website for Healthy Products & Services
+# 🛍️ HealthyHive - E-Commerce Platform for Healthy Products
 
-HealthyHive is a modern e-commerce platform focused on promoting a healthier lifestyle. It offers a wide range of healthy food products, personal care items, beverages, and an exclusive line of ready-to-eat meals and bakeries. In addition to products, HealthyHive provides medical services, both free and premium, making it a one-stop solution for health-conscious users.
+## 📖 Overview
 
-🚀 Features
+HealthyHive is a modern web-based e-commerce platform that provides users with a curated selection of healthy food, beverages, personal care products, and meals.
+The platform offers a smooth shopping experience with secure authentication, wishlist, cart, and order tracking. An admin dashboard allows administrators to manage products, users, and orders efficiently.
 
-E-commerce Functionality – Browse, search, and purchase healthy products effortlessly.
 
-Exclusive Healthy Meals & Bakeries – Curated by nutrition experts for a balanced diet.
+---
 
-Medical Services – Access free consultations and book premium medical services.
+## ✨ Features
 
-User Authentication & Authorization – Secure login and signup with Supabase.
+🔐 Authentication & Authorization (User & Admin roles)
 
-Real-Time Data Fetching & Caching – Ensuring a smooth and responsive user experience.
+🛒 Product Browsing with categories & details
 
-Modern UI & Animations – Sleek, responsive design with interactive animations.
+❤️ Wishlist and Shopping Cart functionality
 
-🛠 Tech Stack
-Frontend
+📦 Order Tracking with real-time status animations (Lottie)
 
-React – Core framework for building the UI.
+👨‍💻 Admin Dashboard for managing products, users, and orders
 
-React Router – For seamless navigation between pages.
+📱 Responsive Design for desktop and mobile
 
-Redux Toolkit – State management across the app.
 
-React Query – Data fetching, caching, and synchronization.
 
-React Hot Toast – Clean, user-friendly notifications.
+---
 
-Framer Motion – Smooth animations and transitions.
+## 🏗️ Tech Stack
 
-Tailwind CSS – Utility-first styling for a responsive, modern design.
+Frontend: React.js, Redux Toolkit, React Query, React Router, Tailwind CSS
 
-Backend
+Backend & Database: Supabase (Authentication + PostgreSQL Database)
 
-Supabase – Database management and authentication.
+Other Tools:
+
+REST APIs for products
+
+Vite for fast builds
+
+Lottie animations for order tracking
+
+
+
+
+---
+
+## 📂 Project Structure
+
+healthy-hive/
+│── public/               # Static assets
+│── src/
+│   ├── assets/           # Images, Lottie animations
+│   ├── components/       # Reusable UI components
+│   ├── features/         # Redux slices (auth, cart, wishlist, orders)
+│   ├── hooks/            # Custom React hooks
+│   ├── pages/            # Application pages (Home, Login, Cart, Tracking, Admin)
+│   ├── services/         # Supabase and API services
+│   ├── App.jsx           # Root component
+│   └── main.jsx          # Entry point
+│── package.json
+│── README.md
+
+
+---
+
+## 🚀 Installation & Setup
+
+1. Clone the repository
+
+
+
+git clone https://github.com/yourusername/healthy-hive.git
+cd healthy-hive
+
+2. Install dependencies
+
+
+
+npm install
+
+3. Set up environment variables
+Create a .env file in the root directory and add your Supabase credentials:
+
+
+
+VITE_SUPABASE_URL=your-supabase-url
+VITE_SUPABASE_ANON_KEY=your-anon-key
+
+4. Run the development server
+
+
+
+npm run dev
+
+5. Build for production
+
+
+
+npm run build
+
+
+---
+
+🔑 Admin Access
+
+To access the Admin Dashboard, log in with an account where:
+
+username = admin (or any rule you configure in Supabase).
+
+
+Admins can:
+
+Manage products
+
+Manage orders
+
+View and manage users
+
+
+
+---
+
+📸 Screenshots / Demo
+
+(Add screenshots of your UI: Home Page, Cart, Tracking, Admin Dashboard)
+
+
+---
+
+## 🛠️ Challenges & Learnings
+
+Implemented role-based access control with Supabase.
+
+Learned Git workflow with a 5-member team.
+
+Improved performance with React & Redux best practices.
+
+
+
+---
+
+## 📌 Future Enhancements
+
+Integrate online payment (Stripe/PayPal).
+
+Add notifications (email/SMS).
+
+AI-based product recommendation system.
+
+
+
+---
+
+## 👨‍💻 Team
+
+Built with ❤️ by Our team: Omar Ahmed, Omar Magdy, Abdelrahman Samir, Mohamed Mohsen, Youssef Amr during ITI Graduation Project 2025.
+
+
+---
