@@ -1,12 +1,38 @@
-# React + Vite
+HealthyHive – E-commerce Website for Healthy Products & Services
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+HealthyHive is a modern e-commerce platform focused on promoting a healthier lifestyle. It offers a wide range of healthy food products, personal care items, beverages, and an exclusive line of ready-to-eat meals and bakeries. In addition to products, HealthyHive provides medical services, both free and premium, making it a one-stop solution for health-conscious users.
 
-Currently, two official plugins are available:
+🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+E-commerce Functionality – Browse, search, and purchase healthy products effortlessly.
 
-## Expanding the ESLint configuration
+Exclusive Healthy Meals & Bakeries – Curated by nutrition experts for a balanced diet.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Medical Services – Access free consultations and book premium medical services.
+
+User Authentication & Authorization – Secure login and signup with Supabase.
+
+Real-Time Data Fetching & Caching – Ensuring a smooth and responsive user experience.
+
+Modern UI & Animations – Sleek, responsive design with interactive animations.
+
+🛠 Tech Stack
+Frontend
+
+React – Core framework for building the UI.
+
+React Router – For seamless navigation between pages.
+
+Redux Toolkit – State management across the app.
+
+React Query – Data fetching, caching, and synchronization.
+
+React Hot Toast – Clean, user-friendly notifications.
+
+Framer Motion – Smooth animations and transitions.
+
+Tailwind CSS – Utility-first styling for a responsive, modern design.
+
+Backend
+
+Supabase – Database management and authentication.
