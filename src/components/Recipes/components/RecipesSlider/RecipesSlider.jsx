@@ -22,7 +22,7 @@ const RecipeSlider = () => {
     stopAutoScroll();
     intervalRef.current = setInterval(() => {
       handleNext();
-    }, 5000);
+    }, 3000);
   };
 
   const stopAutoScroll = () => {
@@ -50,6 +50,7 @@ const RecipeSlider = () => {
 
   return (
     <div className="bg-white p-6 rounded-xl shadow-lg border border-emerald-100 h-full">
+      {/* Heading */}
       <div className="text-center mb-8">
         <h3 className="text-2xl font-bold text-emerald-800 mb-2">
           Fresh & Healthy Recipes
@@ -57,7 +58,8 @@ const RecipeSlider = () => {
         <div className="w-16 h-1 bg-gradient-to-r from-emerald-400 to-emerald-500 mx-auto rounded-full"></div>
       </div>
 
-      <div className="relative h-[350px]">
+      {/* Slider */}
+      <div className="relative h-[350px] overflow-hidden flex items-center justify-center">
         {recipes.map((recipe, index) => {
           const distance = Math.abs(index - currentIndex);
           const isCurrent = index === currentIndex;
@@ -65,24 +67,35 @@ const RecipeSlider = () => {
           const isPrev =
             index === (currentIndex - 1 + recipes.length) % recipes.length;
 
-          let transform = "";
-          if (isCurrent) transform = "translateX(0) scale(1)";
-          else if (isNext) transform = "translateX(25%) scale(0.9)";
-          else if (isPrev) transform = "translateX(-25%) scale(0.9)";
-          else transform = "translateX(0) scale(0.8)";
+          // Position for side cards
+          let translateX = "0%";
+          if (isNext) translateX = "40%";
+          if (isPrev) translateX = "-40%";
+
+          // Scale based on screen size
+          let scale = 0.85; // default for side cards
+          if (isCurrent) {
+            scale =
+              window.innerWidth < 768 // mobile & tablet
+                ? 0.95
+                : 1; // desktop full size
+          }
 
           return (
             <div
               key={recipe.id}
-              className={`absolute top-0 left-1/2 transform -translate-x-1/2 transition-all duration-500 ease-in-out ${
+              className={`absolute transition-all duration-500 ease-in-out ${
                 distance > 1 ? "opacity-0" : "opacity-100"
               }`}
-              style={{ transform, zIndex: isCurrent ? 30 : 20 - distance }}
+              style={{
+                transform: `translateX(${translateX}) scale(${scale})`,
+                zIndex: isCurrent ? 30 : 20 - distance,
+              }}
               onMouseEnter={stopAutoScroll}
               onMouseLeave={startAutoScroll}
             >
               <div
-                className={`bg-white rounded-2xl shadow-md overflow-hidden w-72 ${
+                className={`bg-white rounded-2xl shadow-md overflow-hidden w-64 sm:w-72 ${
                   isCurrent ? "ring-2 ring-emerald-400" : ""
                 }`}
                 onClick={!isCurrent ? () => setCurrentIndex(index) : null}
@@ -123,15 +136,17 @@ const RecipeSlider = () => {
           );
         })}
       </div>
+
+      {/* View All */}
       <Link to={`/recipes`}>
-        <div className="w-full flex justify-center">
-          <button className="text-sm font-medium text-white bg-gradient-to-r from-emerald-500 to-teal-500 hover:bg-secondary  px-4 py-2 rounded-lg transition-colors">
+        <div className="w-full flex justify-center mt-4">
+          <button className="text-sm font-medium text-white bg-gradient-to-r from-emerald-500 to-teal-500 hover:bg-secondary px-4 py-2 rounded-lg transition-colors">
             View All
           </button>
         </div>
       </Link>
 
-      {/* navigation */}
+      {/* Navigation */}
       <div className="flex justify-center mt-8 space-x-6">
         <button
           onClick={handlePrev}
